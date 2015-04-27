@@ -1,0 +1,102 @@
+<curriculum-vitae>
+    <autentication>
+        <log-in>Anicka</log-in>
+        <password>nufisnfe238943894fnsji48</password>
+        <lang>en</lang>
+    </autentication>
+    <personal-details>
+        <name>
+            <given-names>Anca Maria</given-names>
+            <surename>z Ranca</surename>
+        </name>
+        <address>
+            <street>Rancova</street>
+            <number>42</number>
+            <city>Ranc za Humnom</city>
+            <postal-code>123456</postal-code>
+            <state>Michigan</state> <!-- optinal-->
+            <country>USA</country>
+        </address>
+        <phones>
+            <phone>0905123123</phone>
+            <phone>0905123456</phone> <!-- unique, unbounded -->
+        </phones>
+        <emails>
+            <email>anca@zranca.com</email> <!-- unique, unbounded-->
+            <email>anicka.z.ranca@gmail.com</email>
+        </emails>
+        <social>
+            <site>Linkedin.com/anicka</site>
+            <site>facebook.com/anicka</site>
+            <site>www.anicka-z-ranca.com</site>
+        </social>
+    </personal-details>
+
+    <education>
+        <edu from="2004" to="2008"> <!-- from <= to -->
+            Zakladna skola, Horna Dolna
+        </edu>
+        <edu from="2008" to="2010">
+            Stredna, Ranc
+        </edu>
+        <edu from="2010" to="2015">
+            University of Texas, Texas
+        </edu>
+    </education>
+    
+    <employment>
+        <emp form="2014" to="2015">
+            <company>Looser, Inc.</company>
+            <position>cleaner</position>
+            <note>I was cleaning floors all the time...</note>
+        </emp>
+        <emp form="2015" to="">
+            <company>Starbucks, Inc.</company>
+            <position>waitress</position>
+            <note>I am making coffee and I like it!</note>
+        </emp>
+    </employment>
+    
+    <language-skills>
+        <lang>
+            <name>en</name>
+            <level>Intermediate</level> <!-- enum -->
+            <note></note>
+        </lang>
+    </language-skills>
+    
+    <certificates>
+        <cert year="2000">
+            <name>Baking with mum</name>
+            <note>I made my first cake!</note>
+        </cert>
+    </certificates>
+    
+    <computer-skills>
+        <skill>
+            <name>Windows</name>
+            <level>Intermediate</level> <!-- enum -->
+            <note>I can use it...</note>
+        </skill>
+        <skill>
+            <name>HTML</name>
+            <level>Proffesional</level> <!-- enum -->
+            <note>I can open my browser window...</note>
+        </skill>
+    </computer-skills>
+    
+    <driving-licence>
+        <class>
+            <name>B</name>
+            <note>I drove my uncle's truck...</note>
+        </class>
+    </driving-licence>
+
+    <characteristic>
+        I am a tall person with warm heart...
+    </characteristic>
+            
+    <hobbies>
+        I ride ponnies and bike.. I hate football...
+    </hobbies>
+</curriculum-vitae>
