@@ -1,0 +1,103 @@
+{
+  "autentication": {
+    "log-in":"Meno",
+    "password": "heslo",
+    "lang": "en"
+  },
+  
+  "personal-details": {
+    "given-names": "Anca Maria",
+    "surname": "Ranca",
+    "address":{
+      "street": "Ulica",
+      "number": 23,
+      "city": "Ranc",
+      "post-code": 123456,
+      "state": "Stat",
+      "country": "USA"
+    },
+    "phones": ["0905123123", "0905123456"],
+    "emails": ["a@email.com", "b@gmail.com"],
+    "social": ["linkedin.com/name", "fb.com/name", "www.example.com"]
+  },
+  
+  "education": [
+    {
+      "value": "Zakladka Horna dolna",
+      "from": 2004,
+      "to": 2008
+    },
+    {
+      "value": "Stredna, Ranc",
+      "from": 2008,
+      "to": 2010
+    },
+    {
+      "value": "Zakladka",
+      "from": 2010,
+      "to": 2015
+    }
+  ],
+  
+  "employment": [
+    {
+      "company": "Looser, Inc.",
+      "position": "cleaner",
+      "note": "I was cleaning ...",
+      "from": 2014,
+      "to": 2015
+    },
+    {
+      "company": "Starbucks, Inc.",
+      "position": "waitress",
+      "note": "I am making coffee",
+      "from": 2015,
+      "to": null
+    }
+  ],
+  
+  "language-skills": [
+    {
+      "name": "en",
+      "level": "Intermediate",
+      "note": ""
+    },
+    {
+      "name": "de",
+      "level": "Intermediate",
+      "note": ""
+    }
+  ],
+  
+  "certificates": [
+    {
+      "name": "Baking with mum",
+      "note": "I made my first cake!",
+      "year": 2000
+    }
+  ],
+  
+  "computer-skills": [
+    {
+      "name": "Windows",
+      "level": "Intermediate",
+      "note": "I can use it..."
+    },
+    {
+      "name": "HTML",
+      "level": "Profesional",
+      "note": "I can open my browser window..."
+    }
+  ],
+  
+  "driving-licence": [
+    {
+      "name": "B",
+      "note": "I drove my uncle's truck..."
+    }
+  ],
+  
+  "characteristic": "I am a tall person with warm heart...",
+  
+  "hobbies": "I ride ponnies and bike.. I hate football..."
+}

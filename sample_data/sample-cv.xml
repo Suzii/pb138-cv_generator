@@ -5,10 +5,8 @@
         <lang>en</lang>
     </autentication>
     <personal-details>
-        <name>
-            <given-names>Anca Maria</given-names>
-            <surename>z Ranca</surename>
-        </name>
+        <given-names>Anca Maria</given-names>
+        <surename>z Ranca</surename>
         <address>
             <street>Rancova</street>
             <number>42</number>
@@ -58,8 +56,7 @@
     </employment>
     
     <language-skills>
-        <lang>
-            <name>en</name>
+        <lang name="en">
             <level>Intermediate</level> <!-- enum -->
             <note></note>
         </lang>
