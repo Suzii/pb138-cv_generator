@@ -82,6 +82,13 @@ public class Json2Xml {
         
         rootElement.appendChild(parseAutentication());
         rootElement.appendChild(parsePersonalDetails());
+        rootElement.appendChild(parseEducation());
+        rootElement.appendChild(parseEmployment());
+        rootElement.appendChild(createCustomElems("language-skills", "lang", new String[] {"name"}, new String[] {"level", "note"}));
+        rootElement.appendChild(createCustomElems("computer-skills", "skill", null, new String[] {"name", "level", "note"}));
+        rootElement.appendChild(createCustomElems("certificates", "cert", new String[] {"year"}, new String[] {"name", "note"}));
+        rootElement.appendChild(createCustomElems("driving-licence", "class", null, new String[] {"name", "note"}));
+        parseOthers(rootElement);
         
         
         doc.appendChild(rootElement);
@@ -142,6 +149,72 @@ public class Json2Xml {
         return elem;
     }
     
+    private Element parseEducation(){
+        Element elem = doc.createElement("education");
+        JSONArray json = (JSONArray) jsonRoot.get("education");
+        
+        for (int i=0; i<json.size(); i++){
+            JSONObject j = (JSONObject) json.get(i);
+            Element e = createElemWithText("edu", j.get("value").toString());
+            e.setAttribute("from", j.get("from").toString());
+            e.setAttribute("to", j.get("to").toString());
+            elem.appendChild(e);
+        }        
+        
+        return elem;
+    }
+    
+    private Element parseEmployment(){
+        Element elem = doc.createElement("employment");
+        JSONArray json = (JSONArray) jsonRoot.get("employment");
+        
+        for (int i=0; i<json.size(); i++){
+            JSONObject j = (JSONObject) json.get(i);
+            Element e = doc.createElement("emp");
+            e.setAttribute("from", j.get("from").toString());
+            e.setAttribute("to", j.get("to") == null ? "" : j.get("to").toString());
+            appendElemsFromArray(j, e, new String[] {"company", "position", "note"});
+            elem.appendChild(e);
+        }        
+        
+        return elem;
+    }
+    
+    private void parseOthers(Element root){
+        root.appendChild(createElemWithText(jsonRoot, "characteristic"));
+        root.appendChild(createElemWithText(jsonRoot, "hobbies"));
+    }
+
+    //
+    
+    private Element createCustomElems(String main_elem_name, String child_elem_name, String[] attributes, String[] elem_names){
+        JSONArray json_array = (JSONArray)jsonRoot.get(main_elem_name);
+        Element elem = doc.createElement(main_elem_name);
+        
+        for(int i=0; i<json_array.size(); i++){
+            JSONObject j = (JSONObject) json_array.get(i);
+            
+            Element e = doc.createElement(child_elem_name);
+            
+            if (attributes != null){
+                for(String a : attributes){
+                    e.setAttribute(a, j.get(a) != null ? j.get(a).toString() : "");
+                }
+            }
+            
+            appendElemsFromArray(j, e, elem_names);
+            elem.appendChild(e);
+        }
+        
+        return elem;
+    }
+   
+    private void appendElemsFromArray(JSONObject json, Element root, String[] elem_names){
+        for (String elem_name : elem_names){
+            root.appendChild(createElemWithText(elem_name, json.get(elem_name).toString()));
+        }
+    }
+    
     private Element createElemWithTextArray(JSONArray json_array, String category_name, String element_name){
         Element elem = doc.createElement(category_name);
         for (int i=0; i<json_array.size(); i++){
@@ -149,6 +222,12 @@ public class Json2Xml {
             e.setTextContent(json_array.get(i).toString());
             elem.appendChild(e);
         }
+        return elem;
+    }
+    
+    private Element createElemWithText(String xmlName, String value){
+        Element elem = doc.createElement(xmlName);
+        elem.setTextContent(value);
         return elem;
     }
     
