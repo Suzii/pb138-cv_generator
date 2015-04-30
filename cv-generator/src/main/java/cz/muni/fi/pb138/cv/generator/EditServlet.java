@@ -22,14 +22,13 @@ import org.slf4j.LoggerFactory;
  *
  * @author Zuzana
  */
-@WebServlet(LoginServlet.URL_MAPPING + "/*")
-public class LoginServlet extends HttpServlet {
+@WebServlet(EditServlet.URL_MAPPING + "/*")
+public class EditServlet extends HttpServlet {
 
-    public static final String URL_MAPPING = "/login";
-    public static final String URL_EDIT = "/edit";
-    public static final String LOGIN_JSP = "/login.jsp";
+    public static final String URL_MAPPING = "/edit";
+    public static final String EDIT_JSP = "/edit.jsp";
 
-    private final static Logger log = LoggerFactory.getLogger(LoginServlet.class);
+    private final static Logger log = LoggerFactory.getLogger(EditServlet.class);
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -59,7 +58,7 @@ public class LoginServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
-        request.getRequestDispatcher(LOGIN_JSP).forward(request, response);
+        request.getRequestDispatcher(EDIT_JSP).forward(request, response);
     }
 
     /**
@@ -77,28 +76,15 @@ public class LoginServlet extends HttpServlet {
         ResourceBundle bundle = ResourceBundle.getBundle("texts", request.getLocale());
         String action = request.getPathInfo();
         switch (action) {
-            case "/start":
-                String name = request.getParameter("name");
-                if (!name.equals("x")) {
-                    Object data = "No such user exists.";
-                    request.setAttribute("data", data);
-                    request.getRequestDispatcher(LOGIN_JSP).forward(request, response);
-                } else {
-                    response.sendRedirect(request.getContextPath() + URL_EDIT);
-                }
+            case "/save":
+                response.setStatus(HttpServletResponse.SC_OK);
+                request.setAttribute("data", "Cool you reached the server!");
+                 
+               //response.sendRedirect(request.getContextPath() + URL_MAPPING);
+                //request.getRequestDispatcher(EDIT_JSP).forward(request, response);
                 return;
-                
-            case "/submit":
-                /*String param = request.getParameter("login");
-                if (!param.equals("a")) {
-                    Object data = "Wrong user name A.";
-                    request.setAttribute("data", data);
-                    request.getRequestDispatcher(LOGIN_JSP).forward(request, response);
-                } else*/ {
-                    response.sendRedirect(request.getContextPath() + URL_EDIT);
-                }
-                return;
-        default:
+
+            default:
                 log.error("Unknown action " + action);
                 response.sendError(HttpServletResponse.SC_NOT_FOUND, "Unknown action " + action);
         }
@@ -110,9 +96,7 @@ public class LoginServlet extends HttpServlet {
      * @return a String containing servlet description
      */
     @Override
-        public String getServletInfo
-        
-            () {
+    public String getServletInfo() {
         return "Short description";
-        }
     }
+}
