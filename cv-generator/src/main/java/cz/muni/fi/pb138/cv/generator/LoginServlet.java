@@ -12,9 +12,11 @@ import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -87,18 +89,34 @@ public class LoginServlet extends HttpServlet {
                     response.sendRedirect(request.getContextPath() + URL_EDIT);
                 }
                 return;
-                
+
             case "/submit":
-                /*String param = request.getParameter("login");
-                if (!param.equals("a")) {
-                    Object data = "Wrong user name A.";
-                    request.setAttribute("data", data);
+                String login = request.getParameter("login");
+                String password = request.getParameter("password");
+                Object data = "";
+                //TODO find out if user exists
+                if (!login.equals("x")) {
+                    data = "Username: " + login + " does not exists";
+                    request.setAttribute("error", data);
                     request.getRequestDispatcher(LOGIN_JSP).forward(request, response);
-                } else*/ {
+                    //TODOcheck password
+                } else if (!password.equals("x")) {
+                    data = "Wrong password.";
+                    request.setAttribute("error", data);
+                    request.getRequestDispatcher(LOGIN_JSP).forward(request, response);
+
+                } else {
+                    HttpSession session = request.getSession(true);
+                    if (session.isNew() == false) {
+                        session.invalidate();
+                        session = request.getSession(true);
+                    }
+                    session.setAttribute("login", login);
                     response.sendRedirect(request.getContextPath() + URL_EDIT);
                 }
                 return;
-        default:
+
+            default:
                 log.error("Unknown action " + action);
                 response.sendError(HttpServletResponse.SC_NOT_FOUND, "Unknown action " + action);
         }
@@ -110,9 +128,7 @@ public class LoginServlet extends HttpServlet {
      * @return a String containing servlet description
      */
     @Override
-        public String getServletInfo
-        
-            () {
+    public String getServletInfo() {
         return "Short description";
-        }
     }
+}

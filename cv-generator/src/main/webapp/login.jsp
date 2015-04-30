@@ -17,17 +17,23 @@
             <div class="container">
                 <h1><f:message key="heading" /></h1>
                 <p><f:message key="intro-text" /></p>
-                <p><a class="btn btn-primary btn-lg" href="#registration-form" role="button"><f:message key="register-new-guest" /></a></p>
+                <p>For logging in type Username: 'x', password: 'x'</p>
+
             </div>
         </div>
         <div class="container">
 
+            <c:if test="${not empty error}">
+                <div class="alert alert-danger" role="alert">
+                    <c:out value="${error}"/>
+                </div>
+            </c:if>
             <form action="${pageContext.request.contextPath}/login/submit" method="POST" class="form-horizontal" id="loginForm">
             <!--   form action="${pageContext.request.contextPath}/login/start" method="post" class="form-horizontal"-->
                 <div class="form-group" >
-                    <label for="username" class="col-sm-2 control-label"><f:message key="username" /></label>
+                    <label for="login" class="col-sm-2 control-label"><f:message key="username" /></label>
                     <div class="col-sm-4">
-                        <input type="text" id="login" name="username" value="" class="form-control"/>
+                        <input type="text" id="login" name="login" value="" class="form-control"/>
                     </div>
                 </div>
                 <div class="form-group" >
@@ -38,7 +44,6 @@
                 </div>
                 <input type="Submit" class="btn btn-primary col-sm-offset-2 col-sm-1" value="Login" />
             </form>
-            <p>Status: ${data}</p>
         </div>
     </body>
 </html>
