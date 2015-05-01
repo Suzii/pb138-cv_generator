@@ -1,0 +1,153 @@
+
+        \documentclass[paper=a4,fontsize=11pt]{scrartcl}					
+        \usepackage[slovak]{babel}
+        \usepackage[IL2]{fontenc}
+        \usepackage[utf8]{inputenc}
+        \usepackage[protrusion=true,expansion=true]{microtype}
+        \usepackage{graphicx}                   
+        \usepackage[svgnames]{xcolor}            
+        \usepackage{geometry}
+                \textheight=700px
+        \usepackage{url}
+
+        \frenchspacing              
+        \pagestyle{empty} 
+
+        \usepackage{sectsty}
+
+        \sectionfont{%			            
+                \usefont{OT1}{phv}{b}{n}%
+                \sectionrule{0pt}{0pt}{-5pt}{3pt}}
+
+        \newlength{\spacebox}
+        \settowidth{\spacebox}{8888888888}	
+        \newcommand{\sepspace}{\vspace*{1em}}
+
+        \newcommand{\MySlogan}[1]{
+                        \Huge \usefont{OT1}{phv}{b}{n}
+                        \begin{center}
+                        #1
+                        \end{center}
+                        \par \normalsize \normalfont}
+
+        \newcommand{\NewPart}[1]{\section*{\uppercase{#1}}}
+
+        \newcommand{\PersonalEntry}[2]{
+                        \noindent\hangindent=2em\hangafter=0
+                        \parbox{\spacebox}{        
+                        \textit{#1}}		       
+                        \hspace{1.5em} #2 \par}    
+
+        \newcommand{\SkillsEntry}[2]{      
+                        \noindent\hangindent=2em\hangafter=0 
+                        \parbox{\spacebox}{        
+                        \textit{#1}}			   
+                        \hspace{1.5em} #2 \par}   	
+
+        \newcommand{\EducationEntry}[4]{
+                        \noindent \textbf{#1} \hfill     
+                        \colorbox{Black}{%
+                                \parbox{8em}{%
+                                \hfill\color{White}#2}} \par  
+                        \noindent \textit{#3} \par       
+                        \noindent\hangindent=2em\hangafter=0 \small #4 
+                        \normalsize \par}
+        \newcommand{\PlainText}[1]{\noindent\hangindent=2em\hangafter=0\par #1}
+        \begin{document}
+
+        \MySlogan{Curriculum Vitae}
+
+        \sepspace
+        
+        \NewPart{Personal details}{}
+        
+        \PersonalEntry{Name}{Anca Maria}
+        \PersonalEntry{Surname}{z Ranca}
+        
+        \PersonalEntry{Address}{Rancova, 42 Ranc za Humnom
+        }
+        \PersonalEntry{}{123456}
+        \PersonalEntry{Country}{USA}
+        
+        
+            \PersonalEntry{State}{Michigan}
+        
+                        \PersonalEntry{Phones}{0905123123}
+                    
+                        \PersonalEntry{}{0905123456}
+                    
+                        \PersonalEntry{Emails}{anca@zranca.com}
+                    
+                        \PersonalEntry{}{anicka.z.ranca@gmail.com}
+                    
+                        \PersonalEntry{My sites}{Linkedin.com/anicka}
+                    
+                        \PersonalEntry{}{facebook.com/anicka}
+                    
+                        \PersonalEntry{}{www.anicka-z-ranca.com}
+                    
+        \NewPart{Education}{}
+        
+            \EducationEntry{ 
+            Zakladna skola, Horna Dolna
+        }{2004 - 2008}{}{}
+        
+        \sepspace
+    
+            \EducationEntry{
+            Stredna, Ranc
+        }{2008 - 2010}{}{}
+        
+        \sepspace
+    
+            \EducationEntry{
+            University of Texas, Texas
+        }{2010 - 2015}{}{}
+        
+        \sepspace
+    
+            \NewPart{Work Experience}{}
+            
+            \EducationEntry{cleaner}{2014 - 2015}{Looser, Inc.}{I was cleaning floors all the time...}
+        
+        \sepspace
+    
+            \EducationEntry{waitress}{2015 - present}{Starbucks, Inc.}{I am making coffee and I like it!}
+        
+        \sepspace
+    
+            \NewPart{Certificates}{}
+            
+        \EducationEntry{Baking with mum}{2000}{I made my first cake!}
+        \sepspace
+    
+        \NewPart{Language Skills}{}
+        
+        \SkillsEntry{en}{Intermediate}
+        
+            \NewPart{Computer Skills}{}
+            
+        \SkillsEntry{Windows}{Intermediate}
+        \SkillsEntry{}{I can use it...}
+    
+        \SkillsEntry{HTML}{Proffesional}
+        \SkillsEntry{}{I can open my browser window...}
+    
+            \NewPart{Driving licence}{}
+            
+        \SkillsEntry{B}{I drove my uncle's truck...}
+    
+            \NewPart{Characteristics}{}
+            
+        \PlainText{
+        I am a tall person with warm heart...
+    }
+    
+            \NewPart{Hobbies}{}
+            
+        \PlainText{
+        I ride ponnies and bike.. I hate football...
+    }
+    
+        \end{document}
+    

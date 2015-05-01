@@ -43,12 +43,12 @@
     </education>
     
     <employment>
-        <emp form="2014" to="2015">
+        <emp from="2014" to="2015">
             <company>Looser, Inc.</company>
             <position>cleaner</position>
             <note>I was cleaning floors all the time...</note>
         </emp>
-        <emp form="2015" to="">
+        <emp from="2015" to="">
             <company>Starbucks, Inc.</company>
             <position>waitress</position>
             <note>I am making coffee and I like it!</note>
