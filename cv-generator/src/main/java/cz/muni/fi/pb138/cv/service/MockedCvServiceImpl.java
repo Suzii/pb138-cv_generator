@@ -66,7 +66,7 @@ public class MockedCvServiceImpl implements CvService {
     }
 
     @Override
-    public File generatePdf(String login) {
+    public File generatePdf(String login, String lang) {
         return new File(SAMPLE_PDF_PATH);
     }
 

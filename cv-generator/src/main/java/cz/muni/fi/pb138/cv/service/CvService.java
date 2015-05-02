@@ -53,9 +53,10 @@ public interface CvService {
     /**
      * Generates pdf of CV associated with given login
      * @param login login of user whom CV should be generated
+     * @param lang language to be used in generated pdf
      * @return file containing CV in pdf format of user with given login
      */
-    File generatePdf(String login);
+    File generatePdf(String login, String lang);
     
     /**
      * Checks validity of given DOM (CV in XML format) against defined XML Schema.

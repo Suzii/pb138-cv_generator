@@ -101,11 +101,13 @@
                                 </a>
                             </ng-form>
                         </div>
+                        <label ng-show="data['personal-details'].phones.length == 0" class="col-sm-6">Phones</label>
                         <button class="btn add btn-primary btn-sm col-sm-offset-9 col-sm-2" ng-click="$event.preventDefault();
                                     addPhone(data['personal-details']);"> 
                             <i class="glyphicon glyphicon-plus"></i> Add
                         </button>
                         <!-- **************************** emails ************************** -->
+                        <label ng-show="data['personal-details'].emails.length == 0" class="col-sm-6">Emails</label>
                         <div ng-repeat="email in data['personal-details'].emails" class="form-group"  ng-class="{'has-error': emailForm.email.$invalid && !emailForm.email.$pristine}">
                             <ng-form name="emailForm">
                                 <label for="email" class="col-sm-2 control-label"><f:message key="email" /> {{$index + 1}}</label>
@@ -124,6 +126,7 @@
                             <i class="glyphicon glyphicon-plus"></i> Add
                         </button>
                         <!-- **************************** social ************************** -->
+                        <label ng-show="data['personal-details'].social.length == 0" class="col-sm-6">Social</label>
                         <div ng-repeat="social in data['personal-details'].social" class="form-group"  ng-class="{'has-error': socialForm.social.$invalid && !socialForm.social.$pristine}">
                             <ng-form name="socialForm">
                                 <label for="social" class="col-sm-2 control-label"><f:message key="social" /> {{$index + 1}}</label>
@@ -132,7 +135,7 @@
                                     <p class="help-block" ng-show="socialForm.social.$invalid && !socialForm.social.$pristine">Please, enter a valid link</p>
                                 </div>
                                 <a ng-click="$event.preventDefault();
-                                                deleteItem(data['personal-details'].emails, $index);" class="col-sm-1">
+                                                deleteItem(data['personal-details'].social, $index);" class="col-sm-1">
                                     <i class="glyphicon glyphicon-remove"></i>
                                 </a>
                             </ng-form>

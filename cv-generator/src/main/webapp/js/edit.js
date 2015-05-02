@@ -37,7 +37,9 @@ editApp.controller('FormController', ['$scope', '$window', '$http', function ($s
         };
 
         $scope.deleteItem = function (array, index) {
-            if (array.length > 1) {
+            if(array.length === 1){
+                array.splice(0,1);
+            } else if (array.length > 1) {
                 array.splice(index, 1);
             }
         };

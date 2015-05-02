@@ -88,7 +88,8 @@ public class ProfileServlet extends HttpServlet {
             case "/download":
                 String login = SessionService.getSessionLogin(request);
                 try {
-                    attachFile(response, login);
+                    String lang = request.getParameter("lang");
+                    attachFile(response, login, lang);
                 } catch (IOException e) {
                     request.setAttribute("error", "Sorry, some error occured while generating your CV.");
                     request.getRequestDispatcher(Common.PROFILE_JSP).forward(request, response);
@@ -137,8 +138,8 @@ public class ProfileServlet extends HttpServlet {
         return "Short description";
     }
 
-    private void attachFile(HttpServletResponse response, String login) throws IOException {
-        File file = cvService.generatePdf(login);
+    private void attachFile(HttpServletResponse response, String login, String lang) throws IOException {
+        File file = cvService.generatePdf(login, lang);
 
         response.setContentType("application/octet-stream");
         response.setContentLength((int) file.length());

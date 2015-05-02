@@ -3,6 +3,7 @@
     <personal-details> <!--Non-empty element-->
         <given-names>Anca Maria</given-names> <!--Non-empty, contains only upper- and lower case letters-->
         <surname>z Ranca</surname> <!--Non-empty, contains only upper- and lower case letters-->
+        <date-of-birth>2015-05-02</date-of-birth> <!-- Non-empty, predefined format -->
         <address>
             <street>Rancova</street><!--Non-empty element-->
             <number>42</number> <!-- This element can be empty-->
