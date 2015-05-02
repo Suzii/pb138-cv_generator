@@ -22,11 +22,13 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-import org.json.simple.*;
+//import org.json.simple.*;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import org.json.JSONObject;
+import org.json.*;
 /**
  *
  * @author Peto
@@ -71,7 +73,8 @@ public class Json2Xml {
         
         doc = docBuilder.newDocument();
                 
-        jsonRoot =(JSONObject) JSONValue.parse(data);
+        //jsonRoot =(JSONObject) JSONValue.parse(data);
+        jsonRoot = new JSONObject(data);
         
         parse();
     } 
@@ -153,7 +156,7 @@ public class Json2Xml {
         Element elem = doc.createElement("education");
         JSONArray json = (JSONArray) jsonRoot.get("education");
         
-        for (int i=0; i<json.size(); i++){
+        for (int i=0; i<json.length(); i++){
             JSONObject j = (JSONObject) json.get(i);
             Element e = createElemWithText("edu", j.get("value").toString());
             e.setAttribute("from", j.get("from").toString());
@@ -168,7 +171,7 @@ public class Json2Xml {
         Element elem = doc.createElement("employment");
         JSONArray json = (JSONArray) jsonRoot.get("employment");
         
-        for (int i=0; i<json.size(); i++){
+        for (int i=0; i<json.length(); i++){
             JSONObject j = (JSONObject) json.get(i);
             Element e = doc.createElement("emp");
             e.setAttribute("from", j.get("from").toString());
@@ -191,7 +194,7 @@ public class Json2Xml {
         JSONArray json_array = (JSONArray)jsonRoot.get(main_elem_name);
         Element elem = doc.createElement(main_elem_name);
         
-        for(int i=0; i<json_array.size(); i++){
+        for(int i=0; i<json_array.length(); i++){
             JSONObject j = (JSONObject) json_array.get(i);
             
             Element e = doc.createElement(child_elem_name);
@@ -217,7 +220,7 @@ public class Json2Xml {
     
     private Element createElemWithTextArray(JSONArray json_array, String category_name, String element_name){
         Element elem = doc.createElement(category_name);
-        for (int i=0; i<json_array.size(); i++){
+        for (int i=0; i<json_array.length(); i++){
             Element e = doc.createElement(element_name);
             e.setTextContent(json_array.get(i).toString());
             elem.appendChild(e);
