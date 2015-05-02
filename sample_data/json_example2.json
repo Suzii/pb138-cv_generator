@@ -1,16 +1,5 @@
 {"curriculum-vitae": {
-    "computer-skills": [
-        {
-            "note": "I can use it...",
-            "level": "Intermediate",
-            "name": "Windows"
-        },
-        {
-            "note": "I can open my browser window...",
-            "level": "Proffesional",
-            "name": "HTML"
-        }
-    ],
+    "computer-skills": [],
     "education": [
         {
             "note": "What did I learn there.",
@@ -52,36 +41,14 @@
             "street": "Rancova",
             "state": "Michigan"
         },
-        "social": [
-            {"value": "Linkedin.com/anicka"},
-            {"value": "facebook.com/anicka"},
-            {"value": "www.anicka-z-ranca.com"}
-        ],
+        "social": [],
         "surname": "z Ranca",
         "phones": [
             {"value": "0905123123"},
             {"value": "0905123456"}
         ]
     },
-    "driving-licence": [{
-        "note": "I drove my uncle's truck...",
-        "name": "B"
-    }],
-    "employment": [
-        {
-            "note": "I was cleaning floors all the time...",
-            "from": 2014,
-            "company": "Looser, Inc.",
-            "to": 2015,
-            "position": "cleaner"
-        },
-        {
-            "note": "I am making coffee and I like it!",
-            "from": 2015,
-            "company": "Starbucks, Inc.",
-            "to": "",
-            "position": "waitress"
-        }
-    ],
+    "driving-licence": [],
+    "employment": [],
     "characteristic": "I am a tall person with warm heart..."
 }}
