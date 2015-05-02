@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package cz.muni.fi.pb138.cv.servlets;
+package cz.muni.fi.pb138.cv.transformation;
 
 
 import java.io.IOException;
@@ -33,53 +33,63 @@ import org.json.*;
  *
  * @author Peto
  */
-public class Json2Xml {
-    private String data;
-    
-    private DocumentBuilderFactory docFactory;
-    private DocumentBuilder docBuilder;
+public class Json2XmlImpl implements Json2Xml {
+
     private Document doc;
     private JSONObject jsonRoot;
     
     public static void main(String[] args) {
         String data;
-        try {
-            List<String> lines = Files.readAllLines(Paths.get(System.getProperty("user.dir") + "\\..\\sample_data\\json_example.json"));
-            data = String.join("", lines);
-        } catch (IOException ex) {
-            Logger.getLogger(Json2Xml.class.getName()).log(Level.SEVERE, null, ex);
-            return;
-        }
         
-        Json2Xml p = new Json2Xml(data);
-    }
-    
-    public Json2Xml(String json_input){
         data = "{"
         + "\"autentication\": {\"name\": \"Meno\", \"password\": \"heslo\", \"lang\": \"en\"},"
         + "\"personal-details\": {\"address\": {\"street\":\"Ulica\", \"number\": 5, \"city\": \"Ranc\"}, \"phones\": [\"454545\", \"884455554\"]}"
         + "}";
         
-        data = json_input;
-        
-        
-        
-        docFactory = DocumentBuilderFactory.newInstance();
         try {
-            docBuilder = docFactory.newDocumentBuilder();
-        } catch (ParserConfigurationException ex) {
-            Logger.getLogger(Json2Xml.class.getName()).log(Level.SEVERE, null, ex);
-        }
+            List<String> lines = Files.readAllLines(Paths.get(System.getProperty("user.dir") + "\\..\\sample_data\\json_example.json"));
+            data = String.join("", lines);
+        } catch (IOException ex) {
+            Logger.getLogger(Json2XmlImpl.class.getName()).log(Level.SEVERE, null, ex);
+            return;
+        }        
         
-        doc = docBuilder.newDocument();
-                
-        //jsonRoot =(JSONObject) JSONValue.parse(data);
-        jsonRoot = new JSONObject(data);
+        
+        
+        Json2XmlImpl p = new Json2XmlImpl(data);
+    }
+    
+    public Json2XmlImpl(String json_input){
+        jsonRoot = new JSONObject(json_input);
         
         parse();
     } 
     
-    public void parse(){
+    public Document transform(String data){
+        return transform(new JSONObject(data));
+    }
+    
+    public Document transform(JSONObject jsonRoot){
+        this.jsonRoot = jsonRoot;
+        
+        DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder docBuilder;
+        
+        try {
+            docBuilder = docFactory.newDocumentBuilder();
+        } catch (ParserConfigurationException ex) {
+            Logger.getLogger(Json2XmlImpl.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+        
+        doc = docBuilder.newDocument();
+        
+        parse();
+        
+        return doc;
+    }
+    
+    private void parse(){
         Element rootElement = doc.createElement("curriculum-vitae");
         
         
@@ -104,7 +114,7 @@ public class Json2Xml {
             StreamResult result = new StreamResult(System.out);
             transformer.transform(source, result);
         } catch (TransformerException ex) {
-            Logger.getLogger(Json2Xml.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Json2XmlImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
