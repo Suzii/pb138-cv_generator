@@ -20,7 +20,9 @@
                 \sectionrule{0pt}{0pt}{-5pt}{3pt}}
 
         \newlength{\spacebox}
+        
         \settowidth{\spacebox}{8888888888}	
+        
         \newcommand{\sepspace}{\vspace*{1em}}
 
         \newcommand{\MySlogan}[1]{
@@ -53,6 +55,8 @@
                         \noindent\hangindent=2em\hangafter=0 \small #4 
                         \normalsize \par}
         \newcommand{\PlainText}[1]{\noindent\hangindent=2em\hangafter=0\par #1}
+        
+        %At this point the document begins.
         \begin{document}
 
         \MySlogan{Curriculum Vitae}
@@ -64,10 +68,12 @@
         \PersonalEntry{Name}{Anca Maria}
         \PersonalEntry{Surname}{z Ranca}
         
+        
         \PersonalEntry{Address}{Rancova, 42 Ranc za Humnom
         }
         \PersonalEntry{}{123456}
         \PersonalEntry{Country}{USA}
+        
         
         
             \PersonalEntry{State}{Michigan}
@@ -86,23 +92,13 @@
                     
                         \PersonalEntry{}{www.anicka-z-ranca.com}
                     
-        \NewPart{Education}{}
-        
-            \EducationEntry{ 
-            Zakladna skola, Horna Dolna
-        }{2004 - 2008}{}{}
+            \NewPart{Education}{}
+            
+            \EducationEntry{Primary school}{2004 - 2008}{Primary school NY}{What did I learn there.}
         
         \sepspace
     
-            \EducationEntry{
-            Stredna, Ranc
-        }{2008 - 2010}{}{}
-        
-        \sepspace
-    
-            \EducationEntry{
-            University of Texas, Texas
-        }{2010 - 2015}{}{}
+            \EducationEntry{High school}{2008 - present}{Primary school New York City}{What did I learn there.}
         
         \sepspace
     
@@ -121,21 +117,26 @@
         \EducationEntry{Baking with mum}{2000}{I made my first cake!}
         \sepspace
     
-        \NewPart{Language Skills}{}
-        
+            \NewPart{Language Skills}{}
+            
         \SkillsEntry{en}{Intermediate}
         
+        \sepspace
+    
             \NewPart{Computer Skills}{}
             
         \SkillsEntry{Windows}{Intermediate}
         \SkillsEntry{}{I can use it...}
+        \sepspace
     
         \SkillsEntry{HTML}{Proffesional}
         \SkillsEntry{}{I can open my browser window...}
+        \sepspace
     
             \NewPart{Driving licence}{}
             
         \SkillsEntry{B}{I drove my uncle's truck...}
+        \sepspace
     
             \NewPart{Characteristics}{}
             
