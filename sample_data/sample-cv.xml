@@ -1,10 +1,5 @@
 <!--In this document, all elements are mandatory unless it is said otherwise and description determines form of each element-->
 <curriculum-vitae>
-    <autentication>
-        <log-in>Anicka</log-in> <!--Non-empty element-->
-        <password>nufisnfe238943894fnsji48</password> <!--Non-empty element-->
-        <lang>en</lang> <!--Non-empty element-->
-    </autentication>
     <personal-details> <!--Non-empty element-->
         <given-names>Anca Maria</given-names> <!--Non-empty, contains only upper- and lower case letters-->
         <surname>z Ranca</surname> <!--Non-empty, contains only upper- and lower case letters-->
