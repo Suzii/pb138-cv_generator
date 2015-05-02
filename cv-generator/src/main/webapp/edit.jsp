@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <f:setBundle basename="texts" />
+
 <html ng-app="editApp">
     <head>
         <title><f:message key="title" /></title>
@@ -11,6 +12,12 @@
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
         <script src="js/edit.js"></script>
 
+        <script>
+            var userData = undefined;
+            <c:if test="${not empty userData}">
+            var userData = ${userData}
+            </c:if>
+        </script>
     </head>
     <body ng-controller="FormController">
         <!-- **************************** HEADING ************************** -->
@@ -18,19 +25,40 @@
             <div class="container">
                 <h1><f:message key="heading" /></h1>
                 <p><f:message key="intro-text" /></p>
+
+                <div class="row">
+                    <div class="col-sm-6">
+                        <form action="${pageContext.request.contextPath}/edit/logout" method="POST">
+                            <button class="btn btn-danger col-sm-offset-1 col-sm-3" >
+                                <span class="glyphicon glyphicon-off " aria-hidden="true"></span> Log out
+                            </button>
+                        </form>
+                    </div>
+                    <div class="col-sm-6">
+                        <form action="${pageContext.request.contextPath}/edit/profile" method="POST">
+                            <button class="btn btn-primary col-sm-offset-1 col-sm-3" >
+                                <span class="glyphicon glyphicon-user" aria-hidden="true"></span> Go to profile
+                            </button>
+                        </form>
+                    </div>    
+                </div>
             </div>
         </div>
         <div class="container">
-            <c:if test="${not empty chyba}">
+            <c:if test="${not empty error}">
                 <div class="alert alert-danger" role="alert">
-                    <c:out value="${chyba}"/>
+                    <c:out value="${error}"/>
+                </div>
+            </c:if>
+            <c:if test="${not empty msg}">
+                <div class="alert alert-info" role="alert">
+                    <c:out value="${msg}"/>
                 </div>
             </c:if>
 
-
             <!-- **************************** FORM ************************** -->
             <form action="${pageContext.request.contextPath}/edit/save" class="form-horizontal" method="POST" name="userForm"  id="cvForm" ng-submit="$event.preventDefault();
-                                submit();" novalidate>
+                            submit();" novalidate>
                 <!-- **************************** PERSONAL DETAILS ************************** -->
                 <div class="well well-sm strong"><f:message key="personal-details" /></div>
                 <div class="row">
@@ -60,13 +88,13 @@
                                     <p ng-show="phoneForm.phone.$invalid && !phoneForm.phone.$pristine" class="help-block">Required.</p>
                                 </div>
                                 <a ng-click="$event.preventDefault();
-                                                    deleteItem(data['personal-details'].phones, $index);" class="col-sm-1">
+                                                deleteItem(data['personal-details'].phones, $index);" class="col-sm-1">
                                     <i class="glyphicon glyphicon-remove"></i>
                                 </a>
                             </ng-form>
                         </div>
-                        <button class="btn btn-default btn-sm col-sm-offset-9 col-sm-2" ng-click="$event.preventDefault();
-                                            addPhone(data['personal-details']);"> 
+                        <button class="btn btn-primary btn-sm col-sm-offset-9 col-sm-2" ng-click="$event.preventDefault();
+                                    addPhone(data['personal-details']);"> 
                             <i class="glyphicon glyphicon-plus"></i> Add
                         </button>
                         <!-- **************************** emails ************************** -->
@@ -78,13 +106,13 @@
                                     <p class="help-block" ng-show="emailForm.email.$invalid && !emailForm.email.$pristine">Please, enter a valid email</p>
                                 </div>
                                 <a ng-click="$event.preventDefault();
-                                                    deleteItem(data['personal-details'].emails, $index);" class="col-sm-1">
+                                                deleteItem(data['personal-details'].emails, $index);" class="col-sm-1">
                                     <i class="glyphicon glyphicon-remove"></i>
                                 </a>
                             </ng-form>
                         </div>
-                        <button class="btn btn-default btn-sm col-sm-offset-9 col-sm-2" ng-click="$event.preventDefault();
-                                            addEmail(data['personal-details']);"> 
+                        <button class="btn btn-primary btn-sm col-sm-offset-9 col-sm-2" ng-click="$event.preventDefault();
+                                    addEmail(data['personal-details']);"> 
                             <i class="glyphicon glyphicon-plus"></i> Add
                         </button>
                         <!-- **************************** social ************************** -->
@@ -96,13 +124,13 @@
                                     <p class="help-block" ng-show="socialForm.social.$invalid && !socialForm.social.$pristine">Please, enter a valid link</p>
                                 </div>
                                 <a ng-click="$event.preventDefault();
-                                                    deleteItem(data['personal-details'].emails, $index);" class="col-sm-1">
+                                                deleteItem(data['personal-details'].emails, $index);" class="col-sm-1">
                                     <i class="glyphicon glyphicon-remove"></i>
                                 </a>
                             </ng-form>
                         </div>
-                        <button class="btn btn-default btn-sm col-sm-offset-9 col-sm-2" ng-click="$event.preventDefault();
-                                            addSocial(data['personal-details']);"> 
+                        <button class="btn btn-primary btn-sm col-sm-offset-9 col-sm-2" ng-click="$event.preventDefault();
+                                    addSocial(data['personal-details']);"> 
                             <i class="glyphicon glyphicon-plus"></i> Add
                         </button>
                     </div>
@@ -132,7 +160,7 @@
                             </div>
                         </div>
                         <!-- **************************** post code ************************** -->
-                        <div class="form-group" ng-class="{'has-error': userForm['post-code'].$invalid &&  !userForm['post-code'].$pristine}">
+                        <div class="form-group" ng-class="{'has-error': userForm['post-code'].$invalid && !userForm['post-code'].$pristine}">
                             <label for="post-code" class="col-sm-2 control-label"><f:message key="post-code" /></label>
                             <div class="col-sm-10">
                                 <input type="number" name="post-code" ng-model="data['personal-details'].address['post-code']" class="form-control"/>
@@ -176,7 +204,7 @@
                     </ng-form>
                 </div>
                 <button class="btn btn-default btn-sm" ng-click="$event.preventDefault();
-                                    addEducation(data);"> 
+                            addEducation(data);"> 
                     <i class="glyphicon glyphicon-plus"></i> Add
                 </button>
                 <!-- **************************** EMPLOYMENT ************************** -->
@@ -203,7 +231,7 @@
                     </ng-form>
                 </div>                            
                 <button class="btn btn-default btn-sm" ng-click="$event.preventDefault();
-                                    addEmployment(data);"> 
+                            addEmployment(data);"> 
                     <i class="glyphicon glyphicon-plus"></i> Add
                 </button>
                 <!-- **************************** LANGUAGE SKILLS ************************** -->
@@ -228,7 +256,7 @@
                     </ng-form>
                 </div>                            
                 <button class="btn btn-default btn-sm" ng-click="$event.preventDefault();
-                                    addLanguageSkill(data);"> 
+                            addLanguageSkill(data);"> 
                     <i class="glyphicon glyphicon-plus"></i> Add
                 </button>
                 <!-- **************************** COMPUTER SKILLS ************************** -->
@@ -253,7 +281,7 @@
                     </ng-form>
                 </div>
                 <button class="btn btn-default btn-sm" ng-click="$event.preventDefault();
-                                    addComputerSkill(data);"> 
+                            addComputerSkill(data);"> 
                     <i class="glyphicon glyphicon-plus"></i> Add
                 </button>
                 <!-- **************************** DRIVING SKILLS ************************** -->
@@ -271,7 +299,7 @@
                     </ng-form>
                 </div>
                 <button class="btn btn-default btn-sm" ng-click="$event.preventDefault();
-                                    addDrivingLicence(data);"> 
+                            addDrivingLicence(data);"> 
                     <i class="glyphicon glyphicon-plus"></i> Add
                 </button>
                 <!-- **************************** CERTIFICATES ************************** -->
@@ -291,7 +319,7 @@
                     </ng-form>
                 </div>
                 <button class="btn btn-default btn-sm" ng-click="$event.preventDefault();
-                                    addCertificate(data);"> 
+                            addCertificate(data);"> 
                     <i class="glyphicon glyphicon-plus"></i> Add
                 </button>
                 <!-- **************************** CHARACTERISTICS ************************** -->
