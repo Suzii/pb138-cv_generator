@@ -16,7 +16,7 @@
             <div class="container">
                 <h1><f:message key="heading" /></h1>
                 <p><f:message key="intro-text" /></p>
-                <p>For logging in type Username: 'admin', password: '21232f297a57a5a743894a0e4a801fc3'</p>
+                <p>Create new account here</p>
 
             </div>
         </div>
@@ -32,7 +32,7 @@
                     <c:out value="${msg}"/>
                 </div>
             </c:if>
-            <form action="${pageContext.request.contextPath}/login/submit" method="POST" class="form-horizontal" id="loginForm">
+            <form action="${pageContext.request.contextPath}/signup/submit" method="POST" class="form-horizontal" id="loginForm">
                 <div class="form-group" >
                     <label for="login" class="col-sm-2 control-label"><f:message key="username" /></label>
                     <div class="col-sm-4">
@@ -45,12 +45,7 @@
                         <input type="password" id="password" name="password" value="" class="form-control"/>
                     </div>
                 </div>
-                <input type="Submit" class="btn btn-primary col-sm-offset-2 col-sm-1" value="Login" />
-            </form>
-            <form action="${pageContext.request.contextPath}/signup" method="GET">
-                <button class="btn btn-success col-sm-offset-1 col-sm-1" >
-                    <span class="glyphicon glyphicon-user" aria-hidden="true"></span> Sign up
-                </button>
+                <input type="Submit" class="btn btn-primary col-sm-offset-2 col-sm-1" value="Sign up" />
             </form>
         </div>
     </body>

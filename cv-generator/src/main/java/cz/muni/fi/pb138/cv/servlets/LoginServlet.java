@@ -3,7 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package cz.muni.fi.pb138.cv.generator;
+package cz.muni.fi.pb138.cv.servlets;
+
+import cz.muni.fi.pb138.cv.service.MockedUserServiceImpl;
+import cz.muni.fi.pb138.cv.service.UserService;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -12,9 +15,11 @@ import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,13 +27,10 @@ import org.slf4j.LoggerFactory;
  *
  * @author Zuzana
  */
-@WebServlet(LoginServlet.URL_MAPPING + "/*")
+@WebServlet(Common.URL_LOGIN + "/*")
 public class LoginServlet extends HttpServlet {
 
-    public static final String URL_MAPPING = "/login";
-    public static final String URL_EDIT = "/edit";
-    public static final String LOGIN_JSP = "/login.jsp";
-
+    public static UserService userService = new MockedUserServiceImpl();
     private final static Logger log = LoggerFactory.getLogger(LoginServlet.class);
 
     /**
@@ -59,7 +61,7 @@ public class LoginServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
-        request.getRequestDispatcher(LOGIN_JSP).forward(request, response);
+        request.getRequestDispatcher(Common.LOGIN_JSP).forward(request, response);
     }
 
     /**
@@ -77,30 +79,31 @@ public class LoginServlet extends HttpServlet {
         ResourceBundle bundle = ResourceBundle.getBundle("texts", request.getLocale());
         String action = request.getPathInfo();
         switch (action) {
-            case "/start":
-                String name = request.getParameter("name");
-                if (!name.equals("x")) {
-                    Object data = "No such user exists.";
-                    request.setAttribute("data", data);
-                    request.getRequestDispatcher(LOGIN_JSP).forward(request, response);
-                } else {
-                    response.sendRedirect(request.getContextPath() + URL_EDIT);
-                }
-                return;
-                
+            
             case "/submit":
-                /*String param = request.getParameter("login");
-                if (!param.equals("a")) {
-                    Object data = "Wrong user name A.";
-                    request.setAttribute("data", data);
-                    request.getRequestDispatcher(LOGIN_JSP).forward(request, response);
-                } else*/ {
-                    response.sendRedirect(request.getContextPath() + URL_EDIT);
+                String login = request.getParameter("login");
+                String passwordHash = request.getParameter("password");
+                Object data = "";
+                //find out if user exists
+                if (!userService.checkIfExists(login)) {
+                    data = "Username: " + login + " does not exists";
+                    request.setAttribute("error", data);
+                    request.getRequestDispatcher(Common.LOGIN_JSP).forward(request, response);
+                    //check password
+                } else if (!userService.verifyCredentials(login, passwordHash)) {
+                    data = "Wrong password.";
+                    request.setAttribute("error", data);
+                    request.getRequestDispatcher(Common.LOGIN_JSP).forward(request, response);
+
+                } else {
+                    SessionService.createSessionLogin(request, login);
+                    response.sendRedirect(request.getContextPath() + Common.URL_EDIT);
                 }
                 return;
-        default:
+
+            default:
                 log.error("Unknown action " + action);
-                response.sendError(HttpServletResponse.SC_NOT_FOUND, "Unknown action " + action);
+                request.getRequestDispatcher(Common._404_JSP).forward(request, response);
         }
     }
 
@@ -110,9 +113,7 @@ public class LoginServlet extends HttpServlet {
      * @return a String containing servlet description
      */
     @Override
-        public String getServletInfo
-        
-            () {
+    public String getServletInfo() {
         return "Short description";
-        }
     }
+}

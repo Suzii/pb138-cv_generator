@@ -3,18 +3,22 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package cz.muni.fi.pb138.cv.generator;
+package cz.muni.fi.pb138.cv.servlets;
+
+import cz.muni.fi.pb138.cv.service.CvService;
+import cz.muni.fi.pb138.cv.service.MockedCvServiceImpl;
+import cz.muni.fi.pb138.cv.service.MockedUserServiceImpl;
+import cz.muni.fi.pb138.cv.service.UserService;
+import java.io.File;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,13 +26,12 @@ import org.slf4j.LoggerFactory;
  *
  * @author Zuzana
  */
-@WebServlet(EditServlet.URL_MAPPING + "/*")
-public class EditServlet extends HttpServlet {
-
-    public static final String URL_MAPPING = "/edit";
-    public static final String EDIT_JSP = "/edit.jsp";
-
-    private final static Logger log = LoggerFactory.getLogger(EditServlet.class);
+@WebServlet(Common.URL_PROFILE + "/*")
+public class ProfileServlet extends HttpServlet { 
+    
+    public static UserService userService = new MockedUserServiceImpl();
+    public static CvService cvService = new MockedCvServiceImpl();
+    private final static Logger log = LoggerFactory.getLogger(ProfileServlet.class);
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -58,7 +61,22 @@ public class EditServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
-        request.getRequestDispatcher(EDIT_JSP).forward(request, response);
+        //load json with user data associated with 'login'
+        String login = SessionService.getSessionLogin(request);
+        if (login != null) {
+            System.out.println("Logged user: " + login);
+            JSONObject userData = cvService.loadCvJSON(login);
+
+            request.setAttribute("userData", userData);
+            System.out.println("User: " + login);
+            System.out.println("Data: " + userData);
+            
+            request.getRequestDispatcher(Common.PROFILE_JSP).forward(request, response);
+        } else {
+            //user is not logged in
+            request.setAttribute("error", "You are not logged in.");
+            response.sendRedirect(request.getContextPath() + Common.URL_LOGIN);
+        }
     }
 
     /**
@@ -76,17 +94,19 @@ public class EditServlet extends HttpServlet {
         ResourceBundle bundle = ResourceBundle.getBundle("texts", request.getLocale());
         String action = request.getPathInfo();
         switch (action) {
-            case "/save":
-                response.setStatus(HttpServletResponse.SC_OK);
-                request.setAttribute("data", "Cool you reached the server!");
-                 
-               //response.sendRedirect(request.getContextPath() + URL_MAPPING);
-                //request.getRequestDispatcher(EDIT_JSP).forward(request, response);
+            
+            case "/download":
+                String login = SessionService.getSessionLogin(request);
+                //get file
+                File pdf = cvService.generatePdf(login);
+                response.sendRedirect(request.getContextPath() + Common.URL_PROFILE);
                 return;
-
+            case "/edit":
+                response.sendRedirect(request.getContextPath() + Common.URL_EDIT);
+                return;
             default:
                 log.error("Unknown action " + action);
-                response.sendError(HttpServletResponse.SC_NOT_FOUND, "Unknown action " + action);
+                request.getRequestDispatcher(Common._404_JSP).forward(request, response);
         }
     }
 

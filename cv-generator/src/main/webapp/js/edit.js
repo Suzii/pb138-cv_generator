@@ -3,7 +3,14 @@ var editApp = angular.module('editApp', []);
 editApp.controller('FormController', ['$scope', '$window', '$http', function ($scope, $window, $http) {
         $scope.submit = function () {
             //if ($scope.userForm.$valid) {
-            $http.post($('#cvForm').attr('action'), $scope.data)
+            //$http.post($('#cvForm').attr('action'), {data: JSON.stringify($scope.data)}, { })
+            
+            $http({
+                    url: $('#cvForm').attr('action'),
+                    method: "POST",
+                    responseType: "json",
+                    headers: {'Content-Type': 'application/json'},
+                    data: $scope.data})
                     .success(function (data, status) {
                         $window.alert('You rock!');
                         $window.alert(data);
@@ -100,6 +107,9 @@ editApp.controller('FormController', ['$scope', '$window', '$http', function ($s
             form.education.push({value: "", from: null, to: null});
         };
 
-        $scope.createBlankForm();
-
+        if (userData) {
+            $scope.data = userData;
+        } else {
+            $scope.createBlankForm();
+        }
     }]);
