@@ -3,7 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package cz.muni.fi.pb138.cv.generator;
+package cz.muni.fi.pb138.cv.servlets;
+
+import cz.muni.fi.pb138.cv.service.CvService;
+import cz.muni.fi.pb138.cv.service.MockedCvServiceImpl;
+import cz.muni.fi.pb138.cv.service.MockedUserServiceImpl;
+import cz.muni.fi.pb138.cv.service.UserService;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.PrintWriter;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Map;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -33,15 +45,11 @@ import org.json.simple.parser.ParseException;
  *
  * @author Zuzana
  */
-@WebServlet(EditServlet.URL_MAPPING + "/*")
+@WebServlet(Common.URL_EDIT + "/*")
 public class EditServlet extends HttpServlet {
 
-    public static final String URL_MAPPING = "/edit";
-    public static final String URL_LOGIN = "/login";
-    public static final String EDIT_JSP = "/edit.jsp";
-    //musi to byt na takejto absolutnej ceste, lebo inak by sa k tomu nedalo pristupit normalne (servlet bezi v inom prieciku)
-    public static final String SAMPLE_JSON_PATH = "C:/sample-data.json";
-
+    public static CvService cvService = new MockedCvServiceImpl();
+    public static UserService userService = new MockedUserServiceImpl();
     private final static Logger log = LoggerFactory.getLogger(EditServlet.class);
 
     /**
@@ -72,20 +80,24 @@ public class EditServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
-        HttpSession session = request.getSession(true);
-        String login = (String) session.getAttribute("login");
-        if (login != null && login.length() != 0) {
-            //load json with user data associated with 'login'
-            Object userData = loadUserData(login);
+
+        //load json with user data associated with 'login'
+        String login = SessionService.getSessionLogin(request);
+        if (login != null) {
+            System.out.println("Logged user: " + login);
+            JSONObject userData = cvService.loadCvJSON(login);
+
             request.setAttribute("userData", userData);
             System.out.println("User: " + login);
             System.out.println("Data: " + userData);
-        } else 
-        {
-            //no user logged in
-            request.setAttribute("userData", null);
+
+            request.getRequestDispatcher(Common.EDIT_JSP).forward(request, response);
+        } else {
+            //user is not logged in
+            request.setAttribute("error", "You are not logged in.");
+            response.sendRedirect(request.getContextPath() + Common.URL_LOGIN);
         }
-        request.getRequestDispatcher(EDIT_JSP).forward(request, response);
+        return;
     }
 
     /**
@@ -105,28 +117,42 @@ public class EditServlet extends HttpServlet {
         switch (action) {
             case "/save":
                 response.setStatus(HttpServletResponse.SC_OK);
-                //request.setAttribute("data", "Cool you reached the server!");
                 System.out.println("This is recieved JSON:");
 
                 //this is JSON object with user data
                 JSONObject userData = extractUserData(request);
                 System.out.println(userData);
 
-                //TODO create XML from JSON
-                //TODO run XML schema
-                //TODO if ok, store xml to DB, redirect to /profile
-                //TODO else, display error, forward to edit.jsp
+                //run XML schema
+                String message = cvService.checkValidity(userData);
+                if (message != null) {
+                    //TODO if not ok, display error, forward to edit.jsp
+                    request.setAttribute("message", message);
+                    request.getRequestDispatcher(Common.EDIT_JSP).forward(request, response);
+                    return;
+                }
+                //if ok, store xml to DB, redirect to /profile
+                if (cvService.saveCv(SessionService.getSessionLogin(request), userData)) {
+                    System.out.println("CV saved");
+                    request.setAttribute("msg", "CV saved.");
+                    request.getRequestDispatcher(Common.EDIT_JSP).forward(request, response);
+                    
+                } else {
+                    System.out.println("Error while storing CV.");
+                    request.setAttribute("error", "Unexpected error occured while storing your CV to database.");
+                    request.getRequestDispatcher(Common.EDIT_JSP).forward(request, response);
+                }
                 return;
             case "/logout":
-                HttpSession session = request.getSession(false);
-                if (session != null) {
-                    session.removeAttribute("login");
-                }
-                response.sendRedirect(request.getContextPath() + URL_LOGIN);
+                SessionService.deleteSessionLogin(request);
+                response.sendRedirect(request.getContextPath() + Common.URL_LOGIN);
+                return;
+            case "/profile":
+                response.sendRedirect(request.getContextPath() + Common.URL_PROFILE);
                 return;
             default:
                 log.error("Unknown action " + action);
-                response.sendError(HttpServletResponse.SC_NOT_FOUND, "Unknown action " + action);
+                request.getRequestDispatcher(Common._404_JSP).forward(request, response);
         }
     }
 
@@ -163,21 +189,6 @@ public class EditServlet extends HttpServlet {
             e.printStackTrace();
         }
 
-        return null;
-    }
-
-    private JSONObject loadUserData(String login) {
-        //TODO find appropriate file associated with login
-        JSONParser parser = new JSONParser();
-
-        try {
-            File file = new File(SAMPLE_JSON_PATH);
-            Object obj = parser.parse(new FileReader(file));
-            JSONObject jsonObject = (JSONObject) obj;
-            return jsonObject;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
         return null;
     }
 }

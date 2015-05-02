@@ -25,18 +25,36 @@
             <div class="container">
                 <h1><f:message key="heading" /></h1>
                 <p><f:message key="intro-text" /></p>
-                <form action="${pageContext.request.contextPath}/edit/logout" method="POST" name="logoutForm"  id="logoutForm">
-                    <button type="submit" class="btn btn-default">Log out</button>
-                </form>
+
+                <div class="row">
+                    <div class="col-sm-6">
+                        <form action="${pageContext.request.contextPath}/edit/logout" method="POST">
+                            <button class="btn btn-danger col-sm-offset-1 col-sm-3" >
+                                <span class="glyphicon glyphicon-off " aria-hidden="true"></span> Log out
+                            </button>
+                        </form>
+                    </div>
+                    <div class="col-sm-6">
+                        <form action="${pageContext.request.contextPath}/edit/profile" method="POST">
+                            <button class="btn btn-primary col-sm-offset-1 col-sm-3" >
+                                <span class="glyphicon glyphicon-user" aria-hidden="true"></span> Go to profile
+                            </button>
+                        </form>
+                    </div>    
+                </div>
             </div>
         </div>
         <div class="container">
-            <c:if test="${not empty chyba}">
+            <c:if test="${not empty error}">
                 <div class="alert alert-danger" role="alert">
-                    <c:out value="${chyba}"/>
+                    <c:out value="${error}"/>
                 </div>
             </c:if>
-
+            <c:if test="${not empty msg}">
+                <div class="alert alert-info" role="alert">
+                    <c:out value="${msg}"/>
+                </div>
+            </c:if>
 
             <!-- **************************** FORM ************************** -->
             <form action="${pageContext.request.contextPath}/edit/save" class="form-horizontal" method="POST" name="userForm"  id="cvForm" ng-submit="$event.preventDefault();
@@ -75,7 +93,7 @@
                                 </a>
                             </ng-form>
                         </div>
-                        <button class="btn btn-default btn-sm col-sm-offset-9 col-sm-2" ng-click="$event.preventDefault();
+                        <button class="btn btn-primary btn-sm col-sm-offset-9 col-sm-2" ng-click="$event.preventDefault();
                                     addPhone(data['personal-details']);"> 
                             <i class="glyphicon glyphicon-plus"></i> Add
                         </button>
@@ -93,7 +111,7 @@
                                 </a>
                             </ng-form>
                         </div>
-                        <button class="btn btn-default btn-sm col-sm-offset-9 col-sm-2" ng-click="$event.preventDefault();
+                        <button class="btn btn-primary btn-sm col-sm-offset-9 col-sm-2" ng-click="$event.preventDefault();
                                     addEmail(data['personal-details']);"> 
                             <i class="glyphicon glyphicon-plus"></i> Add
                         </button>
@@ -111,7 +129,7 @@
                                 </a>
                             </ng-form>
                         </div>
-                        <button class="btn btn-default btn-sm col-sm-offset-9 col-sm-2" ng-click="$event.preventDefault();
+                        <button class="btn btn-primary btn-sm col-sm-offset-9 col-sm-2" ng-click="$event.preventDefault();
                                     addSocial(data['personal-details']);"> 
                             <i class="glyphicon glyphicon-plus"></i> Add
                         </button>
