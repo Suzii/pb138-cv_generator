@@ -48,9 +48,7 @@
                             </button>
                         </form>
                     </div>    
-
                 </div>
-
             </div>
         </div>
         <div class="container">
