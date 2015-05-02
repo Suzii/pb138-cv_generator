@@ -3,14 +3,12 @@ var editApp = angular.module('editApp', []);
 editApp.controller('FormController', ['$scope', '$window', '$http', function ($scope, $window, $http) {
         $scope.submit = function () {
             //if ($scope.userForm.$valid) {
-            //$http.post($('#cvForm').attr('action'), {data: JSON.stringify($scope.data)}, { })
-            
             $http({
-                    url: $('#cvForm').attr('action'),
-                    method: "POST",
-                    responseType: "json",
-                    headers: {'Content-Type': 'application/json'},
-                    data: $scope.data})
+                url: $('#cvForm').attr('action'),
+                method: "POST",
+                responseType: "json",
+                headers: {'Content-Type': 'application/json'},
+                data: $scope.data})
                     .success(function (data, status) {
                         $window.alert('You rock!');
                         $window.alert(data);
@@ -104,11 +102,17 @@ editApp.controller('FormController', ['$scope', '$window', '$http', function ($s
             if (typeof form.education === 'undefined') {
                 form.education = [];
             }
-            form.education.push({value: "", from: null, to: null});
+            form.education.push({
+                note: "",
+                'name-of-education': "",
+                from: 2004,
+                to: 2008,
+                'name-of-school': ""
+            });
         };
 
         if (userData) {
-            $scope.data = userData;
+            $scope.data = userData['curriculum-vitae'];
         } else {
             $scope.createBlankForm();
         }
