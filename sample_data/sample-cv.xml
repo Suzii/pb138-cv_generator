@@ -1,99 +1,101 @@
+<!--In this document, all elements are mandatory unless it is said otherwise and description determines form of each element-->
 <curriculum-vitae>
     <autentication>
-        <log-in>Anicka</log-in>
-        <password>nufisnfe238943894fnsji48</password>
-        <lang>en</lang>
+        <log-in>Anicka</log-in> <!--Non-empty element-->
+        <password>nufisnfe238943894fnsji48</password> <!--Non-empty element-->
+        <lang>en</lang> <!--Non-empty element-->
     </autentication>
-    <personal-details>
-        <given-names>Anca Maria</given-names>
-        <surname>z Ranca</surname>
+    <personal-details> <!--Non-empty element-->
+        <given-names>Anca Maria</given-names> <!--Non-empty, contains only upper- and lower case letters-->
+        <surname>z Ranca</surname> <!--Non-empty, contains only upper- and lower case letters-->
         <address>
-            <street>Rancova</street>
-            <number>42</number>
-            <city>Ranc za Humnom</city>
-            <postal-code>123456</postal-code>
-            <state>Michigan</state> <!-- optinal-->
-            <country>USA</country>
+            <street>Rancova</street><!--Non-empty element-->
+            <number>42</number> <!-- This element can be empty-->
+            <city>Ranc za Humnom</city><!--Non-empty element-->
+            <postal-code>123456</postal-code><!--Non-empty element-->
+            <state>Michigan</state> <!--This element can be empty-->
+            <country>USA</country><!--Non-empty element-->
         </address>
-        <phones>
-            <phone>0905123123</phone>
-            <phone>0905123456</phone> <!-- unique, unbounded -->
+        <phones><!--This element do not have to contain any child elements phone-->
+            <phone>0905123123</phone><!--This element can be empty, but contains only numbers or + sign-->
+            <phone>0905123456</phone> <!-- Unique phone number, MaxOccurs of this element - unbounded -->
         </phones>
-        <emails>
-            <email>anca@zranca.com</email> <!-- unique, unbounded-->
-            <email>anicka.z.ranca@gmail.com</email>
+        <emails><!--This element do not have to contain any child elements email-->
+            <email>anca@zranca.com</email> <!-- This element can be empty, contains unique email address-->
+            <email>anicka.z.ranca@gmail.com</email> <!-- MaxOccurs of element email is unbounded, but email has to be unique-->
         </emails>
-        <social>
-            <site>Linkedin.com/anicka</site>
-            <site>facebook.com/anicka</site>
+        <social><!--This element do not have to contain any child elements site-->
+            <site>Linkedin.com/anicka</site><!--This element can be empty-->
+            <site>facebook.com/anicka</site><!-- MaxOccurs of element site is unbounded, but each site must be unique-->
             <site>www.anicka-z-ranca.com</site>
         </social>
     </personal-details>
 
-    <education>
-        <edu from="2004" to="2008"> <!-- from <= to -->
-            Zakladna skola, Horna Dolna
+    <education><!--This element do not have to contain any child elements edu-->
+        <edu from="2004" to="2008"><!--"from" cannot be empty, but "to" can and it means up to now and from <= to-->
+            <name-of-education>Primary school</name-of-education> <!-- A non-empty element-->
+            <name-of-school>Primary school NY</name-of-school><!-- A non-empty element-->
+            <note>What did I learn there.</note><!-- This element can be empty-->
         </edu>
-        <edu from="2008" to="2010">
-            Stredna, Ranc
-        </edu>
-        <edu from="2010" to="2015">
-            University of Texas, Texas
+        <edu from="2008" to="">
+            <name-of-education>High school</name-of-education>
+            <name-of-school>Primary school New York City</name-of-school>
+            <note>What did I learn there.</note>
         </edu>
     </education>
     
-    <employment>
-        <emp form="2014" to="2015">
-            <company>Looser, Inc.</company>
-            <position>cleaner</position>
-            <note>I was cleaning floors all the time...</note>
+    <employment><!--This element do not have to contain any child elements emp-->
+        <emp from="2014" to="2015"><!--"from" cannot be empty, but "to" can and it means up to now and from <= to-->
+            <company>Looser, Inc.</company><!-- A non-empty element -->
+            <position>cleaner</position><!-- A non-empty element -->
+            <note>I was cleaning floors all the time...</note><!-- This element can be empty -->
         </emp>
-        <emp form="2015" to="">
+        <emp from="2015" to="">
             <company>Starbucks, Inc.</company>
             <position>waitress</position>
             <note>I am making coffee and I like it!</note>
         </emp>
     </employment>
     
-    <language-skills>
-        <lang name="en">
-            <level>Intermediate</level> <!-- enum -->
-            <note></note>
+    <language-skills><!--This element do not have to contain any child elements lang-->
+        <lang name="en"> <!--Attribute name cannot be empty-->
+            <level>Intermediate</level> <!-- A non-empty element value is one of enumeration -->
+            <note></note><!--This element can be empty-->
         </lang>
     </language-skills>
     
-    <certificates>
-        <cert year="2000">
-            <name>Baking with mum</name>
-            <note>I made my first cake!</note>
+    <certificates><!--This element do not have to contain any child elements cert-->
+        <cert year="2000"> <!--Attribute year cannot be empty-->
+            <name>Baking with mum</name><!-- A non-empty element -->
+            <note>I made my first cake!</note><!--This element can be empty-->
         </cert>
     </certificates>
     
-    <computer-skills>
+    <computer-skills><!--This element do not have to contain any child elements skill-->
         <skill>
-            <name>Windows</name>
-            <level>Intermediate</level> <!-- enum -->
-            <note>I can use it...</note>
+            <name>Windows</name><!-- A non-empty element -->
+            <level>Intermediate</level> <!-- One of enumeration -->
+            <note>I can use it...</note> <!--This element can be empty-->
         </skill>
         <skill>
             <name>HTML</name>
-            <level>Proffesional</level> <!-- enum -->
+            <level>Proffesional</level>
             <note>I can open my browser window...</note>
         </skill>
     </computer-skills>
     
-    <driving-licence>
+    <driving-licence> <!--This element do not have to contain any child elements class-->
         <class>
-            <name>B</name>
-            <note>I drove my uncle's truck...</note>
+            <name>B</name><!--This element cannot be empty-->
+            <note>I drove my uncle's truck...</note> <!--This element can be empty-->
         </class>
     </driving-licence>
 
-    <characteristic>
+    <characteristic><!--This element contains text, can be empty-->
         I am a tall person with warm heart...
     </characteristic>
             
-    <hobbies>
+    <hobbies><!--This element contains text, can be empty-->
         I ride ponnies and bike.. I hate football...
     </hobbies>
 </curriculum-vitae>
