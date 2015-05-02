@@ -9,8 +9,10 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.List;
+import org.json.JSONObject;
 import org.w3c.dom.Document;
 
 /**
@@ -24,14 +26,16 @@ public class MockedCvServiceImpl implements CvService {
 
     @Override
     public JSONObject loadCvJSON(String login) {
-        JSONParser parser = new JSONParser();
+        //JSONParser parser = new JSONParser();
         if(login == null){
             return null;
         }
         try {
-            File file = new File(SAMPLE_JSON_PATH);
-            Object obj = parser.parse(new FileReader(file));
-            JSONObject jsonObject = (JSONObject) obj;
+            //File file = new File(SAMPLE_JSON_PATH);
+            /*Object obj = parser.parse(new FileReader(file));
+            JSONObject jsonObject = (JSONObject) obj;*/
+            List<String> lines = Files.readAllLines(Paths.get(SAMPLE_JSON_PATH));
+            JSONObject jsonObject = new JSONObject(String.join("", lines));
             return jsonObject;
         } catch (Exception e) {
             e.printStackTrace();

@@ -6,7 +6,7 @@
 package cz.muni.fi.pb138.cv.service;
 
 import java.io.File;
-import org.json.simple.JSONObject;
+import org.json.JSONObject;
 import org.w3c.dom.Document;
 
 /**

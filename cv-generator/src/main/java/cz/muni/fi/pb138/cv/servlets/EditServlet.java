@@ -37,9 +37,7 @@ import org.json.HTTP;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
+import org.json.JSONObject;
 
 /**
  *
@@ -180,15 +178,15 @@ public class EditServlet extends HttpServlet {
             e.printStackTrace();
         }
 
-        JSONParser parser = new JSONParser();
+        /*JSONParser parser = new JSONParser();
         JSONObject userData = null;
         try {
             userData = (JSONObject) parser.parse(sb.toString());
             return userData;
         } catch (ParseException e) {
             e.printStackTrace();
-        }
+        }*/
 
-        return null;
+        return new JSONObject(sb.toString());
     }
 }
