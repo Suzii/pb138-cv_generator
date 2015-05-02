@@ -31,9 +31,6 @@ public class MockedCvServiceImpl implements CvService {
             return null;
         }
         try {
-            //File file = new File(SAMPLE_JSON_PATH);
-            /*Object obj = parser.parse(new FileReader(file));
-            JSONObject jsonObject = (JSONObject) obj;*/
             List<String> lines = Files.readAllLines(Paths.get(SAMPLE_JSON_PATH));
             JSONObject jsonObject = new JSONObject(String.join("", lines));
             return jsonObject;
@@ -70,7 +67,7 @@ public class MockedCvServiceImpl implements CvService {
 
     @Override
     public File generatePdf(String login) {
-        return new File(SAMPLE_JSON_PATH);
+        return new File(SAMPLE_PDF_PATH);
     }
 
     @Override

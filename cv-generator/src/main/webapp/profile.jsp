@@ -27,14 +27,14 @@
 
                 <div class="row">
                     <div class="col-sm-6">
-                        <form action="${pageContext.request.contextPath}/profile/download" method="POST">
+                        <form action="${pageContext.request.contextPath}/profile/download" method="GET">
                             <button class="btn btn-danger col-sm-offset-1 col-sm-3" >
                                 <span class="glyphicon glyphicon-floppy-save" aria-hidden="true"></span> Download PDF
                             </button>
                         </form>
                     </div>
                     <div class="col-sm-6">
-                        <form action="${pageContext.request.contextPath}/profile/edit" method="POST">
+                        <form action="${pageContext.request.contextPath}/profile/edit" method="GET">
                             <button class="btn btn-primary col-sm-offset-1 col-sm-3" >
                                 <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Edit
                             </button>

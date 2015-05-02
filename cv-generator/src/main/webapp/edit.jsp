@@ -28,14 +28,14 @@
 
                 <div class="row">
                     <div class="col-sm-6">
-                        <form action="${pageContext.request.contextPath}/edit/logout" method="POST">
+                        <form action="${pageContext.request.contextPath}/edit/logout" method="GET">
                             <button class="btn btn-danger col-sm-offset-1 col-sm-3" >
                                 <span class="glyphicon glyphicon-off " aria-hidden="true"></span> Log out
                             </button>
                         </form>
                     </div>
                     <div class="col-sm-6">
-                        <form action="${pageContext.request.contextPath}/edit/profile" method="POST">
+                        <form action="${pageContext.request.contextPath}/edit/profile" method="GET">
                             <button class="btn btn-primary col-sm-offset-1 col-sm-3" >
                                 <span class="glyphicon glyphicon-user" aria-hidden="true"></span> Go to profile
                             </button>

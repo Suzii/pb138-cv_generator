@@ -61,7 +61,16 @@ public class LoginServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
-        request.getRequestDispatcher(Common.LOGIN_JSP).forward(request, response);
+        String action = request.getPathInfo();
+        if (action == null) {
+            request.getRequestDispatcher(Common.LOGIN_JSP).forward(request, response);
+            return;
+        }
+        switch (action) {
+            default:
+                response.sendError(HttpServletResponse.SC_NOT_FOUND, "Unknown action ");
+                return;
+        }
     }
 
     /**
@@ -79,7 +88,7 @@ public class LoginServlet extends HttpServlet {
         ResourceBundle bundle = ResourceBundle.getBundle("texts", request.getLocale());
         String action = request.getPathInfo();
         switch (action) {
-            
+
             case "/submit":
                 String login = request.getParameter("login");
                 String passwordHash = request.getParameter("password");
@@ -103,7 +112,7 @@ public class LoginServlet extends HttpServlet {
 
             default:
                 log.error("Unknown action " + action);
-                request.getRequestDispatcher(Common._404_JSP).forward(request, response);
+                response.sendError(HttpServletResponse.SC_NOT_FOUND, "Unknown action " + action);
         }
     }
 

@@ -78,24 +78,39 @@ public class EditServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
+        String action = request.getPathInfo();
+        if (action == null) {
+            //load json with user data associated with 'login'
+            String login = SessionService.getSessionLogin(request);
+            if (login != null) {
+                System.out.println("Logged user: " + login);
+                JSONObject userData = cvService.loadCvJSON(login);
 
-        //load json with user data associated with 'login'
-        String login = SessionService.getSessionLogin(request);
-        if (login != null) {
-            System.out.println("Logged user: " + login);
-            JSONObject userData = cvService.loadCvJSON(login);
+                request.setAttribute("userData", userData);
+                System.out.println("User: " + login);
+                System.out.println("Data: " + userData);
 
-            request.setAttribute("userData", userData);
-            System.out.println("User: " + login);
-            System.out.println("Data: " + userData);
-
-            request.getRequestDispatcher(Common.EDIT_JSP).forward(request, response);
-        } else {
-            //user is not logged in
-            request.setAttribute("error", "You are not logged in.");
-            response.sendRedirect(request.getContextPath() + Common.URL_LOGIN);
+                request.getRequestDispatcher(Common.EDIT_JSP).forward(request, response);
+            } else {
+                //user is not logged in
+                request.setAttribute("error", "You are not logged in.");
+                response.sendRedirect(request.getContextPath() + Common.URL_LOGIN);
+            }
+            return;
         }
-        return;
+        switch (action) {
+            case "/logout":
+                SessionService.deleteSessionLogin(request);
+                response.sendRedirect(request.getContextPath() + Common.URL_LOGIN);
+                return;
+            case "/profile":
+                response.sendRedirect(request.getContextPath() + Common.URL_PROFILE);
+                return;
+            default:
+                response.sendError(HttpServletResponse.SC_NOT_FOUND, "Unknown action ");
+                return;
+        }
+
     }
 
     /**
@@ -134,23 +149,16 @@ public class EditServlet extends HttpServlet {
                     System.out.println("CV saved");
                     request.setAttribute("msg", "CV saved.");
                     request.getRequestDispatcher(Common.EDIT_JSP).forward(request, response);
-                    
+
                 } else {
                     System.out.println("Error while storing CV.");
                     request.setAttribute("error", "Unexpected error occured while storing your CV to database.");
                     request.getRequestDispatcher(Common.EDIT_JSP).forward(request, response);
                 }
                 return;
-            case "/logout":
-                SessionService.deleteSessionLogin(request);
-                response.sendRedirect(request.getContextPath() + Common.URL_LOGIN);
-                return;
-            case "/profile":
-                response.sendRedirect(request.getContextPath() + Common.URL_PROFILE);
-                return;
             default:
                 log.error("Unknown action " + action);
-                request.getRequestDispatcher(Common._404_JSP).forward(request, response);
+                response.sendError(HttpServletResponse.SC_NOT_FOUND, "Unknown action " + action);
         }
     }
 
@@ -179,14 +187,13 @@ public class EditServlet extends HttpServlet {
         }
 
         /*JSONParser parser = new JSONParser();
-        JSONObject userData = null;
-        try {
-            userData = (JSONObject) parser.parse(sb.toString());
-            return userData;
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }*/
-
+         JSONObject userData = null;
+         try {
+         userData = (JSONObject) parser.parse(sb.toString());
+         return userData;
+         } catch (ParseException e) {
+         e.printStackTrace();
+         }*/
         return new JSONObject(sb.toString());
     }
 }

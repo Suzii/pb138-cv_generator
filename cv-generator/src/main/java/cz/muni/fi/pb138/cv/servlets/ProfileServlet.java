@@ -10,8 +10,12 @@ import cz.muni.fi.pb138.cv.service.MockedCvServiceImpl;
 import cz.muni.fi.pb138.cv.service.MockedUserServiceImpl;
 import cz.muni.fi.pb138.cv.service.UserService;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintStream;
 import java.util.ResourceBundle;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -27,8 +31,8 @@ import org.slf4j.LoggerFactory;
  * @author Zuzana
  */
 @WebServlet(Common.URL_PROFILE + "/*")
-public class ProfileServlet extends HttpServlet { 
-    
+public class ProfileServlet extends HttpServlet {
+
     public static UserService userService = new MockedUserServiceImpl();
     public static CvService cvService = new MockedCvServiceImpl();
     private final static Logger log = LoggerFactory.getLogger(ProfileServlet.class);
@@ -61,22 +65,45 @@ public class ProfileServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
-        //load json with user data associated with 'login'
-        String login = SessionService.getSessionLogin(request);
-        if (login != null) {
-            System.out.println("Logged user: " + login);
-            JSONObject userData = cvService.loadCvJSON(login);
+        String action = request.getPathInfo();
+        if (action == null) {
+            //load json with user data associated with 'login'
+            String login = SessionService.getSessionLogin(request);
+            if (login != null) {
+                System.out.println("Logged user: " + login);
+                JSONObject userData = cvService.loadCvJSON(login);
 
-            request.setAttribute("userData", userData);
-            System.out.println("User: " + login);
-            System.out.println("Data: " + userData);
-            
-            request.getRequestDispatcher(Common.PROFILE_JSP).forward(request, response);
-        } else {
-            //user is not logged in
-            request.setAttribute("error", "You are not logged in.");
-            response.sendRedirect(request.getContextPath() + Common.URL_LOGIN);
+                request.setAttribute("userData", userData);
+                System.out.println("User: " + login);
+                System.out.println("Data: " + userData);
+
+                request.getRequestDispatcher(Common.PROFILE_JSP).forward(request, response);
+            } else {
+                //user is not logged in
+                request.setAttribute("error", "You are not logged in.");
+                response.sendRedirect(request.getContextPath() + Common.URL_LOGIN);
+            }
         }
+        switch (action) {
+            case "/download":
+                String login = SessionService.getSessionLogin(request);
+                try {
+                    attachFile(response, login);
+                } catch (IOException e) {
+                    request.setAttribute("error", "Sorry, some error occured while generating your CV.");
+                    request.getRequestDispatcher(Common.PROFILE_JSP).forward(request, response);
+                    return;
+                }
+                response.sendRedirect(request.getContextPath() + Common.URL_PROFILE);
+                return;
+            case "/edit":
+                response.sendRedirect(request.getContextPath() + Common.URL_EDIT);
+                return;
+            default:
+                response.sendError(HttpServletResponse.SC_NOT_FOUND, "Unknown action ");
+                return;
+        }
+
     }
 
     /**
@@ -94,19 +121,9 @@ public class ProfileServlet extends HttpServlet {
         ResourceBundle bundle = ResourceBundle.getBundle("texts", request.getLocale());
         String action = request.getPathInfo();
         switch (action) {
-            
-            case "/download":
-                String login = SessionService.getSessionLogin(request);
-                //get file
-                File pdf = cvService.generatePdf(login);
-                response.sendRedirect(request.getContextPath() + Common.URL_PROFILE);
-                return;
-            case "/edit":
-                response.sendRedirect(request.getContextPath() + Common.URL_EDIT);
-                return;
             default:
                 log.error("Unknown action " + action);
-                request.getRequestDispatcher(Common._404_JSP).forward(request, response);
+                response.sendError(HttpServletResponse.SC_NOT_FOUND, "Unknown action " + action);
         }
     }
 
@@ -118,5 +135,23 @@ public class ProfileServlet extends HttpServlet {
     @Override
     public String getServletInfo() {
         return "Short description";
+    }
+
+    private void attachFile(HttpServletResponse response, String login) throws IOException {
+        File file = cvService.generatePdf(login);
+
+        response.setContentType("application/octet-stream");
+        response.setContentLength((int) file.length());
+        response.setHeader("Content-Disposition", String.format("attachment; filename=\"%s\"", file.getName()));
+
+        OutputStream out = response.getOutputStream();
+        try (FileInputStream in = new FileInputStream(file)) {
+            byte[] buffer = new byte[4096];
+            int length;
+            while ((length = in.read(buffer)) > 0) {
+                out.write(buffer, 0, length);
+            }
+        }
+        out.flush();
     }
 }
