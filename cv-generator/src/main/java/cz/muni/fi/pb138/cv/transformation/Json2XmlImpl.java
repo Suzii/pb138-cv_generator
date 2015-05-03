@@ -27,7 +27,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import org.json.JSONObject;
-import org.json.*;
+import org.json.JSONArray;
 /**
  *
  * @author Peto
