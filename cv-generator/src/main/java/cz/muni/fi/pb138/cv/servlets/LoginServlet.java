@@ -5,8 +5,7 @@
  */
 package cz.muni.fi.pb138.cv.servlets;
 
-import cz.muni.fi.pb138.cv.service.MockedUserServiceImpl;
-import cz.muni.fi.pb138.cv.service.UserService;
+import cz.muni.fi.pb138.cv.service.*;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -30,7 +29,7 @@ import org.slf4j.LoggerFactory;
 @WebServlet(Common.URL_LOGIN + "/*")
 public class LoginServlet extends HttpServlet {
 
-    public static UserService userService = new MockedUserServiceImpl();
+    public static UserService userService = new UserServiceImpl();
     private final static Logger log = LoggerFactory.getLogger(LoginServlet.class);
 
     /**

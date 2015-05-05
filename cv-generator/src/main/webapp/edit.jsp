@@ -358,11 +358,11 @@
                     <div ng-repeat="skill in data['driving-licence']" class="box"  ng-class="{'has-error': driveForm.$invalid && !driveForm.$pristine}">
                         <ng-form name="driveForm" class="form-group">
                             <div class="row">
-                                <div class="col-sm-6">
+                                <div class="col-sm-3">
                                     <label for="name">Type {{$index + 1}}</label> 
                                     <input type="text" name="name" placeholder="Type..." ng-model="skill.name"  class="form-control" required />
                                 </div>
-                                <div class="col-sm-5">
+                                <div class="col-sm-5 col-sm-offset-3">
                                     <label for="note">Note</label> 
                                     <input type="text" name="note" placeholder="Note..." ng-model="skill.note" class="form-control" />
                                 </div>

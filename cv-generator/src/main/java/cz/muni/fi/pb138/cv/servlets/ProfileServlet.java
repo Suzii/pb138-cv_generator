@@ -5,10 +5,7 @@
  */
 package cz.muni.fi.pb138.cv.servlets;
 
-import cz.muni.fi.pb138.cv.service.CvService;
-import cz.muni.fi.pb138.cv.service.MockedCvServiceImpl;
-import cz.muni.fi.pb138.cv.service.MockedUserServiceImpl;
-import cz.muni.fi.pb138.cv.service.UserService;
+import cz.muni.fi.pb138.cv.service.*;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -33,7 +30,7 @@ import org.slf4j.LoggerFactory;
 @WebServlet(Common.URL_PROFILE + "/*")
 public class ProfileServlet extends HttpServlet {
 
-    public static UserService userService = new MockedUserServiceImpl();
+    public static UserService userService = new UserServiceImpl();
     public static CvService cvService = new MockedCvServiceImpl();
     private final static Logger log = LoggerFactory.getLogger(ProfileServlet.class);
 

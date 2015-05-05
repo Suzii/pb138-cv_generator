@@ -5,10 +5,7 @@
  */
 package cz.muni.fi.pb138.cv.servlets;
 
-import cz.muni.fi.pb138.cv.service.CvService;
-import cz.muni.fi.pb138.cv.service.MockedCvServiceImpl;
-import cz.muni.fi.pb138.cv.service.MockedUserServiceImpl;
-import cz.muni.fi.pb138.cv.service.UserService;
+import cz.muni.fi.pb138.cv.service.*;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -47,7 +44,7 @@ import org.json.JSONObject;
 public class EditServlet extends HttpServlet {
 
     public static CvService cvService = new MockedCvServiceImpl();
-    public static UserService userService = new MockedUserServiceImpl();
+    public static UserService userService = new UserServiceImpl();
     private final static Logger log = LoggerFactory.getLogger(EditServlet.class);
 
     /**
