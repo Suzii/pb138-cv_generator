@@ -12,64 +12,9 @@
 
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
     <xsl:output method="text"/>
-    
     <xsl:template match="/curriculum-vitae">
-        \documentclass[paper=a4,fontsize=11pt]{scrartcl}					
-        \usepackage[slovak]{babel}
-        \usepackage[IL2]{fontenc}
-        \usepackage[utf8]{inputenc}
-        \usepackage[protrusion=true,expansion=true]{microtype}
-        \usepackage{graphicx}                   
-        \usepackage[svgnames]{xcolor}            
-        \usepackage{geometry}
-                \textheight=700px
-        \usepackage{url}
-
-        \frenchspacing              
-        \pagestyle{empty} 
-
-        \usepackage{sectsty}
-
-        \sectionfont{%			            
-                \usefont{OT1}{phv}{b}{n}%
-                \sectionrule{0pt}{0pt}{-5pt}{3pt}}
-
-        \newlength{\spacebox}
+        <xsl:call-template name="tex-style" />
         
-        \settowidth{\spacebox}{8888888888}	
-        
-        \newcommand{\sepspace}{\vspace*{1em}}
-
-        \newcommand{\MySlogan}[1]{
-                        \Huge \usefont{OT1}{phv}{b}{n}
-                        \begin{center}
-                        #1
-                        \end{center}
-                        \par \normalsize \normalfont}
-
-        \newcommand{\NewPart}[1]{\section*{\uppercase{#1}}}
-
-        \newcommand{\PersonalEntry}[2]{
-                        \noindent\hangindent=2em\hangafter=0
-                        \parbox{\spacebox}{        
-                        \textbf{#1}}		       
-                        \hspace{1.5em} #2 \par}    
-
-        \newcommand{\SkillsEntry}[2]{      
-                        \noindent\hangindent=2em\hangafter=0 
-                        \parbox{\spacebox}{        
-                        \textit{#1}}			   
-                        \hspace{1.5em} #2 \par}   	
-
-        \newcommand{\EducationEntry}[4]{
-                        \noindent \textbf{#1} \hfill     
-                        \colorbox{Black}{%
-                                \parbox{8em}{%
-                                \hfill\color{White}#2}} \par  
-                        \noindent \textit{#3} \par       
-                        \noindent\hangindent=2em\hangafter=0 \small #4 
-                        \normalsize \par}
-        \newcommand{\PlainText}[1]{\noindent\hangindent=2em\hangafter=0\par #1}
         
         %At this point the document begins.
         \begin{document}
@@ -123,10 +68,70 @@
         \end{document}
     </xsl:template>
     
+    <xsl:template name="tex-style">
+        \documentclass[paper=a4,fontsize=11pt]{scrartcl}					
+        \usepackage[slovak]{babel}
+        \usepackage[IL2]{fontenc}
+        \usepackage[utf8]{inputenc}
+        \usepackage[protrusion=true,expansion=true]{microtype}
+        \usepackage{graphicx}                   
+        \usepackage[svgnames]{xcolor}            
+        \usepackage{geometry}
+                \textheight=700px
+        \usepackage{url}
+
+        \frenchspacing              
+        \pagestyle{empty} 
+
+        \usepackage{sectsty}
+
+        \sectionfont{%			            
+                \usefont{OT1}{phv}{b}{n}%
+                \sectionrule{0pt}{0pt}{-5pt}{3pt}}
+
+        \newlength{\spacebox}
+        
+        \settowidth{\spacebox}{8888888888888}	
+        
+        \newcommand{\sepspace}{\vspace*{1em}}
+
+        \newcommand{\MySlogan}[1]{
+                        \Huge \usefont{OT1}{phv}{b}{n}
+                        \begin{center}
+                        #1
+                        \end{center}
+                        \par \normalsize \normalfont}
+
+        \newcommand{\NewPart}[1]{\section*{\uppercase{#1}}}
+
+        \newcommand{\PersonalEntry}[2]{
+                        \noindent\hangindent=2em\hangafter=0
+                        \parbox{\spacebox}{        
+                        \textbf{#1}}		       
+                        \hspace{1.5em} #2 \par}    
+
+        \newcommand{\SkillsEntry}[2]{      
+                        \noindent\hangindent=2em\hangafter=0 
+                        \parbox{\spacebox}{        
+                        \textit{#1}}			   
+                        \hspace{1.5em} #2 \par}   	
+
+        \newcommand{\EducationEntry}[4]{
+                        \noindent \textbf{#1} \hfill     
+                        \colorbox{Black}{%
+                                \parbox{8em}{%
+                                \hfill\color{White}#2}} \par  
+                        \noindent \textit{#3} \par       
+                        \noindent\hangindent=2em\hangafter=0 \small #4 
+                        \normalsize \par}
+        \newcommand{\PlainText}[1]{\noindent\hangindent=2em\hangafter=0\par #1}
+    </xsl:template>
+    
     <!-- Personal details -->
     <xsl:template match="/curriculum-vitae/personal-details">
         \PersonalEntry{Name}{<xsl:value-of select="given-names" />}
         \PersonalEntry{Surname}{<xsl:value-of select="surname" />}
+        \PersonalEntry{Date of birth}{<xsl:value-of select="date-of-birth" />}
         
         <xsl:apply-templates select="address" />
         
@@ -168,7 +173,7 @@
         
         <!-- if only one phone is given, the title is Phone, otherwise Phones-->
         <xsl:if test="$count = '1'">
-            \PersonalEntry{Phone}{<xsl:value-of select="." />}
+            \PersonalEntry{Phone}{<xsl:value-of select="phone" />}
         </xsl:if>
         
         <xsl:if test="$count != '1'">
@@ -194,7 +199,7 @@
         
         <!-- if only one email address is given, the title is Email, otherwise Emails-->
         <xsl:if test="$count = '1'">
-            \PersonalEntry{Email}{<xsl:value-of select="." />}
+            \PersonalEntry{Email}{<xsl:value-of select="email" />}
         </xsl:if>
         
         <xsl:if test="$count != '1'">
@@ -218,7 +223,7 @@
         
         <!-- if only one contact is given, the title is Other contact, otherwise Other Contacts-->
         <xsl:if test="$count = '1'">
-            \PersonalEntry{My site}{<xsl:value-of select="." />}
+            \PersonalEntry{My site}{<xsl:value-of select="site" />}
         </xsl:if>
         
         <xsl:if test="$count != '1'">
@@ -249,6 +254,7 @@
         </xsl:if>
         \sepspace
     </xsl:template>
+    
     <!--employment -->
     <xsl:template match="/curriculum-vitae/employment/emp">
         <xsl:variable name="to" select="./@to"/>
