@@ -9,129 +9,78 @@
         given by file sample-cv.xml. An output is Curriculum Vitae
         stored as LaTeX document.
 -->
-
+<!--NOTE This file should be placed on filesystem path which does not contain any diacritic marks-->
+<!---->
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
     <xsl:output method="text"/>
+    
+    <!-- This parameter specifies cv output languate. en stands for english, sk for slovak -->
+    <xsl:param name="cv-language" select="'sk'"/>
+    
+    <!--Text file which contains definitions of output texts-->
+    <xsl:variable name="texts" select="document('texts.xml')" />
+    
     <xsl:template match="/curriculum-vitae">
         <xsl:call-template name="tex-style" />
-        
         
         %At this point the document begins.
         \begin{document}
 
-        \MySlogan{Curriculum Vitae}
-
+        \MySlogan{<xsl:value-of select="$texts//language[@id = $cv-language]/curriculum-vitae" />}
         \sepspace
         
-        \NewPart{Personal details}{}
+        \NewPart{<xsl:value-of select="$texts//language[@id = $cv-language]/personal-details" />}{}
         <xsl:apply-templates select="personal-details" />
         
         <xsl:if test="education/edu">
-            \NewPart{Education}{}
+            \NewPart{<xsl:value-of select="$texts//language[@id = $cv-language]/education" />}{}
             <xsl:apply-templates select="education/edu" />
         </xsl:if>
         
         <xsl:if test="employment/emp">
-            \NewPart{Work Experience}{}
+            \NewPart{<xsl:value-of select="$texts//language[@id = $cv-language]/work-experience" />}{}
             <xsl:apply-templates select="employment/emp" />
         </xsl:if>
         
         <xsl:if test="certificates/cert">
-            \NewPart{Certificates}{}
+            \NewPart{<xsl:value-of select="$texts//language[@id = $cv-language]/certificates" />}{}
             <xsl:apply-templates select="certificates/cert" />
         </xsl:if>
         
         <xsl:if test="language-skills/lang">
-            \NewPart{Language Skills}{}
+            \NewPart{<xsl:value-of select="$texts//language[@id = $cv-language]/language-skills" />}{}
             <xsl:apply-templates select="language-skills/lang" />
         </xsl:if>
         
         <xsl:if test="computer-skills/skill">
-            \NewPart{Computer Skills}{}
+            \NewPart{<xsl:value-of select="$texts//language[@id = $cv-language]/computer-skills" />}{}
             <xsl:apply-templates select="computer-skills/skill" />
         </xsl:if>
         
         <xsl:if test="driving-licence/class">
-            \NewPart{Driving licence}{}
+            \NewPart{<xsl:value-of select="$texts//language[@id = $cv-language]/driving-licence" />}{}
             <xsl:apply-templates select="driving-licence/class"/>
         </xsl:if>
         
         <xsl:if test="characteristic/text() != ''">
-            \NewPart{Characteristics}{}
+            \NewPart{<xsl:value-of select="$texts//language[@id = $cv-language]/characteristics" />}{}
             <xsl:apply-templates select="characteristic" />
         </xsl:if>
         
         <xsl:if test="hobbies/text() != ''">
-            \NewPart{Hobbies}{}
+            \NewPart{<xsl:value-of select="$texts//language[@id = $cv-language]/hobbies" />}{}
             <xsl:apply-templates select="hobbies" />
         </xsl:if>
         \end{document}
     </xsl:template>
     
-    <xsl:template name="tex-style">
-        \documentclass[paper=a4,fontsize=11pt]{scrartcl}					
-        \usepackage[slovak]{babel}
-        \usepackage[IL2]{fontenc}
-        \usepackage[utf8]{inputenc}
-        \usepackage[protrusion=true,expansion=true]{microtype}
-        \usepackage{graphicx}                   
-        \usepackage[svgnames]{xcolor}            
-        \usepackage{geometry}
-                \textheight=700px
-        \usepackage{url}
-
-        \frenchspacing              
-        \pagestyle{empty} 
-
-        \usepackage{sectsty}
-
-        \sectionfont{%			            
-                \usefont{OT1}{phv}{b}{n}%
-                \sectionrule{0pt}{0pt}{-5pt}{3pt}}
-
-        \newlength{\spacebox}
-        
-        \settowidth{\spacebox}{8888888888888}	
-        
-        \newcommand{\sepspace}{\vspace*{1em}}
-
-        \newcommand{\MySlogan}[1]{
-                        \Huge \usefont{OT1}{phv}{b}{n}
-                        \begin{center}
-                        #1
-                        \end{center}
-                        \par \normalsize \normalfont}
-
-        \newcommand{\NewPart}[1]{\section*{\uppercase{#1}}}
-
-        \newcommand{\PersonalEntry}[2]{
-                        \noindent\hangindent=2em\hangafter=0
-                        \parbox{\spacebox}{        
-                        \textbf{#1}}		       
-                        \hspace{1.5em} #2 \par}    
-
-        \newcommand{\SkillsEntry}[2]{      
-                        \noindent\hangindent=2em\hangafter=0 
-                        \parbox{\spacebox}{        
-                        \textit{#1}}			   
-                        \hspace{1.5em} #2 \par}   	
-
-        \newcommand{\EducationEntry}[4]{
-                        \noindent \textbf{#1} \hfill     
-                        \colorbox{Black}{%
-                                \parbox{8em}{%
-                                \hfill\color{White}#2}} \par  
-                        \noindent \textit{#3} \par       
-                        \noindent\hangindent=2em\hangafter=0 \small #4 
-                        \normalsize \par}
-        \newcommand{\PlainText}[1]{\noindent\hangindent=2em\hangafter=0\par #1}
-    </xsl:template>
+    
     
     <!-- Personal details -->
     <xsl:template match="/curriculum-vitae/personal-details">
-        \PersonalEntry{Name}{<xsl:value-of select="given-names" />}
-        \PersonalEntry{Surname}{<xsl:value-of select="surname" />}
-        \PersonalEntry{Date of birth}{<xsl:value-of select="date-of-birth" />}
+        \PersonalEntry{<xsl:value-of select="$texts//language[@id = $cv-language]/name" />}{<xsl:value-of select="given-names" />}
+        \PersonalEntry{<xsl:value-of select="$texts//language[@id = $cv-language]/surname" />}{<xsl:value-of select="surname" />}
+        \PersonalEntry{<xsl:value-of select="$texts//language[@id = $cv-language]/date-of-birth" />}{<xsl:value-of select="date-of-birth" />}
         
         <xsl:apply-templates select="address" />
         
@@ -152,18 +101,18 @@
     
     <!-- address -->
     <xsl:template match="/curriculum-vitae/personal-details/address" >
-        \PersonalEntry{Address}{<xsl:value-of select="street" />
+        \PersonalEntry{<xsl:value-of select="$texts//language[@id = $cv-language]/address" />}{<xsl:value-of select="street" />
             <xsl:text>, </xsl:text>
             <xsl:value-of select="number" />
             <xsl:text> </xsl:text>
             <xsl:value-of select="city" />
         }
         \PersonalEntry{}{<xsl:value-of select="postal-code" />}
-        \PersonalEntry{Country}{<xsl:value-of select="country" />}
+        \PersonalEntry{<xsl:value-of select="$texts//language[@id = $cv-language]/country" />}{<xsl:value-of select="country" />}
         
         <!--test if state is present-->
         <xsl:if test="state">
-            \PersonalEntry{State}{<xsl:value-of select="state" />}
+            \PersonalEntry{<xsl:value-of select="$texts//language[@id = $cv-language]/state" />}{<xsl:value-of select="state" />}
         </xsl:if>
     </xsl:template>
     
@@ -173,7 +122,7 @@
         
         <!-- if only one phone is given, the title is Phone, otherwise Phones-->
         <xsl:if test="$count = '1'">
-            \PersonalEntry{Phone}{<xsl:value-of select="phone" />}
+            \PersonalEntry{<xsl:value-of select="$texts//language[@id = $cv-language]/phone" />}{<xsl:value-of select="phone" />}
         </xsl:if>
         
         <xsl:if test="$count != '1'">
@@ -183,7 +132,7 @@
                 <xsl:variable name="i" select="position()" />
                 <xsl:choose>
                     <xsl:when test="$i = '1'">
-                        \PersonalEntry{Phones}{<xsl:value-of select="." />}
+                        \PersonalEntry{<xsl:value-of select="$texts//language[@id = $cv-language]/phones" />}{<xsl:value-of select="." />}
                     </xsl:when>
                     <xsl:otherwise>
                         \PersonalEntry{}{<xsl:value-of select="." />}
@@ -199,7 +148,7 @@
         
         <!-- if only one email address is given, the title is Email, otherwise Emails-->
         <xsl:if test="$count = '1'">
-            \PersonalEntry{Email}{<xsl:value-of select="email" />}
+            \PersonalEntry{<xsl:value-of select="$texts//language[@id = $cv-language]/email" />}{<xsl:value-of select="email" />}
         </xsl:if>
         
         <xsl:if test="$count != '1'">
@@ -207,7 +156,7 @@
                 <xsl:variable name="i" select="position()" />
                 <xsl:choose>
                     <xsl:when test="$i = '1'">
-                        \PersonalEntry{Emails}{<xsl:value-of select="." />}
+                        \PersonalEntry{<xsl:value-of select="$texts//language[@id = $cv-language]/emails" />}{<xsl:value-of select="." />}
                     </xsl:when>
                     <xsl:otherwise>
                         \PersonalEntry{}{<xsl:value-of select="." />}
@@ -223,7 +172,7 @@
         
         <!-- if only one contact is given, the title is Other contact, otherwise Other Contacts-->
         <xsl:if test="$count = '1'">
-            \PersonalEntry{My site}{<xsl:value-of select="site" />}
+            \PersonalEntry{<xsl:value-of select="$texts//language[@id = $cv-language]/my-site" />}{<xsl:value-of select="site" />}
         </xsl:if>
         
         <xsl:if test="$count != '1'">
@@ -231,7 +180,7 @@
                 <xsl:variable name="i" select="position()" />
                 <xsl:choose>
                     <xsl:when test="$i = '1'">
-                        \PersonalEntry{My sites}{<xsl:value-of select="." />}
+                        \PersonalEntry{<xsl:value-of select="$texts//language[@id = $cv-language]/my-sites" />}{<xsl:value-of select="." />}
                     </xsl:when>
                     <xsl:otherwise>
                         \PersonalEntry{}{<xsl:value-of select="." />}
@@ -246,7 +195,7 @@
         <xsl:variable name="to" select="./@to"/>
         
         <xsl:if test="$to = ''">
-            \EducationEntry{<xsl:value-of select="name-of-education" />}{<xsl:value-of select="./@from" /> - present}{<xsl:value-of select="name-of-school" />}{<xsl:value-of select="note" />}
+            \EducationEntry{<xsl:value-of select="name-of-education" />}{<xsl:value-of select="./@from" /> - <xsl:value-of select="$texts//language[@id = $cv-language]/present" />}{<xsl:value-of select="name-of-school" />}{<xsl:value-of select="note" />}
         </xsl:if>
         
         <xsl:if test="$to != ''">
@@ -259,7 +208,7 @@
     <xsl:template match="/curriculum-vitae/employment/emp">
         <xsl:variable name="to" select="./@to"/>
         <xsl:if test="$to = ''">
-            \EducationEntry{<xsl:value-of select="position" />}{<xsl:value-of select="./@from" /> - present}{<xsl:value-of select="company" />}{<xsl:value-of select="note" />}
+            \EducationEntry{<xsl:value-of select="position" />}{<xsl:value-of select="./@from" /> - <xsl:value-of select="$texts//language[@id = $cv-language]/present" />}{<xsl:value-of select="company" />}{<xsl:value-of select="note" />}
         </xsl:if>
         <xsl:if test="$to !=''">
             \EducationEntry{<xsl:value-of select="position" />}{<xsl:value-of select="./@from" /> - <xsl:value-of select="./@to" />}{<xsl:value-of select="company" />}{<xsl:value-of select="note" />}
@@ -304,5 +253,65 @@
     <!--hobbies-->
     <xsl:template match="/curriculum-vitae/hobbies">
         \PlainText{<xsl:value-of select="." />}
+    </xsl:template>
+    
+    <!-- This template defines visual properties of output TeX file -->
+    <xsl:template name="tex-style">
+        \documentclass[paper=a4,fontsize=11pt]{scrartcl}					
+        \usepackage[slovak]{babel}
+        \usepackage[IL2]{fontenc}
+        \usepackage[utf8]{inputenc}
+        \usepackage[protrusion=true,expansion=true]{microtype}
+        \usepackage{graphicx}                   
+        \usepackage[svgnames]{xcolor}            
+        \usepackage{geometry}
+                \textheight=700px
+        \usepackage{url}
+
+        \frenchspacing              
+        \pagestyle{empty} 
+
+        \usepackage{sectsty}
+
+        \sectionfont{%			            
+                \usefont{OT1}{phv}{b}{n}%
+                \sectionrule{0pt}{0pt}{-5pt}{3pt}}
+
+        \newlength{\spacebox}
+        
+        \settowidth{\spacebox}{888888888888888888}	
+        
+        \newcommand{\sepspace}{\vspace*{1em}}
+
+        \newcommand{\MySlogan}[1]{
+                        \Huge \usefont{OT1}{phv}{b}{n}
+                        \begin{center}
+                        #1
+                        \end{center}
+                        \par \normalsize \normalfont}
+
+        \newcommand{\NewPart}[1]{\section*{\uppercase{#1}}}
+
+        \newcommand{\PersonalEntry}[2]{
+                        \noindent\hangindent=2em\hangafter=0
+                        \parbox{\spacebox}{        
+                        \textbf{#1}}		       
+                        \hspace{1.5em} #2 \par}    
+
+        \newcommand{\SkillsEntry}[2]{      
+                        \noindent\hangindent=2em\hangafter=0 
+                        \parbox{\spacebox}{        
+                        \textit{#1}}			   
+                        \hspace{1.5em} #2 \par}   	
+
+        \newcommand{\EducationEntry}[4]{
+                        \noindent \textbf{#1} \hfill     
+                        \colorbox{LightGray}{%
+                                \parbox{8em}{%
+                                \hfill\color{Black}#2}} \par  
+                        \noindent \textit{#3} \par       
+                        \noindent\hangindent=2em\hangafter=0 \small #4 
+                        \normalsize \par}
+        \newcommand{\PlainText}[1]{\noindent\hangindent=2em\hangafter=0\par #1}
     </xsl:template>
 </xsl:stylesheet>

@@ -21,7 +21,7 @@
 
         \newlength{\spacebox}
         
-        \settowidth{\spacebox}{8888888888888}	
+        \settowidth{\spacebox}{888888888888888888}	
         
         \newcommand{\sepspace}{\vspace*{1em}}
 
@@ -48,83 +48,81 @@
 
         \newcommand{\EducationEntry}[4]{
                         \noindent \textbf{#1} \hfill     
-                        \colorbox{Black}{%
+                        \colorbox{LightGray}{%
                                 \parbox{8em}{%
-                                \hfill\color{White}#2}} \par  
+                                \hfill\color{Black}#2}} \par  
                         \noindent \textit{#3} \par       
                         \noindent\hangindent=2em\hangafter=0 \small #4 
                         \normalsize \par}
         \newcommand{\PlainText}[1]{\noindent\hangindent=2em\hangafter=0\par #1}
     
         
-        
         %At this point the document begins.
         \begin{document}
 
-        \MySlogan{Curriculum Vitae}
-
+        \MySlogan{Životopis}
         \sepspace
         
-        \NewPart{Personal details}{}
+        \NewPart{Osobné údaje}{}
         
-        \PersonalEntry{Name}{Anca Maria}
-        \PersonalEntry{Surname}{z Ranca}
-        \PersonalEntry{Date of birth}{2015-05-02}
+        \PersonalEntry{Meno}{Anca Maria}
+        \PersonalEntry{Priezvisko}{z Ranca}
+        \PersonalEntry{Dátum narodenia}{2015-05-02}
         
         
-        \PersonalEntry{Address}{Rancova, 42 Ranc za Humnom
+        \PersonalEntry{Adresa}{Rancova, 42 Ranc za Humnom
         }
         \PersonalEntry{}{123456}
-        \PersonalEntry{Country}{USA}
+        \PersonalEntry{Krajina}{USA}
         
         
         
-            \PersonalEntry{State}{Michigan}
+            \PersonalEntry{Štát}{Michigan}
         
-            \PersonalEntry{Phone}{0905123123}
+            \PersonalEntry{Telefón}{0905123123}
         
-                        \PersonalEntry{Emails}{anca@zranca.com}
+                        \PersonalEntry{E-maily}{anca@zranca.com}
                     
                         \PersonalEntry{}{anicka.z.ranca@gmail.com}
                     
-                        \PersonalEntry{My sites}{Linkedin.com/anicka}
+                        \PersonalEntry{Moje stránky}{Linkedin.com/anicka}
                     
                         \PersonalEntry{}{facebook.com/anicka}
                     
                         \PersonalEntry{}{www.anicka-z-ranca.com}
                     
-            \NewPart{Education}{}
+            \NewPart{Vzdelanie}{}
             
             \EducationEntry{Primary school}{2004 - 2008}{Primary school NY}{What did I learn there.}
         
         \sepspace
     
-            \EducationEntry{High school}{2008 - present}{Primary school New York City}{What did I learn there.}
+            \EducationEntry{High school}{2008 - doteraz}{Primary school New York City}{What did I learn there.}
         
         \sepspace
     
-            \NewPart{Work Experience}{}
+            \NewPart{Pracovné skúsenosti}{}
             
             \EducationEntry{cleaner}{2014 - 2015}{Looser, Inc.}{I was cleaning floors all the time...}
         
         \sepspace
     
-            \EducationEntry{waitress}{2015 - present}{Starbucks, Inc.}{I am making coffee and I like it!}
+            \EducationEntry{waitress}{2015 - doteraz}{Starbucks, Inc.}{I am making coffee and I like it!}
         
         \sepspace
     
-            \NewPart{Certificates}{}
+            \NewPart{Certifikáty}{}
             
         \EducationEntry{Baking with mum}{2000}{I made my first cake!}
         \sepspace
     
-            \NewPart{Language Skills}{}
+            \NewPart{Jazykové znalosti}{}
             
         \SkillsEntry{en}{Intermediate}
         
         \sepspace
     
-            \NewPart{Computer Skills}{}
+            \NewPart{PoČítaČové znalosti}{}
             
         \SkillsEntry{Windows}{Intermediate}
         \SkillsEntry{}{I can use it...}
@@ -134,18 +132,18 @@
         \SkillsEntry{}{I can open my browser window...}
         \sepspace
     
-            \NewPart{Driving licence}{}
+            \NewPart{VodiČský preukaz}{}
             
         \SkillsEntry{B}{I drove my uncle's truck...}
         \sepspace
     
-            \NewPart{Characteristics}{}
+            \NewPart{Vlastnosti}{}
             
         \PlainText{
         I am a tall person with warm heart...
     }
     
-            \NewPart{Hobbies}{}
+            \NewPart{Záujmy}{}
             
         \PlainText{
         I ride ponnies and bike.. I hate football...
