@@ -12,67 +12,88 @@ import java.util.logging.Logger;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.TransformerFactoryConfigurationError;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+//import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.xml.sax.SAXException;
 
 /**
  *
  * @author pato
  */
 public class FileService {
-    
+
     private Document document = null;
+   // private final static org.slf4j.Logger log = LoggerFactory.getLogger(FileService.class);
+
     /**
-     * method witch chcek if directory for all CV files exist, if not create directory
+     * method witch chcek if directory for all CV files exist, if not create
+     * directory
+     *
      * @return true if diretory exist or is created , otherwise false
      */
-    public  boolean checkDirectory(){
+    public boolean checkDirectory() {
         File dir = new File(Config.DIRECTORY);
-        if( !dir.exists()){
-            try{
+        if (!dir.exists()) {
+            try {
+                //log.info("creating dir");
                 dir.mkdir();
-            }catch(SecurityException ex){
+            } catch (SecurityException ex) {
+                //log.info("CANNOT CREATE DIRECTORY");
                 return false;
             }
         }
         return dir.exists();
     }
-    
+
     /**
      * method which checked if file for user logins already exist
+     *
      * @return true if file exist or is created , otherwise false
      */
-    public boolean checkUsersFile(){
-        File xmlFile =  new File(Config.LOGINS);
-        try{
-           if( xmlFile.createNewFile()){
-            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-            dbFactory.setValidating(false);
-            dbFactory.setNamespaceAware(false);
-            DocumentBuilder dBuilder;           
-               try {
-                   dBuilder = dbFactory.newDocumentBuilder();
-                   document = dBuilder.parse(Config.LOGINS);
-               } catch (SAXException|ParserConfigurationException ex) {
-                   Logger.getLogger(FileService.class.getName()).log(Level.SEVERE, null, ex);
-                   return false;
-               }
-               
-             Element rootElem = document.createElement("users");
-             return true;
-        }
-        }catch( IOException ex){
+    public boolean checkUsersFile() {
+        File xml = new File(Config.LOGINS);
+        try {
+            if (xml.createNewFile()) {
+                DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+                dbFactory.setValidating(false);
+                dbFactory.setNamespaceAware(false);
+                DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+                document = dBuilder.newDocument();
+
+                Element root = document.createElement("users");
+                document.appendChild(root);
+
+                TransformerFactory tFactory = TransformerFactory.newInstance();
+                Transformer transformer = tFactory.newTransformer();
+                transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+                transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+                DOMSource source = new DOMSource(document);
+                StreamResult result = new StreamResult(new File(Config.LOGINS));
+                transformer.transform(source, result);
+                return true;
+           } else {
+                return false;
+            }
+        } catch (IOException|ParserConfigurationException|TransformerFactoryConfigurationError|TransformerException ex) {
+            Logger.getLogger(FileService.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
-        return xmlFile.exists();
+       //return false;
     }
-    
+
     /**
      * Method to get users document
+     *
      * @return document of users
      */
-    public Document getDocument(){
+    public Document getDocument() {
         return document;
     }
 }

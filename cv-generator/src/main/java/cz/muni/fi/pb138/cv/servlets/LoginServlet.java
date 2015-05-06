@@ -91,6 +91,7 @@ public class LoginServlet extends HttpServlet {
             case "/submit":
                 String login = request.getParameter("login");
                 String passwordHash = request.getParameter("password");
+                System.out.println("Credentials: Username: " + login + " Passwd: " + passwordHash);
                 Object data = "";
                 //find out if user exists
                 if (!userService.checkIfExists(login)) {
