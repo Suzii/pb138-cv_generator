@@ -7,6 +7,7 @@ package cz.muni.fi.pb138.cv.transformation;
 
 
 import java.io.IOException;
+import java.io.StringWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
@@ -22,13 +23,11 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-//import org.json.simple.*;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import org.json.JSONObject;
-import org.json.*;
+import org.json.JSONArray;
 /**
  *
  * @author Peto
@@ -56,21 +55,37 @@ public class Json2XmlImpl implements Json2Xml {
         
         
         
-        Json2XmlImpl p = new Json2XmlImpl(data);
+        Json2XmlImpl p = new Json2XmlImpl();
+        Document doc = p.transform(data);
+        
+        try{
+            TransformerFactory transformerFactory = TransformerFactory.newInstance();
+            Transformer transformer = transformerFactory.newTransformer();
+            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+            DOMSource source = new DOMSource(doc);
+            StringWriter writer = new StringWriter();
+            StreamResult result = new StreamResult(writer);
+            transformer.transform(source, result);
+            
+            writer.flush();
+            
+            System.out.println("XML IN String format is: \n" + writer.toString());
+        } catch (TransformerException ex) {
+            Logger.getLogger(Json2XmlImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
-    public Json2XmlImpl(String json_input){
-        jsonRoot = new JSONObject(json_input);
-        
-        parse();
+    public Json2XmlImpl(){
     } 
     
+    @Override
     public Document transform(String data){
         return transform(new JSONObject(data));
     }
     
+    @Override
     public Document transform(JSONObject jsonRoot){
-        this.jsonRoot = jsonRoot;
+        this.jsonRoot = jsonRoot.getJSONObject("curriculum-vitae");
         
         DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder docBuilder;
@@ -92,11 +107,10 @@ public class Json2XmlImpl implements Json2Xml {
     private void parse(){
         Element rootElement = doc.createElement("curriculum-vitae");
         
-        
-        rootElement.appendChild(parseAutentication());
+        //rootElement.appendChild(parseAutentication());
         rootElement.appendChild(parsePersonalDetails());
-        rootElement.appendChild(parseEducation());
-        rootElement.appendChild(parseEmployment());
+        rootElement.appendChild(createCustomElems("education", "edu", new String[] {"from", "to"}, new String[] {"name-of-education", "name-of-school", "note"}));
+        rootElement.appendChild(createCustomElems("employment", "emp", new String[] {"from", "to"}, new String[] {"company", "position", "note"}));
         rootElement.appendChild(createCustomElems("language-skills", "lang", new String[] {"name"}, new String[] {"level", "note"}));
         rootElement.appendChild(createCustomElems("computer-skills", "skill", null, new String[] {"name", "level", "note"}));
         rootElement.appendChild(createCustomElems("certificates", "cert", new String[] {"year"}, new String[] {"name", "note"}));
@@ -105,17 +119,6 @@ public class Json2XmlImpl implements Json2Xml {
         
         
         doc.appendChild(rootElement);
-        
-        try{
-            TransformerFactory transformerFactory = TransformerFactory.newInstance();
-            Transformer transformer = transformerFactory.newTransformer();
-            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-            DOMSource source = new DOMSource(doc);
-            StreamResult result = new StreamResult(System.out);
-            transformer.transform(source, result);
-        } catch (TransformerException ex) {
-            Logger.getLogger(Json2XmlImpl.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
     
     private Element parsePersonalDetails(){
@@ -130,7 +133,7 @@ public class Json2XmlImpl implements Json2Xml {
         Element elem_address = doc.createElement("address");
         JSONObject json_address = (JSONObject) json_pd.get("address");
         
-        String address_items[] = {"street", "number", "city", "post-code", "state", "country"};
+        String address_items[] = {"street", "number", "city", "postal-code", "state", "country"};
         for (String address_item : address_items) {
             Element e = createElemWithText(json_address, address_item);
             if (e != null) elem_address.appendChild(e);
@@ -158,37 +161,6 @@ public class Json2XmlImpl implements Json2Xml {
         elem.appendChild(createElemWithText(json, "password"));
         
         elem.appendChild(createElemWithText(json, "lang"));
-        
-        return elem;
-    }
-    
-    private Element parseEducation(){
-        Element elem = doc.createElement("education");
-        JSONArray json = (JSONArray) jsonRoot.get("education");
-        
-        for (int i=0; i<json.length(); i++){
-            JSONObject j = (JSONObject) json.get(i);
-            Element e = createElemWithText("edu", j.get("value").toString());
-            e.setAttribute("from", j.get("from").toString());
-            e.setAttribute("to", j.get("to").toString());
-            elem.appendChild(e);
-        }        
-        
-        return elem;
-    }
-    
-    private Element parseEmployment(){
-        Element elem = doc.createElement("employment");
-        JSONArray json = (JSONArray) jsonRoot.get("employment");
-        
-        for (int i=0; i<json.length(); i++){
-            JSONObject j = (JSONObject) json.get(i);
-            Element e = doc.createElement("emp");
-            e.setAttribute("from", j.get("from").toString());
-            e.setAttribute("to", j.get("to") == null ? "" : j.get("to").toString());
-            appendElemsFromArray(j, e, new String[] {"company", "position", "note"});
-            elem.appendChild(e);
-        }        
         
         return elem;
     }
@@ -232,7 +204,7 @@ public class Json2XmlImpl implements Json2Xml {
         Element elem = doc.createElement(category_name);
         for (int i=0; i<json_array.length(); i++){
             Element e = doc.createElement(element_name);
-            e.setTextContent(json_array.get(i).toString());
+            e.setTextContent(json_array.getJSONObject(i).get("value").toString());
             elem.appendChild(e);
         }
         return elem;

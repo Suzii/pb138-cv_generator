@@ -5,8 +5,7 @@
  */
 package cz.muni.fi.pb138.cv.servlets;
 
-import cz.muni.fi.pb138.cv.service.MockedUserServiceImpl;
-import cz.muni.fi.pb138.cv.service.UserService;
+import cz.muni.fi.pb138.cv.service.*;
 
 import java.io.IOException;
 import java.util.ResourceBundle;
@@ -25,7 +24,7 @@ import org.slf4j.LoggerFactory;
 @WebServlet(Common.URL_SIGNUP + "/*")
 public class SignUpServlet extends HttpServlet {
 
-    public static UserService userService = new MockedUserServiceImpl();
+    public static UserService userService = new UserServiceImpl();
     private final static Logger log = LoggerFactory.getLogger(SignUpServlet.class);
 
     /**
@@ -87,14 +86,15 @@ public class SignUpServlet extends HttpServlet {
             case "/submit":
                 String login = request.getParameter("login");
                 String passwordHash = request.getParameter("password");
+                System.out.println("Credentials: Username: " + login + " Passwd: " + passwordHash);
                 Object data = "";
                 //find out if user exists
-                if (userService.checkIfExists(login)) {
+               /* if (userService.checkIfExists(login)) {
                     data = "Username: " + login + " already taken.";
                     request.setAttribute("error", data);
                     response.sendRedirect(request.getContextPath() + Common.URL_EDIT);
                     //check password
-                } else if (!userService.registerNewUser(login, passwordHash)) {
+                } else */if (!userService.registerNewUser(login, passwordHash)) {
                     data = "Error while creating account.";
                     request.setAttribute("error", data);
                     request.getRequestDispatcher(Common.SIGNUP_JSP).forward(request, response);
