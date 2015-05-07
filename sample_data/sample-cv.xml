@@ -1,5 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+
 <!--In this document, all elements are mandatory unless it is said otherwise and description determines form of each element-->
-<curriculum-vitae>
+<curriculum-vitae 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="cv.xsd">
     <personal-details> <!--Non-empty element-->
         <given-names>Anca Maria</given-names> <!--Non-empty, contains only upper- and lower case letters-->
         <surname>z Ranca</surname> <!--Non-empty, contains only upper- and lower case letters-->

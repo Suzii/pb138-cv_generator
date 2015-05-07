@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            elementFormDefault="qualified">
+
+    <xsd:element name="curriculum-vitae" type="cvType">
+        <xsd:unique name="emailUnique">
+            <xsd:selector xpath="./personal-details/emails/email" />
+            <xsd:field xpath="." />
+        </xsd:unique>
+        
+        <xsd:unique name="socialSiteUnique">
+            <xsd:selector xpath="./personal-details/social/site" />
+            <xsd:field xpath="." />
+        </xsd:unique>
+    </xsd:element>    
+    
+    <xsd:complexType name="cvType">
+        <xsd:sequence>
+            <xsd:element name="personal-details" type="personaldetailsType" />
+            <xsd:element name="education" type="educationType" />
+            <xsd:element name="employment" type="employmentType" />
+            <xsd:element name="language-skills" type="languageSkillsType" />
+            <xsd:element name="certificates" type="certificatesType" />
+            <xsd:element name="computer-skills" type="computerSkillsType" />
+            <xsd:element name="driving-licence" type="drivingLicenceType" />
+            <xsd:element name="characteristic" type="xsd:string" />
+            <xsd:element name="hobbies" type="xsd:string" />
+        </xsd:sequence>    
+    </xsd:complexType>
+    
+    <xsd:complexType name="personaldetailsType">
+        <xsd:sequence>
+            <xsd:element name="given-names" type="stringNonEmpty" />
+            <xsd:element name="surname" type="stringNonEmpty" />
+            <xsd:element name="date-of-birth" type="xsd:string" /> <!-- TODO -->
+            <xsd:element name="address" type="addressType" />
+            <xsd:element name="phones" type="phonesType" />
+            <xsd:element name="emails" type="emailsType" />
+            <xsd:element name="social" type="socialType" />
+        </xsd:sequence>    
+    </xsd:complexType>
+    
+    <xsd:complexType name="addressType">
+        <xsd:sequence>
+            <xsd:element name="street" type="stringNonEmpty" />
+            <xsd:element name="number" type="xsd:string" />
+            <xsd:element name="city" type="stringNonEmpty" />
+            <xsd:element name="postal-code" type="stringNonEmpty" />
+            <xsd:element name="state" type="xsd:string" />
+            <xsd:element name="country" type="stringNonEmpty" />
+        </xsd:sequence>    
+    </xsd:complexType>
+    
+    <xsd:complexType name="phonesType">
+        <xsd:sequence>
+            <xsd:element name="phone" type="phoneType" minOccurs="0" maxOccurs="unbounded" />
+        </xsd:sequence>
+    </xsd:complexType>
+    
+    <xsd:complexType name="emailsType">
+        <xsd:sequence>
+            <xsd:element name="email" minOccurs="0" maxOccurs="unbounded" >
+                <xsd:simpleType>
+                   <xsd:restriction base="xsd:string">
+                       <xsd:pattern value="[a-zA-Z0-9_.-]+@[a-zA-Z0-9_.-]+\.[a-zA-Z0-9_.-]+" />
+                   </xsd:restriction>
+               </xsd:simpleType>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    
+    <xsd:complexType name="socialType">
+        <xsd:sequence>
+            <xsd:element name="site" type="xsd:string" minOccurs="0" maxOccurs="unbounded" />
+        </xsd:sequence>
+    </xsd:complexType>
+    
+    <xsd:complexType name="educationType">
+        <xsd:sequence>
+            <xsd:element name="edu" type="eduType" minOccurs="0" maxOccurs="unbounded" />
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="eduType">
+        <xsd:sequence>
+            <xsd:element name="name-of-education" type="stringNonEmpty" />
+            <xsd:element name="name-of-school" type="stringNonEmpty" />
+            <xsd:element name="note" type="xsd:string" />
+        </xsd:sequence>
+        <xsd:attribute name="from" type="yearNonEmptyType" use="required" />
+        <xsd:attribute name="to" type="yearType" use="required" />
+    </xsd:complexType>
+    
+    <xsd:complexType name="employmentType">
+        <xsd:sequence>
+            <xsd:element name="emp" type="empType" minOccurs="0" maxOccurs="unbounded" />
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="empType">
+        <xsd:sequence>
+            <xsd:element name="company" type="stringNonEmpty" />
+            <xsd:element name="position" type="stringNonEmpty" />
+            <xsd:element name="note" type="xsd:string" />
+        </xsd:sequence>
+        <xsd:attribute name="from" type="yearNonEmptyType" use="required" />
+        <xsd:attribute name="to" type="yearType" use="required" />
+    </xsd:complexType>
+    
+    <xsd:complexType name="languageSkillsType">
+        <xsd:sequence>
+            <xsd:element name="lang" type="langType" minOccurs="0" maxOccurs="unbounded" />
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="langType">
+        <xsd:sequence>
+            <xsd:element name="level" type="levelEnumType" />
+            <xsd:element name="note" type="xsd:string" />
+        </xsd:sequence>
+        <xsd:attribute name="name" type="stringNonEmpty" use="required" />
+    </xsd:complexType>
+    
+    <xsd:complexType name="certificatesType">
+        <xsd:sequence>
+            <xsd:element name="cert" type="certType" minOccurs="0" maxOccurs="unbounded" />
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="certType">
+        <xsd:sequence>
+            <xsd:element name="name" type="stringNonEmpty" />
+            <xsd:element name="note" type="xsd:string" />
+        </xsd:sequence>
+        <xsd:attribute name="year" type="yearType" use="required" />
+    </xsd:complexType>
+    
+    <xsd:complexType name="computerSkillsType">
+        <xsd:sequence>
+            <xsd:element name="skill" type="skillType" minOccurs="0" maxOccurs="unbounded" />
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="skillType">
+        <xsd:sequence>
+            <xsd:element name="name" type="stringNonEmpty" />
+            <xsd:element name="level" type="levelEnumType" />
+            <xsd:element name="note" type="xsd:string" />
+        </xsd:sequence>
+    </xsd:complexType>
+    
+    <xsd:complexType name="drivingLicenceType">
+        <xsd:sequence>
+            <xsd:element name="class" type="classType" minOccurs="0" maxOccurs="unbounded" />
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="classType">
+        <xsd:sequence>
+            <xsd:element name="name" type="stringNonEmpty" />
+            <xsd:element name="note" type="xsd:string" />
+        </xsd:sequence>
+    </xsd:complexType>
+    
+    
+    <xsd:simpleType name="levelEnumType">
+       <xsd:restriction base="xsd:string">
+           <xsd:enumeration value="Proffesional" />
+           <xsd:enumeration value="Intermediate" />
+       </xsd:restriction>
+    </xsd:simpleType>
+    
+    <xsd:simpleType name="yearType">
+       <xsd:restriction base="xsd:string">
+           <xsd:pattern value="|([12][0-9]{3})" />
+       </xsd:restriction>
+    </xsd:simpleType>
+    
+    <xsd:simpleType name="yearNonEmptyType">
+       <xsd:restriction base="xsd:string">
+           <xsd:pattern value="[12][0-9]{3}" />
+       </xsd:restriction>
+    </xsd:simpleType>
+    
+    <xsd:simpleType name="stringNonEmpty">
+       <xsd:restriction base="xsd:string">
+           <xsd:minLength value="1" />
+       </xsd:restriction>
+    </xsd:simpleType>
+    
+    <xsd:simpleType name="phoneType">
+       <xsd:restriction base="xsd:string">
+           <xsd:pattern value="(\+|)[0-9]+" />
+       </xsd:restriction>
+    </xsd:simpleType>
+    
+</xsd:schema>
