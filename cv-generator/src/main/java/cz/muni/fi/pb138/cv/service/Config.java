@@ -15,4 +15,5 @@ public class Config {
     public static final String SAMPLE_PDF_PATH = "C:/cv_9.pdf";
     public static final String DIRECTORY = "C:/pb138-database";
     public static final String LOGINS = "C:/pb138-database/users.xml";
+    // public static final String XMLVALIDATIONFILE;    TODO
 }
