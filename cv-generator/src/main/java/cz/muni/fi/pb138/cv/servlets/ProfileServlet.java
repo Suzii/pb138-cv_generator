@@ -31,7 +31,7 @@ import org.slf4j.LoggerFactory;
 public class ProfileServlet extends HttpServlet {
 
     public static UserService userService = new UserServiceImpl();
-    public static CvService cvService = new MockedCvServiceImpl();
+    public static CvService cvService = new CvServiceImpl();
     private final static Logger log = LoggerFactory.getLogger(ProfileServlet.class);
 
     /**

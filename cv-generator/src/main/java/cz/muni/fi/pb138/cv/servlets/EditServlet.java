@@ -43,7 +43,7 @@ import org.json.JSONObject;
 @WebServlet(Common.URL_EDIT + "/*")
 public class EditServlet extends HttpServlet {
 
-    public static CvService cvService = new MockedCvServiceImpl();
+    public static CvService cvService = new CvServiceImpl();
     public static UserService userService = new UserServiceImpl();
     private final static Logger log = LoggerFactory.getLogger(EditServlet.class);
 
@@ -134,13 +134,17 @@ public class EditServlet extends HttpServlet {
                 System.out.println(userData);
 
                 //run XML schema
+                /*System.out.println("Running validity check...");
                 String message = cvService.checkValidity(userData);
                 if (message != null) {
+                    System.out.println("Could not generate valid XML... Fail...");
                     //TODO if not ok, display error, forward to edit.jsp
-                    request.setAttribute("message", message);
+                    request.setAttribute("msg", message);
                     request.getRequestDispatcher(Common.EDIT_JSP).forward(request, response);
                     return;
                 }
+                */
+                System.out.println("Trying to store CV...");
                 //if ok, store xml to DB, redirect to /profile
                 if (cvService.saveCv(SessionService.getSessionLogin(request), userData)) {
                     System.out.println("CV saved");
@@ -148,7 +152,7 @@ public class EditServlet extends HttpServlet {
                     request.getRequestDispatcher(Common.EDIT_JSP).forward(request, response);
 
                 } else {
-                    System.out.println("Error while storing CV.");
+                    System.out.println("Error while storing CV. Fail.");
                     request.setAttribute("error", "Unexpected error occured while storing your CV to database.");
                     request.getRequestDispatcher(Common.EDIT_JSP).forward(request, response);
                 }
