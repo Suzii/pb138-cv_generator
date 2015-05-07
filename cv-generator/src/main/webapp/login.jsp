@@ -36,13 +36,13 @@
                 <div class="form-group" >
                     <label for="login" class="col-sm-2 control-label"><f:message key="username" /></label>
                     <div class="col-sm-4">
-                        <input type="text" id="login" name="login" value="" class="form-control"/>
+                        <input type="text" id="login" name="login" value="" class="form-control" required/>
                     </div>
                 </div>
                 <div class="form-group" >
                     <label for="password" class="col-sm-2 control-label"><f:message key="password" /></label>
                     <div class="col-sm-4">
-                        <input type="password" id="password" name="password" value="" class="form-control"/>
+                        <input type="password" id="password" name="password" value="" class="form-control" required/>
                     </div>
                 </div>
                 <input type="Submit" class="btn btn-primary col-sm-offset-2 col-sm-1" value="Login" />

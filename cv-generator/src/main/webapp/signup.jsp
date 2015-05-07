@@ -36,7 +36,7 @@
                 <div class="form-group" >
                     <label for="login" class="col-sm-2 control-label"><f:message key="username" /></label>
                     <div class="col-sm-4">
-                        <input type="text" id="login" name="login" value="" class="form-control"/>
+                        <input type="text" id="login" name="login" value="" class="form-control" required/>
                     </div>
                 </div>
                 <div class="form-group" >
@@ -45,7 +45,7 @@
                         <input type="password" id="password" name="password" value="" class="form-control"/>
                     </div>
                 </div>
-                <input type="Submit" class="btn btn-primary col-sm-offset-2 col-sm-1" value="Sign up" />
+                <input type="Submit" class="btn btn-primary col-sm-offset-2 col-sm-1" value="Sign up" required/>
             </form>
         </div>
     </body>
