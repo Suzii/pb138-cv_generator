@@ -3,9 +3,8 @@
 }
 
 .btn {
-    margin-bottom: 1em;
-    margin-top: 1em;
-    
+    margin-bottom: 2em;
+    margin-top: 0.5em;
 }
 
 .wider {
@@ -15,4 +14,23 @@
 
 .form-inline{
     margin: 1em;
+}
+
+.glyphicon-remove {
+    cursor: pointer;
+    
+}
+
+a .glyphicon-remove {
+    
+    color: red;
+    margin-top: 0.5em
+}
+
+.box {
+    border-radius: 25px;
+    background: #FFFFCC;
+    padding: 15px; 
+    margin-bottom: 10px
+    
 }

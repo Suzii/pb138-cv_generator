@@ -14,7 +14,7 @@
         </address>
         <phones><!--This element do not have to contain any child elements phone-->
             <phone>0905123123</phone><!--This element can be empty, but contains only numbers or + sign-->
-            <!--<phone>0905123456</phone> --><!-- Unique phone number, MaxOccurs of this element - unbounded -->
+            <phone>0905123456</phone> <!-- Unique phone number, MaxOccurs of this element - unbounded -->
         </phones>
         <emails><!--This element do not have to contain any child elements email-->
             <email>anca@zranca.com</email> <!-- This element can be empty, contains unique email address-->

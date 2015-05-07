@@ -6,7 +6,7 @@
 package cz.muni.fi.pb138.cv.transformation;
 
 import org.w3c.dom.Document;
-import org.json.simple.JSONObject;
+import org.json.JSONObject;
 /**
  * Class for transformation of JSON object to XML Dom.
  * @author Zuzana
