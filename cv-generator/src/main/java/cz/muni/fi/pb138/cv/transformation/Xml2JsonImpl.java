@@ -46,7 +46,6 @@ public class Xml2JsonImpl implements Xml2Json{
             
         String jsonPrettyPrintString = xmlJSONObj.toString(4);
         System.out.println(jsonPrettyPrintString);
-
     }
     
     @Override
@@ -68,6 +67,7 @@ public class Xml2JsonImpl implements Xml2Json{
         return null;
     }
     
+    @Override
     public JSONObject transform(String data){
         JSONObject json;
         try {
@@ -79,7 +79,7 @@ public class Xml2JsonImpl implements Xml2Json{
         
         JSONObject jsonCV = json.getJSONObject("curriculum-vitae");
                 
-        JSONObject jsonPD = jsonCV.getJSONObject("personal-details"); //.getJSONObject("phones").getJSONArray("phone")
+        JSONObject jsonPD = jsonCV.getJSONObject("personal-details");
 
         
         checkArray(jsonCV, "driving-licence", "class");
