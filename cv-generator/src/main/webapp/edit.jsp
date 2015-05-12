@@ -5,13 +5,8 @@
 
 <html ng-app="editApp">
     <head>
-        <title><f:message key="title" /></title>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
-        <link rel="stylesheet" href="css/main.css">
-        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+        <%@ include file="/meta-data.html" %> 
         <script src="js/edit.js"></script>
-
         <script>
             var userData = undefined;
             <c:if test="${not empty userData}">

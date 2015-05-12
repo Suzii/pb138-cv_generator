@@ -89,12 +89,12 @@ public class SignUpServlet extends HttpServlet {
                 System.out.println("Credentials: Username: " + login + " Passwd: " + passwordHash);
                 Object data = "";
                 //find out if user exists
-               /* if (userService.checkIfExists(login)) {
+                if (userService.checkIfExists(login)) {
                     data = "Username: " + login + " already taken.";
                     request.setAttribute("error", data);
-                    response.sendRedirect(request.getContextPath() + Common.URL_EDIT);
+                    request.getRequestDispatcher(Common.SIGNUP_JSP).forward(request, response);
                     //check password
-                } else */if (!userService.registerNewUser(login, passwordHash)) {
+                } else if (!userService.registerNewUser(login, passwordHash)) {
                     data = "Error while creating account.";
                     request.setAttribute("error", data);
                     request.getRequestDispatcher(Common.SIGNUP_JSP).forward(request, response);

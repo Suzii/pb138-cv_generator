@@ -4,12 +4,8 @@
 <f:setBundle basename="texts" />
 <html ng-app="profileApp">
     <head>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
-        <title><f:message key="title" /></title>
-        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+        <%@ include file="/meta-data.html" %> 
         <script src="js/profile.js"></script>
-
         <script>
             var userData = undefined;
             <c:if test="${not empty userData}">
@@ -25,7 +21,7 @@
 
                 <h2 ng-bind="info['given-names']"></h2>
                 <h3 ng-bind="info.surname"></h3>
-                
+
                 <div class="row">
                     <div class="col-sm-5 col-sm-offset-1">
                         <form action="${pageContext.request.contextPath}/profile/download" class="form-inline" method="GET">
@@ -59,9 +55,9 @@
 
 
         </div>
-            <div class="container">
-                <pre>{{data| json : spacing}}</pre>
-            </div>
+        <div class="container">
+            <pre>{{data| json : spacing}}</pre>
+        </div>
 
     </body>
 </html>
