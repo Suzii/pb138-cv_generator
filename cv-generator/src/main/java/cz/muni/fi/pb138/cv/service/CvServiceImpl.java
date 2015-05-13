@@ -108,17 +108,30 @@ public class CvServiceImpl implements CvService {
     @Override
     public File generatePdf(String login, String lang) {
         // todo vyriesit ako mat ten xml subor ulozeny alebo odkial ho nacucat + ako presne volat xslt transformator
-        StreamSource xml = new StreamSource(new File(Config.LOGINS + "/" + login + ".xml"));
-        StreamSource xslt = new StreamSource(new File(Config.DIRECTORY + "/cv.xsl")); // XSLT FILE
+        StreamSource xml = new StreamSource(new File(Config.DIRECTORY + "/" + login + ".xml"));
+        StreamSource xslt = new StreamSource(new File("src/main/java/cz/muni/fi/pb138/cv/transformation/xml-to-tex.xsl")); // XSLT FILE
+        
         StreamResult result;
         try {
-            result = new StreamResult(new FileOutputStream(Config.DIRECTORY + "/xsl-result.tex"));
-            Transformer transformer = TransformerFactory.newInstance().newTransformer(xslt);
+            result = new StreamResult(new FileOutputStream("resultCV.tex"));
+            TransformerFactory tf = TransformerFactory.newInstance();
+            //tf.setAttribute("lang", lang);
+            Transformer transformer = tf.newTransformer(xslt);
+            transformer.setParameter("cv-language", lang);
             transformer.transform(xml, result);
+            
         } catch (FileNotFoundException | TransformerException ex) {
             Logger.getLogger(CvServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
+        
+        /*ProcessBuilder pb = new ProcessBuilder("pdflatex -synctex=1 -interaction=nonstopmode" +System.getProperty("user.dir")+"\\resultCV.tex");
+        try {
+            pb.start();
+        } catch (IOException ex) {
+            Logger.getLogger(CvServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }*/
+        
         return null;
     }
 

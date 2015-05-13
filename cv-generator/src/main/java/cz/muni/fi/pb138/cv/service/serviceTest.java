@@ -17,6 +17,7 @@ public class serviceTest {
     public static void main(String[] args) {
         System.out.println("welcome in main;");
         UserServiceImpl us = new UserServiceImpl();
+        CvServiceImpl cvs = new CvServiceImpl();
         String p = "pato";
         System.out.println(us.registerNewUser("jozo",p));
         System.out.println(us.verifyCredentials(p, p));
@@ -25,6 +26,9 @@ public class serviceTest {
 
         System.out.println(us.checkIfExists("dddd"));
         
+        
+        System.out.println("Trying xslt");
+        cvs.generatePdf("sample-cv", "sk");
     }
     
 }
