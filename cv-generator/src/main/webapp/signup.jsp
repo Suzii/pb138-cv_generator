@@ -48,5 +48,6 @@
                 <input type="Submit" class="btn btn-primary col-sm-offset-2 col-sm-1" value="Sign up" />
             </form>
         </div>
+        <%@ include file="/footer.html" %> 
     </body>
 </html>

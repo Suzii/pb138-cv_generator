@@ -142,6 +142,9 @@ public class ProfileServlet extends HttpServlet {
 
     private void attachFile(HttpServletResponse response, String login, String lang) throws IOException {
         File file = cvService.generatePdf(login, lang);
+        if(file == null){
+            return;
+        }
 
         response.setContentType("application/octet-stream");
         response.setContentLength((int) file.length());

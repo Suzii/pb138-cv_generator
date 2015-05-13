@@ -16,7 +16,7 @@ editApp.controller('FormController', ['$scope', '$window', '$http', function ($s
                     data: data})
                         .success(function (data, status) {
                             $window.alert('You rock!');
-                            $window.alert(data);
+                            //$window.alert(data);
                         })
                         .error(function (data, status) {
                             $window.alert('Could not reach the server!\n' + data + status);
