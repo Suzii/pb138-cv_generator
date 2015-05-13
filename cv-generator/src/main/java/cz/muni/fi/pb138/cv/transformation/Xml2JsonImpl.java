@@ -34,7 +34,8 @@ public class Xml2JsonImpl implements Xml2Json{
     public static void main(String[] args) {
         String data;
         try {
-            List<String> lines = Files.readAllLines(Paths.get(System.getProperty("user.dir") + "\\..\\sample_data\\sample-cv_test.xml"));
+            //List<String> lines = Files.readAllLines(Paths.get(System.getProperty("user.dir") + "\\..\\sample_data\\sample-cv_test.xml"));
+            List<String> lines = Files.readAllLines(Paths.get("C:\\pb138-database\\admin.xml"));
             data = String.join("", lines);
         } catch (IOException ex) {
             Logger.getLogger(Xml2JsonImpl.class.getName()).log(Level.SEVERE, null, ex);

@@ -5,15 +5,12 @@
 <html>
     <head>
         <%@ include file="/meta-data.html" %> 
-        <script src="js/login.js"></script>
     </head>
     <body>
         <div class="jumbotron">
             <div class="container">
                 <h1><f:message key="heading" /></h1>
                 <p><f:message key="intro-text" /></p>
-                <p>For logging in type Username: 'admin', password: '21232f297a57a5a743894a0e4a801fc3'</p>
-
             </div>
         </div>
         <div class="container">
@@ -24,7 +21,7 @@
                 </div>
             </c:if>
             <c:if test="${not empty msg}">
-                <div class="alert alert-danger" role="alert">
+                <div class="alert alert-info" role="alert">
                     <c:out value="${msg}"/>
                 </div>
             </c:if>

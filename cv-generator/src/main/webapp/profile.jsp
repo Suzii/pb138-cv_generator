@@ -23,7 +23,14 @@
                 <h3 ng-bind="info.surname"></h3>
 
                 <div class="row">
-                    <div class="col-sm-5 col-sm-offset-1">
+                    <div class="col-sm-4">
+                        <form action="${pageContext.request.contextPath}/profile/edit" method="GET">
+                            <button class="btn btn-primary col-sm-offset-1 col-sm-3" >
+                                <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Edit
+                            </button>
+                        </form>
+                    </div>
+                    <div class="col-sm-4 col-sm-offset-1">
                         <form action="${pageContext.request.contextPath}/profile/download" class="form-inline" method="GET">
                             <div class="form-group">
                                 <select class="form-control" required>
@@ -37,16 +44,19 @@
                         </form>
 
                     </div>
-                    <div class="col-sm-6">
-                        <form action="${pageContext.request.contextPath}/profile/edit" method="GET">
-                            <button class="btn btn-primary col-sm-offset-1 col-sm-3" >
-                                <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Edit
+
+                    <div class="col-sm-4">
+                        <form action="${pageContext.request.contextPath}/edit/logout" method="GET">
+                            <button class="btn btn-danger col-sm-offset-1 col-sm-3" >
+                                <span class="glyphicon glyphicon-off " aria-hidden="true"></span> Log out
                             </button>
                         </form>
-                    </div>    
+                    </div>
                 </div>
             </div>
         </div>
+
+
         <div class="container">
             <div class="row">
                 <div class="col-sm-3">Street</div>

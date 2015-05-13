@@ -82,27 +82,28 @@ public class SignUpServlet extends HttpServlet {
         ResourceBundle bundle = ResourceBundle.getBundle("texts", request.getLocale());
         String action = request.getPathInfo();
         switch (action) {
-            
+
             case "/submit":
                 String login = request.getParameter("login");
-                String passwordHash = request.getParameter("password");
-                System.out.println("Credentials: Username: " + login + " Passwd: " + passwordHash);
+                String password = request.getParameter("password");
+                String password2 = request.getParameter("password2");
+                log.debug("Credentials: Username: " + login + " Passwd: " + password);
                 Object data = "";
-                //find out if user exists
-                if (userService.checkIfExists(login)) {
+                if (password == null || password2 == null) {
+                    data = "All fields are required!";
+                } else if (!password.equals(password2)) {
+                    data = "Passwords do not match!";
+                } else if (userService.checkIfExists(login)) {
                     data = "Username: " + login + " already taken.";
-                    request.setAttribute("error", data);
-                    request.getRequestDispatcher(Common.SIGNUP_JSP).forward(request, response);
-                    //check password
-                } else if (!userService.registerNewUser(login, passwordHash)) {
+                } else if (!userService.registerNewUser(login, password)) {
                     data = "Error while creating account.";
-                    request.setAttribute("error", data);
-                    request.getRequestDispatcher(Common.SIGNUP_JSP).forward(request, response);
-
                 } else {
                     SessionService.createSessionLogin(request, login);
                     response.sendRedirect(request.getContextPath() + Common.URL_EDIT);
+                    return;
                 }
+                request.setAttribute("error", data);
+                request.getRequestDispatcher(Common.SIGNUP_JSP).forward(request, response);
                 return;
 
             default:
@@ -118,6 +119,6 @@ public class SignUpServlet extends HttpServlet {
      */
     @Override
     public String getServletInfo() {
-        return "Short description";
+        return "Signup servlet of CV Generator app.";
     }
 }
