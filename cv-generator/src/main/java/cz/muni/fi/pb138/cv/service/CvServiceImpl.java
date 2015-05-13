@@ -141,12 +141,12 @@ public class CvServiceImpl implements CvService {
             return null;
         }
         
-        /*ProcessBuilder pb = new ProcessBuilder("pdflatex -synctex=1 -interaction=nonstopmode" +System.getProperty("user.dir")+"\\resultCV.tex");
+        ProcessBuilder pb = new ProcessBuilder("pdflatex -synctex=1 -interaction=nonstopmode " +System.getProperty("user.dir")+"resultCV.tex");
         try {
             pb.start();
         } catch (IOException ex) {
             Logger.getLogger(CvServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-        }*/
+        }
         
         return null;
     }
