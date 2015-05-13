@@ -5,21 +5,15 @@
  */
 package cz.muni.fi.pb138.cv.servlets;
 
-import cz.muni.fi.pb138.cv.service.MockedUserServiceImpl;
-import cz.muni.fi.pb138.cv.service.UserService;
+import cz.muni.fi.pb138.cv.service.*;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,7 +24,7 @@ import org.slf4j.LoggerFactory;
 @WebServlet(Common.URL_LOGIN + "/*")
 public class LoginServlet extends HttpServlet {
 
-    public static UserService userService = new MockedUserServiceImpl();
+    public static UserService userService = new UserServiceImpl();
     private final static Logger log = LoggerFactory.getLogger(LoginServlet.class);
 
     /**
@@ -68,7 +62,7 @@ public class LoginServlet extends HttpServlet {
         }
         switch (action) {
             default:
-                response.sendError(HttpServletResponse.SC_NOT_FOUND, "Unknown action ");
+                response.sendError(HttpServletResponse.SC_NOT_FOUND, "Unknown action " + action);
                 return;
         }
     }
@@ -91,23 +85,22 @@ public class LoginServlet extends HttpServlet {
 
             case "/submit":
                 String login = request.getParameter("login");
-                String passwordHash = request.getParameter("password");
+                String password = request.getParameter("password");
+                log.debug("LOGIN Username: " + login + " Passwd: " + password);
                 Object data = "";
                 //find out if user exists
                 if (!userService.checkIfExists(login)) {
                     data = "Username: " + login + " does not exists";
-                    request.setAttribute("error", data);
-                    request.getRequestDispatcher(Common.LOGIN_JSP).forward(request, response);
-                    //check password
-                } else if (!userService.verifyCredentials(login, passwordHash)) {
+                //check password
+                } else if (!userService.verifyCredentials(login, password)) {
                     data = "Wrong password.";
-                    request.setAttribute("error", data);
-                    request.getRequestDispatcher(Common.LOGIN_JSP).forward(request, response);
-
                 } else {
                     SessionService.createSessionLogin(request, login);
                     response.sendRedirect(request.getContextPath() + Common.URL_EDIT);
+                    return;
                 }
+                request.setAttribute("error", data);
+                request.getRequestDispatcher(Common.LOGIN_JSP).forward(request, response);
                 return;
 
             default:
@@ -123,6 +116,6 @@ public class LoginServlet extends HttpServlet {
      */
     @Override
     public String getServletInfo() {
-        return "Short description";
+        return "Login servlet of CV Generator app.";
     }
 }
