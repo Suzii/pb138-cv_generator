@@ -6,7 +6,8 @@
 package cz.muni.fi.pb138.cv.servlets;
 
 /**
- *
+ * Class for sharing constants across all servlets.
+ * 
  * @author Zuzana
  */
 public class Common {

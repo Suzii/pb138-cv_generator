@@ -25,10 +25,17 @@ public class serviceTest {
         System.out.println(us.registerNewUser("dddd",p));
 
         System.out.println(us.checkIfExists("dddd"));
+
         
         
         System.out.println("Trying xslt");
         cvs.generatePdf("sample-cv", "sk");
+
+        
+        /*String passwd = "password";
+       
+        System.out.println();*/
+
     }
     
 }

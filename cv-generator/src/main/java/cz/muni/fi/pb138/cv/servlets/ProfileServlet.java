@@ -31,7 +31,7 @@ import org.slf4j.LoggerFactory;
 public class ProfileServlet extends HttpServlet {
 
     public static UserService userService = new UserServiceImpl();
-    public static CvService cvService = new MockedCvServiceImpl();
+    public static CvService cvService = new CvServiceImpl();
     private final static Logger log = LoggerFactory.getLogger(ProfileServlet.class);
 
     /**
@@ -67,10 +67,10 @@ public class ProfileServlet extends HttpServlet {
             //load json with user data associated with 'login'
             String login = SessionService.getSessionLogin(request);
             if (login != null) {
-                System.out.println("Logged user: " + login);
+                log.debug("PROFILE Logged user: " + login);
                 JSONObject userData = cvService.loadCvJSON(login);
-
                 request.setAttribute("userData", userData);
+
                 System.out.println("User: " + login);
                 System.out.println("Data: " + userData);
 
@@ -78,6 +78,7 @@ public class ProfileServlet extends HttpServlet {
             } else {
                 //user is not logged in
                 request.setAttribute("error", "You are not logged in.");
+                log.warn("Attempt for an anauthorized access.");
                 response.sendRedirect(request.getContextPath() + Common.URL_LOGIN);
             }
         }
@@ -86,9 +87,13 @@ public class ProfileServlet extends HttpServlet {
                 String login = SessionService.getSessionLogin(request);
                 try {
                     String lang = request.getParameter("lang");
+                    if(lang == null || lang.length() == 0){
+                        lang = "en";
+                    }
                     attachFile(response, login, lang);
                 } catch (IOException e) {
                     request.setAttribute("error", "Sorry, some error occured while generating your CV.");
+                    log.error("Failed to generate cv for " + login, e);
                     request.getRequestDispatcher(Common.PROFILE_JSP).forward(request, response);
                     return;
                 }
@@ -132,11 +137,14 @@ public class ProfileServlet extends HttpServlet {
      */
     @Override
     public String getServletInfo() {
-        return "Short description";
+        return "Profile servlet of CV Generator app.";
     }
 
     private void attachFile(HttpServletResponse response, String login, String lang) throws IOException {
         File file = cvService.generatePdf(login, lang);
+        if(file == null){
+            return;
+        }
 
         response.setContentType("application/octet-stream");
         response.setContentLength((int) file.length());

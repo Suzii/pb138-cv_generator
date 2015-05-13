@@ -1,22 +1,31 @@
 var editApp = angular.module('editApp', []);
 
 editApp.controller('FormController', ['$scope', '$window', '$http', function ($scope, $window, $http) {
+        $scope.showErrors = false;
         $scope.submit = function () {
-            //if ($scope.userForm.$valid) {
-            $http({
-                url: $('#cvForm').attr('action'),
-                method: "POST",
-                responseType: "json",
-                headers: {'Content-Type': 'application/json'},
-                data: $scope.data})
-                    .success(function (data, status) {
-                        $window.alert('You rock!');
-                        $window.alert(data);
-                    })
-                    .error(function (data, status) {
-                        $window.alert('Could not reach the server!');
-                    });
-            //}
+            if ($scope.userForm.$valid) {
+                $scope.showErrors = false;
+                var data = {};
+                data["curriculum-vitae"] = $scope.data;
+
+                $http({
+                    url: $('#cvForm').attr('action'),
+                    method: "POST",
+                    responseType: "json",
+                    headers: {'Content-Type': 'application/json'},
+                    data: data})
+                        .success(function (data, status) {
+                            $window.alert('You rock!');
+                            //$window.alert(data);
+                        })
+                        .error(function (data, status) {
+                            $window.alert('Could not reach the server!\n' + data + status);
+                        });
+            } else {
+                $scope.showErrors = true;
+                console.log("Invalid form tried to submit.");
+                $window.alert("Please fill in all requided fields. If you want to leave somethig blank, press 'X' on the right to delete the group.");
+            }
         };
 
         $scope.createBlankForm = function () {
@@ -37,8 +46,8 @@ editApp.controller('FormController', ['$scope', '$window', '$http', function ($s
         };
 
         $scope.deleteItem = function (array, index) {
-            if(array.length === 1){
-                array.splice(0,1);
+            if (array.length === 1) {
+                array.splice(0, 1);
             } else if (array.length > 1) {
                 array.splice(index, 1);
             }

@@ -5,13 +5,8 @@
 
 <html ng-app="editApp">
     <head>
-        <title><f:message key="title" /></title>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
-        <link rel="stylesheet" href="css/main.css">
-        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+        <%@ include file="/meta-data.html" %> 
         <script src="js/edit.js"></script>
-
         <script>
             var userData = undefined;
             <c:if test="${not empty userData}">
@@ -28,22 +23,27 @@
 
                 <div class="row">
                     <div class="col-sm-6">
+                        <h2 ng-bind="data['personal-details']['given-names']"></h2>
+                        <h3 ng-bind="data['personal-details'].surname"></h3>
+                    </div>
+                    <div class="col-sm-2 col-sm-offset-3">
                         <form action="${pageContext.request.contextPath}/edit/logout" method="GET">
-                            <button class="btn btn-danger col-sm-offset-1 col-sm-3" >
+                            <button class="btn btn-danger btn-block" >
                                 <span class="glyphicon glyphicon-off " aria-hidden="true"></span> Log out
                             </button>
                         </form>
-                    </div>
-                    <div class="col-sm-6">
+
                         <form action="${pageContext.request.contextPath}/edit/profile" method="GET">
-                            <button class="btn btn-primary col-sm-offset-1 col-sm-3" >
+                            <button class="btn btn-primary btn-block" >
                                 <span class="glyphicon glyphicon-user" aria-hidden="true"></span> Go to profile
                             </button>
                         </form>
-                    </div>    
+
+                    </div>
                 </div>
             </div>
         </div>
+        <a name="top" ></a>
         <div class="container">
             <c:if test="${not empty error}">
                 <div class="alert alert-danger" role="alert">
@@ -64,33 +64,33 @@
                     <div class="well well-sm strong"><f:message key="personal-details" /></div>
                     <div class="col-sm-6">
                         <!-- **************************** given names ************************** -->
-                        <div class="form-group" ng-class="{'has-error': userForm['given-names'].$invalid && !userForm['given-names'].$pristine}">
-                            <label for="given-names" class="col-sm-2 control-label"><f:message key="given-names" /></label>
+                        <div class="form-group" ng-class="{'has-error': showErrors && userForm['given-names'].$invalid}">
+                            <label for="given-names" class="col-sm-2 control-label"><f:message key="given-names" />*</label>
                             <div class="col-sm-9">
                                 <input type="text" name="given-names" ng-model="data['personal-details']['given-names']" class="form-control" required/>
                                 <p ng-show="userForm['given-names'].$invalid && !userForm['given-names'].$pristine" class="help-block">Given names are required.</p>
                             </div>
                         </div>
                         <!-- **************************** surname ************************** -->
-                        <div class="form-group"  ng-class="{'has-error': userForm.surname.$invalid && !userForm.surname.$pristine}">
-                            <label for="surname" class="col-sm-2 control-label"><f:message key="surname" /></label>
+                        <div class="form-group"  ng-class="{'has-error': showErrors && userForm.surname.$invalid}">
+                            <label for="surname" class="col-sm-2 control-label"><f:message key="surname" />*</label>
                             <div class="col-sm-9">
                                 <input type="text" name="surname" ng-model="data['personal-details'].surname" class="form-control" required />
                                 <p ng-show="userForm.surname.$invalid && !userForm.surname.$pristine" class="help-block">Surname is required.</p>
                             </div>
                         </div>
                         <!-- **************************** date of birth ************************** -->
-                        <div class="form-group"  ng-class="{'has-error': userForm.dateOfBirth.$invalid && !userForm.dateOfBirth.$pristine}">
-                            <label for="dateOfBirth" class="col-sm-2 control-label"><f:message key="dateOfBirth" /></label>
+                        <div class="form-group"  ng-class="{'has-error': showErrors && userForm.dateOfBirth.$invalid}">
+                            <label for="dateOfBirth" class="col-sm-2 control-label"><f:message key="dateOfBirth" />*</label>
                             <div class="col-sm-9">
                                 <input type="date" name="dateOfBirth" ng-model="data['personal-details']['date-of-birth']" class="form-control" required />
                                 <p ng-show="userForm.dateOfBirth.$invalid && !userForm.dateOfBirth.$pristine" class="help-block">Date of birth is required.</p>
                             </div>
                         </div>
                         <!-- **************************** phones ************************** -->
-                        <div ng-repeat="phone in data['personal-details'].phones" class="form-group"  ng-class="{'has-error': phoneForm.phone.$invalid && !phoneForm.phone.$pristine}">
+                        <div ng-repeat="phone in data['personal-details'].phones" class="form-group"  ng-class="{'has-error': showErrors && phoneForm.phone.$invalid}">
                             <ng-form name="phoneForm">
-                                <label for="phone" class="col-sm-2 control-label"><f:message key="phone" /> {{$index + 1}}</label>
+                                <label for="phone" class="col-sm-2 control-label"><f:message key="phone" /> {{$index + 1}}*</label>
                                 <div class="col-sm-9">
                                     <input type="text" name="phone" ng-model="phone.value" class="form-control" required/>
                                     <p ng-show="phoneForm.phone.$invalid && !phoneForm.phone.$pristine" class="help-block">Required.</p>
@@ -108,9 +108,9 @@
                         </button>
                         <!-- **************************** emails ************************** -->
                         <label ng-show="data['personal-details'].emails.length == 0" class="col-sm-6">Emails</label>
-                        <div ng-repeat="email in data['personal-details'].emails" class="form-group"  ng-class="{'has-error': emailForm.email.$invalid && !emailForm.email.$pristine}">
+                        <div ng-repeat="email in data['personal-details'].emails" class="form-group"  ng-class="{'has-error': showErrors && emailForm.email.$invalid }">
                             <ng-form name="emailForm">
-                                <label for="email" class="col-sm-2 control-label"><f:message key="email" /> {{$index + 1}}</label>
+                                <label for="email" class="col-sm-2 control-label"><f:message key="email" /> {{$index + 1}}*</label>
                                 <div class="col-sm-9">
                                     <input type="email" name="email" ng-model="email.value" class="form-control" required/>
                                     <p class="help-block" ng-show="emailForm.email.$invalid && !emailForm.email.$pristine">Please, enter a valid email</p>
@@ -127,9 +127,9 @@
                         </button>
                         <!-- **************************** social ************************** -->
                         <label ng-show="data['personal-details'].social.length == 0" class="col-sm-6">Social</label>
-                        <div ng-repeat="social in data['personal-details'].social" class="form-group"  ng-class="{'has-error': socialForm.social.$invalid && !socialForm.social.$pristine}">
+                        <div ng-repeat="social in data['personal-details'].social" class="form-group"  ng-class="{'has-error': showErrors && socialForm.social.$invalid}">
                             <ng-form name="socialForm">
-                                <label for="social" class="col-sm-2 control-label"><f:message key="social" /> {{$index + 1}}</label>
+                                <label for="social" class="col-sm-2 control-label"><f:message key="social" /> {{$index + 1}}*</label>
                                 <div class="col-sm-9">
                                     <input type="text" name="social" ng-model="social.value" class="form-control" required/>
                                     <p class="help-block" ng-show="socialForm.social.$invalid && !socialForm.social.$pristine">Please, enter a valid link</p>
@@ -147,7 +147,7 @@
                     </div>
                     <div class="col-sm-6">
                         <!-- **************************** street ************************** -->
-                        <div class="form-group" ng-class="{'has-error': userForm.street.$invalid && !userForm.street.$pristine}">
+                        <div class="form-group" ng-class="{'has-error': showErrors && userForm.street.$invalid}">
                             <label for="street" class="col-sm-2 control-label"><f:message key="street" /></label>
                             <div class="col-sm-10">
                                 <input type="text" name="street" ng-model="data['personal-details'].address.street" class="form-control" required/>
@@ -419,7 +419,9 @@
                     <div class="well well-sm strong"><f:message key="hobbies" /></div>
                     <textarea ng-model="data.hobbies" class="form-control"></textarea>
                 </div>
-                <button type="submit" class="btn btn-primary col-sm-2 col-sm-offset-5">Save</button>
+                <a href="/#top">
+                    <button type="submit" class="btn btn-primary col-sm-2 col-sm-offset-5">Save</button>
+                </a>
             </form>
         </div>
 
@@ -427,11 +429,6 @@
         <div class="container">
             <pre>{{data| json : spacing}}</pre>
         </div>
-        <footer class="footer"> 
-            <div class="container">
-                <p class="text-muted">&copy; 2015</p>
-            </div>
-        </footer>
-
+        <%@ include file="/footer.html" %> 
     </body>
 </html>

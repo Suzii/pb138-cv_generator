@@ -80,16 +80,32 @@ public class CvServiceImpl implements CvService {
         }
     }
 
+    /**
+     * TODO
+     * vsetko musis takto uzavriet do try catch a idealne aj logovat v debug mode..
+     * @param login
+     * @param cv
+     * @return 
+     */
     @Override
     public boolean saveCv(String login, JSONObject cv) {
-        Document cvXml = json2xml.transform(cv);
-        boolean result = saveCv(login, cvXml);
-        return result;
+        //System.out.println("Converting JSON to XML");
+        try {
+            Document cvXml = json2xml.transform(cv);
+            //System.out.println("Transformation finished OK.");
+            boolean result = saveCv(login, cvXml);
+            return result;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        return false;
     }
 
     @Override
     public boolean saveCv(String login, Document cv) {
         String filePath = Config.DIRECTORY + "/" + login + ".xml";
+        //System.out.println("Filepath for new CV: " + filePath);
         try {
             TransformerFactory tFactory = TransformerFactory.newInstance();
             Transformer transformer = tFactory.newTransformer();
@@ -142,19 +158,19 @@ public class CvServiceImpl implements CvService {
 
         // load a WXS schema, represented by a Schema instance
         Source schemaFile = new StreamSource(new File("mySchema.xsd")); // TODO create schema
-       try {
+        try {
             Schema schema = factory.newSchema(schemaFile);
             // create a Validator instance, which can be used to validate an instance document
             Validator validator = schema.newValidator();
             // validate the DOM tree
             validator.validate(new DOMSource(cv));
         } catch (SAXException e) {
-                // instance document is invalid!
+            // instance document is invalid!
             return e.getMessage();
         } catch (IOException ex) {
             Logger.getLogger(CvServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
-       return null;
+        return null;
     }
 
     @Override
