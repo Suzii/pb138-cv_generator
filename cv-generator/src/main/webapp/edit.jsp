@@ -8,7 +8,7 @@
         <%@ include file="/meta-data.html" %> 
         <script src="js/edit.js"></script>
         <script>
-            var userData = undefined;
+                    var userData = undefined;
             <c:if test="${not empty userData}">
             var userData = ${userData}
             </c:if>
@@ -55,15 +55,23 @@
                     <c:out value="${msg}"/>
                 </div>
             </c:if>
+            <!-- page up button -->
+            <a href="#" class="page-up">
+                <span class="glyphicon glyphicon-triangle-top"></span> <br />
+                <span> UP!</span>                
+            </a>
 
             <!-- **************************** FORM ************************** -->
-            <form action="${pageContext.request.contextPath}/edit/save" class="form-horizontal" method="POST" name="userForm"  id="cvForm" ng-submit="$event.preventDefault();submit();" novalidate>
+            <form action="${pageContext.request.contextPath}/edit/save" class="form-horizontal" method="POST" name="userForm"  id="cvForm" ng-submit="$event.preventDefault();
+                                submit();" novalidate>
                 <!-- **************************** PERSONAL DETAILS ************************** -->
                 <div class="row">
                     <div class="well well-sm strong"><f:message key="personal-details" /></div>
                     <div class="col-sm-6">
                         <!-- **************************** given names ************************** -->
-                        <div class="form-group" ng-class="{'has-error': showErrors && userForm['given-names'].$invalid}">
+                        <div class="form-group" ng-class="{
+                                'has-error'
+                                : showErrors &&  userForm['given-names'].$invalid}">
                             <label for="given-names" class="col-sm-2 control-label"><f:message key="given-names" />*</label>
                             <div class="col-sm-9">
                                 <input type="text" name="given-names" ng-model="data['personal-details']['given-names']" class="form-control" required/>
@@ -71,7 +79,9 @@
                             </div>
                         </div>
                         <!-- **************************** surname ************************** -->
-                        <div class="form-group"  ng-class="{'has-error': showErrors && userForm.surname.$invalid}">
+                        <div class="form-group"  ng-class="{
+                                'has-error'
+                                : showErrors && userForm.surname.$invalid}">
                             <label for="surname" class="col-sm-2 control-label"><f:message key="surname" />*</label>
                             <div class="col-sm-9">
                                 <input type="text" name="surname" ng-model="data['personal-details'].surname" class="form-control" required />
@@ -81,14 +91,27 @@
                         <!-- **************************** date of birth ************************** -->
                         <div class="form-group"  ng-class="{'has-error': showErrors && userForm.dateOfBirth.$invalid}">
                             <label for="dateOfBirth" class="col-sm-2 control-label"><f:message key="dateOfBirth" />*</label>
-                            <div class="col-sm-9">
-                                
-                                <input type="date" name="dateOfBirth" ng-model="data['personal-details']['date-of-birth']" class="form-control" required />
-                                <p ng-show="userForm.dateOfBirth.$invalid && !userForm.dateOfBirth.$pristine" class="help-block">Date of birth is required.</p>
+                            <div class="col-sm-9" ng-controller="DateController">
+                                <ng-form name="dateOfBirth" class="form-inline">
+                                    <div class="form-group">
+                                            <select class="form-control" ng-model="data['personal-details']['date-of-birth'].day" ng-options="d for d in days" required>
+                                                <option value="Day" selected="Day">Day</option>
+                                            </select>
+                                            <select class="form-control" ng-model="data['personal-details']['date-of-birth'].month" ng-options="m for m in months" required>
+                                                <option value="Month">Month</option>
+                                            </select>
+                                            <select class="form-control" ng-model="data['personal-details']['date-of-birth'].year" ng-options="y for y in years" required>
+                                                <option value="Year" selected="">Year</option>
+                                            </select>
+                                    <p ng-show="userForm.dateOfBirth.$invalid && !userForm.dateOfBirth.$pristine" class="help-block">Date of birth is required.</p>
+                                    </div>
+                                </ng-form>
                             </div>
                         </div>
                         <!-- **************************** phones ************************** -->
-                        <div ng-repeat="phone in data['personal-details'].phones" class="form-group"  ng-class="{'has-error': showErrors && phoneForm.phone.$invalid}">
+                        <div ng-repeat="phone in data['personal-details'].phones" class="form-group"  ng-class="{
+                                'has-error'
+                                : showErrors && phoneForm.phone.$invalid}">
                             <ng-form name="phoneForm">
                                 <label for="phone" class="col-sm-2 control-label"><f:message key="phone" /> {{$index + 1}}*</label>
                                 <div class="col-sm-9">
@@ -96,7 +119,7 @@
                                     <p ng-show="phoneForm.phone.$invalid && !phoneForm.phone.$pristine" class="help-block">Required.</p>
                                 </div>
                                 <a ng-click="$event.preventDefault();
-                                                deleteItem(data['personal-details'].phones, $index);" class="col-sm-1">
+                                            deleteItem(data['personal-details'].phones, $index);" class="col-sm-1">
                                     <i class="glyphicon glyphicon-remove"></i>
                                 </a>
                             </ng-form>
@@ -108,7 +131,9 @@
                         </button>
                         <!-- **************************** emails ************************** -->
                         <label ng-show="data['personal-details'].emails.length == 0" class="col-sm-6">Emails</label>
-                        <div ng-repeat="email in data['personal-details'].emails" class="form-group"  ng-class="{'has-error': showErrors && emailForm.email.$invalid }">
+                        <div ng-repeat="email in data['personal-details'].emails" class="form-group"  ng-class="{
+                                'has-error'
+                                : showErrors && emailForm.email.$invalid }">
                             <ng-form name="emailForm">
                                 <label for="email" class="col-sm-2 control-label"><f:message key="email" /> {{$index + 1}}*</label>
                                 <div class="col-sm-9">
@@ -116,7 +141,7 @@
                                     <p class="help-block" ng-show="emailForm.email.$invalid && !emailForm.email.$pristine">Please, enter a valid email</p>
                                 </div>
                                 <a ng-click="$event.preventDefault();
-                                                deleteItem(data['personal-details'].emails, $index);" class="col-sm-1">
+                                            deleteItem(data['personal-details'].emails, $index);" class="col-sm-1">
                                     <i class="glyphicon glyphicon-remove"></i>
                                 </a>
                             </ng-form>
@@ -127,7 +152,9 @@
                         </button>
                         <!-- **************************** social ************************** -->
                         <label ng-show="data['personal-details'].social.length == 0" class="col-sm-6">Social</label>
-                        <div ng-repeat="social in data['personal-details'].social" class="form-group"  ng-class="{'has-error': showErrors && socialForm.social.$invalid}">
+                        <div ng-repeat="social in data['personal-details'].social" class="form-group"  ng-class="{
+                                'has-error'
+                                : showErrors && socialForm.social.$invalid}">
                             <ng-form name="socialForm">
                                 <label for="social" class="col-sm-2 control-label"><f:message key="social" /> {{$index + 1}}*</label>
                                 <div class="col-sm-9">
@@ -135,7 +162,7 @@
                                     <p class="help-block" ng-show="socialForm.social.$invalid && !socialForm.social.$pristine">Please, enter a valid link</p>
                                 </div>
                                 <a ng-click="$event.preventDefault();
-                                                deleteItem(data['personal-details'].social, $index);" class="col-sm-1">
+                                            deleteItem(data['personal-details'].social, $index);" class="col-sm-1">
                                     <i class="glyphicon glyphicon-remove"></i>
                                 </a>
                             </ng-form>
@@ -147,7 +174,9 @@
                     </div>
                     <div class="col-sm-6">
                         <!-- **************************** street ************************** -->
-                        <div class="form-group" ng-class="{'has-error': showErrors && userForm.street.$invalid}">
+                        <div class="form-group" ng-class="{
+                                'has-error'
+                                : showErrors && userForm.street.$invalid}">
                             <label for="street" class="col-sm-2 control-label"><f:message key="street" /></label>
                             <div class="col-sm-10">
                                 <input type="text" name="street" ng-model="data['personal-details'].address.street" class="form-control" required/>
@@ -155,7 +184,9 @@
                             </div>
                         </div>
                         <!-- **************************** number ************************** -->
-                        <div class="form-group" ng-class="{'has-error': userForm.number.$invalid && !userForm.number.$pristine}">
+                        <div class="form-group" ng-class="{
+                                'has-error'
+                                : userForm.number.$invalid && !userForm.number.$pristine}">
                             <label for="number" class="col-sm-2 control-label"><f:message key="number" /></label>
                             <div class="col-sm-10">
                                 <input type="number" min="1" name="number" ng-model="data['personal-details'].address.number" class="form-control"/>
@@ -163,7 +194,9 @@
                             </div>
                         </div>
                         <!-- **************************** city ************************** -->
-                        <div class="form-group" ng-class="{'has-error': userForm.city.$invalid && !userForm.city.$pristine}">
+                        <div class="form-group" ng-class="{
+                                'has-error'
+                                : userForm.city.$invalid && !userForm.city.$pristine}">
                             <label for="city" class="col-sm-2 control-label"><f:message key="city" /></label>
                             <div class="col-sm-10">
                                 <input type="text" name="city" ng-model="data['personal-details'].address.city" class="form-control" required/>
@@ -171,7 +204,9 @@
                             </div>
                         </div>
                         <!-- **************************** postal code ************************** -->
-                        <div class="form-group" ng-class="{'has-error': userForm['postal-code'].$invalid && !userForm['postal-code'].$pristine}">
+                        <div class="form-group" ng-class="{
+                                'has-error'
+                                : userForm['postal-code'].$invalid && !userForm['postal-code'].$pristine}">
                             <label for="postal-code" class="col-sm-2 control-label"><f:message key="postal-code" /></label>
                             <div class="col-sm-10">
                                 <input type="number" name="postal-code" ng-model="data['personal-details'].address['postal-code']" class="form-control" required/>
@@ -179,7 +214,9 @@
                             </div>
                         </div>
                         <!-- **************************** state ************************** -->
-                        <div class="form-group" ng-class="{'has-error': userForm.state.$invalid && !userForm.state.$pristine}">
+                        <div class="form-group" ng-class="{
+                                'has-error'
+                                : userForm.state.$invalid && !userForm.state.$pristine}">
                             <label for="state" class="col-sm-2 control-label"><f:message key="state" /></label>
                             <div class="col-sm-10">
                                 <input type="text" name="state" ng-model="data['personal-details'].address.state" class="form-control"/>
@@ -187,7 +224,9 @@
                             </div>
                         </div>
                         <!-- **************************** country ************************** -->
-                        <div class="form-group" ng-class="{'has-error': userForm.country.$invalid && !userForm.country.$pristine}">
+                        <div class="form-group" ng-class="{
+                                'has-error'
+                                : userForm.country.$invalid && !userForm.country.$pristine}">
                             <label for="country" class="col-sm-2 control-label"><f:message key="country" /></label>
                             <div class="col-sm-10">
                                 <input type="text" name="country" ng-model="data['personal-details'].address.country" class="form-control" required/>
@@ -199,7 +238,9 @@
                 <!-- **************************** EDUCATION ************************** -->
                 <div class="row">
                     <div class="well well-sm strong"><f:message key="education" /></div>
-                    <div ng-repeat="edu in data.education" class="box"  ng-class="{'has-error': eduForm.$invalid && !eduForm.$pristine}">
+                    <div ng-repeat="edu in data.education" class="box"  ng-class="{
+                            'has-error'
+                            : eduForm.$invalid && !eduForm.$pristine}">
                         <ng-form name="eduForm" class="form-group">
                             <div class="row">
                                 <div class="col-sm-6">
@@ -241,7 +282,9 @@
                 <!-- **************************** EMPLOYMENT ************************** -->
                 <div class="row">
                     <div class="well well-sm strong"><f:message key="employment" /></div>
-                    <div ng-repeat="emp in data.employment" class="box"  ng-class="{'has-error': empForm.$invalid && !empForm.$pristine}">
+                    <div ng-repeat="emp in data.employment" class="box"  ng-class="{
+                            'has-error'
+                            : empForm.$invalid && !empForm.$pristine}">
                         <ng-form name="empForm" class="form-group">
                             <div class="row">
                                 <div class="col-sm-6">
@@ -285,7 +328,9 @@
                 <!-- **************************** LANGUAGE SKILLS ************************** -->
                 <div class="row">
                     <div class="well well-sm strong"><f:message key="language-skills" /></div>
-                    <div ng-repeat="skill in data['language-skills']"  class="box"  ng-class="{'has-error': langForm.$invalid && !langForm.$pristine}">
+                    <div ng-repeat="skill in data['language-skills']"  class="box"  ng-class="{
+                            'has-error'
+                            : langForm.$invalid && !langForm.$pristine}">
                         <ng-form name="langForm" class="form-group">
                             <div class="row">
                                 <div class="col-sm-3">
@@ -294,7 +339,7 @@
                                 </div>
                                 <div class="col-sm-3">
                                     <label for="level">Level</label> 
-                                    <select type="number" name="level" placeholder="From..." ng-model="skill.level"  class="form-control" required >
+                                    <select name="level" placeholder="From..." ng-model="skill.level"  class="form-control" required >
                                         <option>A1</option>
                                         <option>A2</option>
                                         <option>B1</option>
@@ -323,14 +368,16 @@
                 <!-- **************************** COMPUTER SKILLS ************************** -->
                 <div class="row">
                     <div class="well well-sm strong"><f:message key="computer-skills" /></div>
-                    <div ng-repeat="skill in data['computer-skills']" class="box"  ng-class="{'has-error': compForm.$invalid && !compForm.$pristine}">
+                    <div ng-repeat="skill in data['computer-skills']" class="box"  ng-class="{
+                            'has-error'
+                            : compForm.$invalid && !compForm.$pristine}">
                         <ng-form name="compForm" class="form-group">
                             <div class="row">
                                 <div class="col-sm-3">
                                     <label for="name">Skill {{$index + 1}}</label> 
                                     <input type="text" name="name" placeholder="Skill..." ng-model="skill.name"  class="form-control" required />
                                 </div>
-                                
+
                                 <div class="col-sm-5 col-sm-offset-3">
                                     <label for="note">Note</label> 
                                     <input type="text" name="note" placeholder="Note..." ng-model="skill.note" class="form-control" />
@@ -351,7 +398,9 @@
                 <!-- **************************** DRIVING SKILLS ************************** -->
                 <div class="row">
                     <div class="well well-sm strong"><f:message key="driving-license" /></div>
-                    <div ng-repeat="skill in data['driving-licence']" class="box"  ng-class="{'has-error': driveForm.$invalid && !driveForm.$pristine}">
+                    <div ng-repeat="skill in data['driving-licence']" class="box"  ng-class="{
+                            'has-error'
+                            : driveForm.$invalid && !driveForm.$pristine}">
                         <ng-form name="driveForm" class="form-group">
                             <div class="row">
                                 <div class="col-sm-3">
@@ -378,7 +427,9 @@
                 <!-- **************************** CERTIFICATES ************************** -->
                 <div class="row">
                     <div class="well well-sm strong"><f:message key="certificates" /></div>
-                    <div ng-repeat="cert in data.certificates" class="box"  ng-class="{'has-error': certForm.$invalid && !certForm.$pristine}">
+                    <div ng-repeat="cert in data.certificates" class="box"  ng-class="{
+                            'has-error'
+                            : certForm.$invalid && !certForm.$pristine}">
                         <ng-form name="certForm" class="form-group">
                             <div class="row">
                                 <div class="col-sm-3">

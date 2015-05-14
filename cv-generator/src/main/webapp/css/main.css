@@ -41,3 +41,17 @@ a .glyphicon-remove {
     border: #f6f6f6;
 }
 
+.page-up {
+    position: fixed;
+    top: 93%;
+    right: 3%;
+    alignment-adjust: central;
+    margin: 0px;
+    padding: 0px;
+}
+
+.page-up > .glyphicon {
+    font-size: 2em;
+    margin-bottom: -10px;
+    padding: 0px;
+}
