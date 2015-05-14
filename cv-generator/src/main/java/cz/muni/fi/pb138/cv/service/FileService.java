@@ -8,7 +8,7 @@ package cz.muni.fi.pb138.cv.service;
 import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
-import java.util.logging.Logger;
+//import java.util.logging.Logger;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -19,7 +19,8 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.TransformerFactoryConfigurationError;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-//import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -30,7 +31,7 @@ import org.w3c.dom.Element;
 public class FileService {
 
     private Document document = null;
-   // private final static org.slf4j.Logger log = LoggerFactory.getLogger(FileService.class);
+    private final static Logger log = LoggerFactory.getLogger(FileService.class);
 
     /**
      * method witch chcek if directory for all CV files exist, if not create
@@ -40,12 +41,14 @@ public class FileService {
      */
     public boolean checkDirectory() {
         File dir = new File(Config.DIRECTORY);
+        File utils = new File(Config.DBUTIL);
         if (!dir.exists()) {
             try {
-                //log.info("creating dir");
+                log.info("creating dir.");
                 dir.mkdir();
+                utils.mkdir();
             } catch (SecurityException ex) {
-                //log.info("CANNOT CREATE DIRECTORY");
+                log.error("CANNOT CREATE DIRECTORY.",ex);
                 return false;
             }
         }
@@ -61,6 +64,7 @@ public class FileService {
         File xml = new File(Config.LOGINS);
         try {
             if (xml.createNewFile()) {
+                log.debug("Checking user file db.");
                 DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
                 dbFactory.setValidating(false);
                 dbFactory.setNamespaceAware(false);
@@ -82,7 +86,7 @@ public class FileService {
                 return false;
             }
         } catch (IOException|ParserConfigurationException|TransformerFactoryConfigurationError|TransformerException ex) {
-            Logger.getLogger(FileService.class.getName()).log(Level.SEVERE, null, ex);
+            log.error("Error when creating user xml file." , ex);
             return false;
         }
        //return false;

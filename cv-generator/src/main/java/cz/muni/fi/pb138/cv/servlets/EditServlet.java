@@ -118,7 +118,7 @@ public class EditServlet extends HttpServlet {
                 log.debug(userData.toString());
 
                 //run XML schema
-                /*log.debug("Running validity check of CV for " + login);
+                log.debug("Running validity check of CV for " + login);
                 String message = cvService.checkValidity(userData);
                 if (message != null) {
                     log.debug(message);
@@ -128,7 +128,8 @@ public class EditServlet extends HttpServlet {
                     request.getRequestDispatcher(Common.EDIT_JSP).forward(request, response);
                     return;
                 }
-                */log.debug("Trying to store CV for " + login);
+                
+                log.debug("Trying to store CV for " + login);
                 //if ok, store xml to DB, redirect to /profile
                 if (cvService.saveCv(login, userData)) {
                     System.out.println("CV for " + login + " saved");

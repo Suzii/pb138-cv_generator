@@ -8,7 +8,7 @@ package cz.muni.fi.pb138.cv.service;
 import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
-import java.util.logging.Logger;
+//import java.util.logging.Logger;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -23,6 +23,8 @@ import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 //import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -35,10 +37,10 @@ import org.xml.sax.SAXException;
 public class UserServiceImpl implements UserService {
 
     private Document logins;
-   // private final static org.slf4j.Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
+    private final static Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
 
     public UserServiceImpl() {
-        //log.info("USER SERVICE");
+        log.debug("Checking database direcotry.");
         FileService fs = new FileService();
 
         if (fs.checkDirectory()) {
@@ -60,18 +62,17 @@ public class UserServiceImpl implements UserService {
     public boolean checkIfExists(String login) {
         openDocument();
         try {
-            System.out.println("login check : " + login);
+            log.debug("login check : " + login);
             XPathFactory xPathfactory = XPathFactory.newInstance();
             XPath xpath = xPathfactory.newXPath();
             XPathExpression expr = xpath.compile("/users/user[./login/text()=\""+login+"\"]/login/text()");
             String userLogin = expr.evaluate(logins);
-            System.out.println("usr :" + userLogin+";");
+            log.debug("Found user :" + userLogin);
             return login.equals(userLogin);
             //return (!userLogin.trim().equals(""));
 
         } catch (XPathExpressionException ex) {
-            Logger.getLogger(UserServiceImpl.class
-                    .getName()).log(Level.SEVERE, null, ex);
+            log.error("Problem when checking user : " ,ex);
 
             return false;
         }
@@ -87,6 +88,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean registerNewUser(String login, String passwordHash) {
         if (!checkIfExists(login)) {
+            log.debug("Registering new user : " + login + " with psw hash : " +passwordHash);
             Element root = logins.getDocumentElement();
 
             Element newUser = logins.createElement("user");
@@ -96,6 +98,7 @@ public class UserServiceImpl implements UserService {
             root.appendChild(newUser);
 
             try {
+                log.debug("Adding to xml db.");
                 TransformerFactory tFactory = TransformerFactory.newInstance();
                 Transformer transformer = tFactory.newTransformer();
                 transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
@@ -104,6 +107,7 @@ public class UserServiceImpl implements UserService {
                 StreamResult result = new StreamResult(new File(Config.LOGINS));
                 transformer.transform(source, result);               
             }catch(TransformerFactoryConfigurationError|TransformerException ex){
+                log.error("Error ocurred by adding to db. ",ex);
                 return false;
             }
             return true;
@@ -115,19 +119,17 @@ public class UserServiceImpl implements UserService {
     public boolean verifyCredentials(String login, String passwordHash) {
         if (checkIfExists(login)) {
             try {
-                System.out.println("cred");
+                log.debug("Credentials verifing ,user: " +login + "  psw hash : "+passwordHash);
                 XPathFactory xPathfactory = XPathFactory.newInstance();
                 XPath xpath = xPathfactory.newXPath();
                 XPathExpression expr = xpath.compile("/users/user[./login/text()=\""+login+"\" and ./passwordHash/text()=\""+passwordHash+"\"]/passwordHash/text()");
                 String password = expr.evaluate(logins);
-                System.out.println("pss: "+ password);
+                log.debug("Founded psw: "+ password);
                 //return login.equals(userLogin);"\"
                 return (password.equals(passwordHash));
 
             } catch (XPathExpressionException ex) {
-                Logger.getLogger(UserServiceImpl.class
-                        .getName()).log(Level.SEVERE, null, ex);
-
+                log.error("Error by verifing credentials of user :" + login ,ex);
                 return false;
             }
         }
@@ -148,6 +150,7 @@ public class UserServiceImpl implements UserService {
     }
 
     private void openDocument() {
+        log.debug("Reload of user document. ");
         File doc = new File(Config.LOGINS);
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
         dbFactory.setValidating(false);
@@ -157,8 +160,7 @@ public class UserServiceImpl implements UserService {
             dBuilder = dbFactory.newDocumentBuilder();
             logins = dBuilder.parse(doc);
         } catch (SAXException | ParserConfigurationException | IOException ex) {
-            Logger.getLogger(FileService.class
-                    .getName()).log(Level.SEVERE, null, ex);
+            log.error("Error when opening(loading) users document. ");
         }
     }
 

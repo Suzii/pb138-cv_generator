@@ -15,8 +15,9 @@ public class serviceTest {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        /*System.out.println("welcome in main;");
+        System.out.println("welcome in main;");
         UserServiceImpl us = new UserServiceImpl();
+        CvServiceImpl cvs = new CvServiceImpl();
         String p = "pato";
         System.out.println(us.registerNewUser("jozo",p));
         System.out.println(us.verifyCredentials(p, p));
@@ -24,10 +25,17 @@ public class serviceTest {
         System.out.println(us.registerNewUser("dddd",p));
 
         System.out.println(us.checkIfExists("dddd"));
-        */
-        String passwd = "password";
+
+        
+        
+        System.out.println("Trying xslt");
+        cvs.generatePdf("sample-cv", "sk");
+
+        
+        /*String passwd = "password";
        
-        System.out.println();
+        System.out.println();*/
+
     }
     
 }
