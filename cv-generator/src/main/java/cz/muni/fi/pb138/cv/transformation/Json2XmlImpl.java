@@ -112,7 +112,7 @@ public class Json2XmlImpl implements Json2Xml {
         rootElement.appendChild(createCustomElems("education", "edu", new String[] {"from", "to"}, new String[] {"name-of-education", "name-of-school", "note"}));
         rootElement.appendChild(createCustomElems("employment", "emp", new String[] {"from", "to"}, new String[] {"company", "position", "note"}));
         rootElement.appendChild(createCustomElems("language-skills", "lang", new String[] {"name"}, new String[] {"level", "note"}));
-        rootElement.appendChild(createCustomElems("computer-skills", "skill", null, new String[] {"name", "level", "note"}));
+        rootElement.appendChild(createCustomElems("computer-skills", "skill", null, new String[] {"name", "note"}));
         rootElement.appendChild(createCustomElems("certificates", "cert", new String[] {"year"}, new String[] {"name", "note"}));
         rootElement.appendChild(createCustomElems("driving-licence", "class", null, new String[] {"name", "note"}));
         parseOthers(rootElement);
@@ -128,6 +128,17 @@ public class Json2XmlImpl implements Json2Xml {
         //Names
         elem.appendChild(createElemWithText(json_pd, "given-names"));
         elem.appendChild(createElemWithText(json_pd, "surname"));
+        
+        //date of Birth
+        Element elem_dateOfBirth = doc.createElement("date-of-birth");
+        JSONObject json_dateOfBirth = (JSONObject) json_pd.get("date-of-birth");
+        
+        String dob_items[] = {"day", "month", "year"};
+        for (String item : dob_items) {
+            Element e = createElemWithText(json_dateOfBirth, item);
+            if (e != null) elem_dateOfBirth.appendChild(e);
+        }
+        elem.appendChild(elem_dateOfBirth);
         
         //Adresses
         Element elem_address = doc.createElement("address");

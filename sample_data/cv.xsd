@@ -33,12 +33,38 @@
         <xsd:sequence>
             <xsd:element name="given-names" type="stringNonEmpty" />
             <xsd:element name="surname" type="stringNonEmpty" />
-            <xsd:element name="date-of-birth" type="xsd:string" /> <!-- TODO -->
+            <xsd:element name="date-of-birth" type="dateOfBirthType" />
             <xsd:element name="address" type="addressType" />
             <xsd:element name="phones" type="phonesType" />
             <xsd:element name="emails" type="emailsType" />
             <xsd:element name="social" type="socialType" />
         </xsd:sequence>    
+    </xsd:complexType>
+    
+    <xsd:complexType name="dateOfBirthType">
+        <xsd:sequence>
+            <xsd:element name="day">
+                <xsd:simpleType>
+                   <xsd:restriction base="xsd:string">
+                       <xsd:pattern value="[0-3][0-9]" />
+                   </xsd:restriction>
+               </xsd:simpleType>
+            </xsd:element>
+            <xsd:element name="month">
+                <xsd:simpleType>
+                   <xsd:restriction base="xsd:string">
+                       <xsd:pattern value="[0-1][0-9]" />
+                   </xsd:restriction>
+               </xsd:simpleType>
+            </xsd:element>
+            <xsd:element name="year">
+                <xsd:simpleType>
+                   <xsd:restriction base="xsd:string">
+                       <xsd:pattern value="[0-9]{4}" />
+                   </xsd:restriction>
+               </xsd:simpleType>
+            </xsd:element>
+        </xsd:sequence>
     </xsd:complexType>
     
     <xsd:complexType name="addressType">
@@ -60,7 +86,7 @@
     
     <xsd:complexType name="emailsType">
         <xsd:sequence>
-            <xsd:element name="email" minOccurs="0" maxOccurs="unbounded" >
+            <xsd:element name="email" minOccurs="0" maxOccurs="unbounded">
                 <xsd:simpleType>
                    <xsd:restriction base="xsd:string">
                        <xsd:pattern value="[a-zA-Z0-9_.-]+@[a-zA-Z0-9_.-]+\.[a-zA-Z0-9_.-]+" />
@@ -113,7 +139,7 @@
     </xsd:complexType>
     <xsd:complexType name="langType">
         <xsd:sequence>
-            <xsd:element name="level" type="levelEnumType" />
+            <xsd:element name="level" type="levelType" />
             <xsd:element name="note" type="xsd:string" />
         </xsd:sequence>
         <xsd:attribute name="name" type="stringNonEmpty" use="required" />
@@ -140,7 +166,6 @@
     <xsd:complexType name="skillType">
         <xsd:sequence>
             <xsd:element name="name" type="stringNonEmpty" />
-            <xsd:element name="level" type="levelEnumType" />
             <xsd:element name="note" type="xsd:string" />
         </xsd:sequence>
     </xsd:complexType>
@@ -158,10 +183,14 @@
     </xsd:complexType>
     
     
-    <xsd:simpleType name="levelEnumType">
+    <xsd:simpleType name="levelType">
        <xsd:restriction base="xsd:string">
-           <xsd:enumeration value="Proffesional" />
-           <xsd:enumeration value="Intermediate" />
+           <xsd:enumeration value="A1" />
+           <xsd:enumeration value="A2" />
+           <xsd:enumeration value="B1" />
+           <xsd:enumeration value="B2" />
+           <xsd:enumeration value="C1" />
+           <xsd:enumeration value="C2" />
        </xsd:restriction>
     </xsd:simpleType>
     
