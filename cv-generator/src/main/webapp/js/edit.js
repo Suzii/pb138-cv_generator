@@ -7,12 +7,14 @@ editApp.controller('DateController', ['$scope', function ($scope) {
 
         $scope.days = [];
         for (var i = 0; i < $scope.totaldays; i += 1) {
-            $scope.days.push(i + 1);
+            var d = (i < 9)? "0"+(i+1) : (i+1);
+            $scope.days.push(d);
         }
 
         $scope.months = [];
         for (var i = 0; i < $scope.totalmonths; i += 1) {
-            $scope.months.push(i + 1);
+            var m = (i < 9)? "0"+(i+1) : (i+1);
+            $scope.months.push(m);
         }
 
         $scope.years = [];
