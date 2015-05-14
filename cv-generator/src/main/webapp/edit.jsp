@@ -57,8 +57,7 @@
             </c:if>
 
             <!-- **************************** FORM ************************** -->
-            <form action="${pageContext.request.contextPath}/edit/save" class="form-horizontal" method="POST" name="userForm"  id="cvForm" ng-submit="$event.preventDefault();
-                            submit();" novalidate>
+            <form action="${pageContext.request.contextPath}/edit/save" class="form-horizontal" method="POST" name="userForm"  id="cvForm" ng-submit="$event.preventDefault();submit();" novalidate>
                 <!-- **************************** PERSONAL DETAILS ************************** -->
                 <div class="row">
                     <div class="well well-sm strong"><f:message key="personal-details" /></div>
@@ -83,6 +82,7 @@
                         <div class="form-group"  ng-class="{'has-error': showErrors && userForm.dateOfBirth.$invalid}">
                             <label for="dateOfBirth" class="col-sm-2 control-label"><f:message key="dateOfBirth" />*</label>
                             <div class="col-sm-9">
+                                
                                 <input type="date" name="dateOfBirth" ng-model="data['personal-details']['date-of-birth']" class="form-control" required />
                                 <p ng-show="userForm.dateOfBirth.$invalid && !userForm.dateOfBirth.$pristine" class="help-block">Date of birth is required.</p>
                             </div>
@@ -295,9 +295,12 @@
                                 <div class="col-sm-3">
                                     <label for="level">Level</label> 
                                     <select type="number" name="level" placeholder="From..." ng-model="skill.level"  class="form-control" required >
-                                        <option>Beginner</option>
-                                        <option>Intermediate</option>
-                                        <option>Advanced</option>
+                                        <option>A1</option>
+                                        <option>A2</option>
+                                        <option>B1</option>
+                                        <option>B2</option>
+                                        <option>C1</option>
+                                        <option>C2</option>
                                     </select>
                                 </div>
                                 <div class="col-sm-5">
@@ -327,15 +330,8 @@
                                     <label for="name">Skill {{$index + 1}}</label> 
                                     <input type="text" name="name" placeholder="Skill..." ng-model="skill.name"  class="form-control" required />
                                 </div>
-                                <div class="col-sm-3">
-                                    <label for="level">Level</label> 
-                                    <select type="number" name="from" placeholder="From..." ng-model="skill.level"  class="form-control" required >
-                                        <option>Beginner</option>
-                                        <option>Intermediate</option>
-                                        <option>Advanced</option>
-                                    </select>
-                                </div>
-                                <div class="col-sm-5">
+                                
+                                <div class="col-sm-5 col-sm-offset-3">
                                     <label for="note">Note</label> 
                                     <input type="text" name="note" placeholder="Note..." ng-model="skill.note" class="form-control" />
                                 </div>
@@ -419,8 +415,8 @@
                     <div class="well well-sm strong"><f:message key="hobbies" /></div>
                     <textarea ng-model="data.hobbies" class="form-control"></textarea>
                 </div>
-                <a href="/#top">
-                    <button type="submit" class="btn btn-primary col-sm-2 col-sm-offset-5">Save</button>
+                <a href="#">
+                    <button class="btn btn-primary col-sm-2 col-sm-offset-5">Save</button>
                 </a>
             </form>
         </div>

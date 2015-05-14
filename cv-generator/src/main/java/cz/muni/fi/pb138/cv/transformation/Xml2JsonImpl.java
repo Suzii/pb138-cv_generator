@@ -123,8 +123,16 @@ public class Xml2JsonImpl implements Xml2Json{
             return;
         }
         
-        JSONArray jArray = jRoot.getJSONObject(parent).getJSONArray(name);
+        Object obj = jRoot.getJSONObject(parent).get(name);
         jRoot.remove(parent);
+
+        JSONArray jArray;
+        if (obj instanceof JSONArray){
+            jArray = (JSONArray) obj;
+        }else{
+            jArray = new JSONArray();
+            jArray.put(obj);
+        }
         
         JSONArray phones_new = new JSONArray();
         for (int i=0; i<jArray.length(); i++){

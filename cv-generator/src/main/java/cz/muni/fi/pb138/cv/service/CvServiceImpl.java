@@ -165,7 +165,7 @@ public class CvServiceImpl implements CvService {
                     log.debug(line);
                 }
             } catch (IOException ex) {
-                log.error("Error generating PDF file.");
+                log.error("Error generating PDF file.",ex);
                 return null;
             }
             return new File(Config.DBUTIL + "/resultCV.pdf");
