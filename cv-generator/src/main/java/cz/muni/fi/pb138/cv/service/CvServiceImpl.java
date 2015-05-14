@@ -43,6 +43,10 @@ import org.xml.sax.SAXException;
 /**
  *
  * @author pato
+ *
+ * !!!!!!! cv.xsd and xml-to-tex.xsl and texts.xml MUST BE COPIED TO PREPARED
+ * DIRECTORY C:\pb138-database\Utils !!!!!!
+ *
  */
 public class CvServiceImpl implements CvService {
 
@@ -136,46 +140,54 @@ public class CvServiceImpl implements CvService {
     @Override
     public File generatePdf(String login, String lang) {
         // todo vyriesit ako mat ten xml subor ulozeny alebo odkial ho nacucat + ako presne volat xslt transformator
-        StreamSource xml = new StreamSource(new File(Config.DIRECTORY + "/" + login + ".xml"));
-        StreamSource xslt = new StreamSource(new File("src/main/java/cz/muni/fi/pb138/cv/transformation/xml-to-tex.xsl")); // XSLT FILE
+        /*StreamSource xml = new StreamSource(new File(Config.DIRECTORY + "/" + login + ".xml"));
+         StreamSource xslt = new StreamSource(new File(Config.DBUTIL + "/xml-to-tex.xsl")); // XSLT FILE
 
-        StreamResult result;
-        try {
-            result = new StreamResult(new FileOutputStream("resultCV.tex"));
-            TransformerFactory tf = TransformerFactory.newInstance();
-            //tf.setAttribute("lang", lang);
-            Transformer transformer = tf.newTransformer(xslt);
-            transformer.setParameter("cv-language", lang);
-            transformer.transform(xml, result);
-           
-        } catch (FileNotFoundException | TransformerException ex) {
-            log.error("Error whe tranformating XML cv to tex file for login : " + login + " in language: " + lang, ex);
-            return null;
-        }
-        File tex = new File("resultCV.tex");
-        tex.setReadable(true);
-        List<String> params = new ArrayList<String>();
-        params.add("C:\\Programy\\MiKTeX 2.9\\miktex\\bin"+"\\pdflatex");
-       // params.add("-synctex=1 -interaction=nonstopmode");
-        params.add(tex.getAbsolutePath());
-        //ProcessBuilder pb = new ProcessBuilder("pdflatex -synctex=1 -interaction=nonstopmode " + System.getProperty("user.dir") + "resultCV.tex");
-        ProcessBuilder pb = new ProcessBuilder();
-        pb.directory(tex.getParentFile());
-        pb.redirectErrorStream(true);
-        try {
-            log.debug("Generating PDF.");
-            pb.command(params);
-            Process gen = pb.start();
-            BufferedReader reader = new BufferedReader (new InputStreamReader(gen.getInputStream()));
-            String line;
-            while (( line = reader.readLine ()) != null) {
-                System.out.println ("Stdout: " + line);
+         StreamResult result;
+         try {
+         result = new StreamResult(new FileOutputStream(Config.DBUTIL + "/resultCV.tex"));
+         TransformerFactory tf = TransformerFactory.newInstance();
+         //tf.setAttribute("lang", lang);
+         Transformer transformer = tf.newTransformer(xslt);
+         transformer.setParameter("cv-language", lang);
+         transformer.transform(xml, result);
+
+         } catch (FileNotFoundException | TransformerException ex) {
+         log.error("Error whe tranformating XML cv to tex file for login : " + login + " in language: " + lang, ex);
+         return null;
+         }*/
+
+        if (transforToTexFile(login, lang)) {
+
+            File tex = new File(Config.DBUTIL + "/resultCV.tex");
+            //tex.setReadable(true);
+            List<String> params = new ArrayList<String>();
+            params.add(Config.PATHTOLATEXBIN + "pdflatex");
+            //params.add("pdflatex");
+            // params.add("-synctex=1 -interaction=nonstopmode");
+            params.add(tex.getAbsolutePath());
+            log.debug(tex.getAbsolutePath() + " " + tex.getParentFile());
+            //ProcessBuilder pb = new ProcessBuilder("pdflatex -synctex=1 -interaction=nonstopmode " + System.getProperty("user.dir") + "resultCV.tex");
+            ProcessBuilder pb = new ProcessBuilder();
+            pb.directory(tex.getParentFile());
+            pb.redirectErrorStream(true);
+            try {
+                log.debug("Generating PDF.");
+                pb.command(params);
+                Process pdfCreation = pb.start();
+                BufferedReader reader = new BufferedReader(new InputStreamReader(pdfCreation.getInputStream()));
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    System.out.println("Problem: " + line);
+                }
+            } catch (IOException ex) {
+                log.error("Error generating PDF file.");
+                return null;
             }
-        } catch (IOException ex) {
-            log.error("Error generating PDF file.");
+            //return new File(Config.DBUTIL + "/resultCV.pdf");
         }
-
         return null;
+        
     }
 
     @Override
@@ -184,7 +196,7 @@ public class CvServiceImpl implements CvService {
         SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
         log.debug("Checking validity of XML file.");
         // load a WXS schema, represented by a Schema instance
-        Source schemaFile = new StreamSource(new File(Config.DBUTIL+"\\cv.xsd")); // TODO create schema
+        Source schemaFile = new StreamSource(new File(Config.DBUTIL + "\\cv.xsd")); // TODO create schema
         //log.debug("Schema : ");
         try {
             Schema schema = factory.newSchema(schemaFile);
@@ -194,10 +206,10 @@ public class CvServiceImpl implements CvService {
             validator.validate(new DOMSource(cv));
         } catch (SAXException e) {
             // instance document is invalid!
-            log.error("Error when checking validiotion with XML schema. " + e.getMessage());
+            log.error("Error when checking validiotion with XML schema.(SAX) " + e.getMessage());
             return e.getMessage();
         } catch (IOException ex) {
-            log.error("Error when checking validiotion with XML schema. " + ex.getMessage());
+            log.error("Error when checking validiotion with XML schema.(IO) " + ex.getMessage());
             return ex.getMessage();
         }
         log.debug("Validation successful.");
@@ -212,4 +224,50 @@ public class CvServiceImpl implements CvService {
         return result;
     }
 
+    private boolean transforToTexFile(String login, String lang) {
+        // todo vyriesit ako mat ten xml subor ulozeny alebo odkial ho nacucat + ako presne volat xslt transformator
+        StreamSource xml = new StreamSource(new File(Config.DIRECTORY + "/" + login + ".xml"));
+        StreamSource xslt = new StreamSource(new File(Config.DBUTIL + "/xml-to-tex.xsl")); // XSLT FILE
+
+        StreamResult result;
+        try {
+            result = new StreamResult(new FileOutputStream(Config.DBUTIL + "/resultCV.tex"));
+            TransformerFactory tf = TransformerFactory.newInstance();
+            //tf.setAttribute("lang", lang);
+            Transformer transformer = tf.newTransformer(xslt);
+            transformer.setParameter("cv-language", lang);
+            transformer.transform(xml, result);
+
+        } catch (FileNotFoundException | TransformerException ex) {
+            log.error("Error whe tranformating XML cv to tex file for login : " + login + " in language: " + lang, ex);
+            return false;
+        }
+        return true;
+    }
+
+    /*
+     * `Delete all files which has been generated by creating PDF CV
+     */
+    public void cleanAfterGeneratingPDF() {
+        File dvi = new File(Config.DBUTIL + "/resultCV.dvi");
+        dvi.delete();
+
+        //delete intermediate .aux file
+        File aux = new File(Config.DBUTIL + "/resultCV.aux");
+        aux.delete();
+
+        //delete intermediate .log file
+        File logF = new File(Config.DBUTIL + "/resultCV.log");
+        logF.delete();
+
+        //delete intermediate .out file
+        File out = new File(Config.DBUTIL + "/resultCV.out");
+        out.delete();
+
+        File pdf = new File(Config.DBUTIL + "/resultCV.pdf");
+        pdf.delete();
+
+        File tex = new File(Config.DBUTIL + "/resultCV.tex");
+        tex.delete();
+    }
 }
