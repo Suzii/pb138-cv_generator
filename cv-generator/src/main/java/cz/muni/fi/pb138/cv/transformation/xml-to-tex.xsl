@@ -80,7 +80,7 @@
     <xsl:template match="/curriculum-vitae/personal-details">
         \PersonalEntry{<xsl:value-of select="$texts//language[@id = $cv-language]/name" />}{<xsl:value-of select="given-names" />}
         \PersonalEntry{<xsl:value-of select="$texts//language[@id = $cv-language]/surname" />}{<xsl:value-of select="surname" />}
-        \PersonalEntry{<xsl:value-of select="$texts//language[@id = $cv-language]/date-of-birth" />}{<xsl:value-of select="date-of-birth" />}
+        <xsl:apply-templates select="date-of-birth" />
         
         <xsl:apply-templates select="address" />
         
@@ -99,6 +99,10 @@
         </xsl:if>
     </xsl:template>
     
+    <!-- date of birth -->
+    <xsl:template match="/curriculum-vitae/personal-details/date-of-birth">
+        \PersonalEntry{<xsl:value-of select="$texts//language[@id = $cv-language]/date-of-birth" />}{<xsl:value-of select="day" />.<xsl:value-of select="month" />.<xsl:value-of select="year" />}
+    </xsl:template>
     <!-- address -->
     <xsl:template match="/curriculum-vitae/personal-details/address" >
         \PersonalEntry{<xsl:value-of select="$texts//language[@id = $cv-language]/address" />}{<xsl:value-of select="street" />
@@ -234,8 +238,7 @@
     
     <!--computer skills-->
     <xsl:template match="/curriculum-vitae/computer-skills/skill">
-        \SkillsEntry{<xsl:value-of select="name" />}{<xsl:value-of select="level" />}
-        \SkillsEntry{}{<xsl:value-of select="note" />}
+        \SkillsEntry{<xsl:value-of select="name" />}{<xsl:value-of select="note" />}
         \sepspace
     </xsl:template>
     
