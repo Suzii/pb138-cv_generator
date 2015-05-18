@@ -93,9 +93,9 @@
             </div>
         </div>
 
-        <div class="container">
+        <!--div class="container">
             <pre>{{data| json : spacing}}</pre>
-        </div>
+        </div-->
         <%@ include file="/footer.jsp" %> 
     </body>
 </html>
