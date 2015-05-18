@@ -480,6 +480,6 @@
         <div class="container">
             <pre>{{data| json : spacing}}</pre>
         </div>
-        <%@ include file="/footer.html" %> 
+        <%@ include file="/footer.jsp" %> 
     </body>
 </html>

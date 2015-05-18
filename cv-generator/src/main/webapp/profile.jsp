@@ -24,9 +24,10 @@
                         <h2 ng-bind="info['given-names']"></h2>
                         <h3 ng-bind="info.surname"></h3>
                     </div>
-                    <div class="col-sm-3">
+                    <div class="col-sm-2">
                         <form action="${pageContext.request.contextPath}/profile/download" class="form-inline" method="GET">
                             <div class="form-group">
+                                <label class="sr-only" for="Language">Language</label>
                                 <select class="form-control" name="lang" required>
                                     <option value="en" selected="selected">English</option>
                                     <option value="sk">Slovak</option>
@@ -37,7 +38,7 @@
                             </button>
                         </form>
                     </div>
-                    <div class="col-sm-2">
+                    <div class="col-sm-2 col-sm-offset-1">
                         <form action="${pageContext.request.contextPath}/edit/logout" method="GET">
                             <button class="btn btn-danger btn-block" >
                                 <span class="glyphicon glyphicon-off " aria-hidden="true"></span> Log out
@@ -56,10 +57,10 @@
 
 
         <div class="container">
-            <h3> Contact info: </h3>
             <div class="row">
                 <div class="col-sm-6">
                     <div class="row">
+                        <h3> Contact info: </h3>
                         <div class="col-sm-2"><strong>Emails:</strong></div>
                         <div class="col-sm-4">
                             <a ng-repeat="email in info.emails" ng-href="mailto:{{email.value}}" target="_blank">{{email.value}}<br /></a>
@@ -80,6 +81,7 @@
 
                 </div>
                 <div class="col-sm-6">
+                    <h3> Address: </h3>
                     <address>
                         <strong>{{info['given-names']}} {{info.surname}}</strong> <br />
                         {{info.address.street}} {{info.address.number}} <br />
@@ -94,6 +96,6 @@
         <div class="container">
             <pre>{{data| json : spacing}}</pre>
         </div>
-        <%@ include file="/footer.html" %> 
+        <%@ include file="/footer.jsp" %> 
     </body>
 </html>
