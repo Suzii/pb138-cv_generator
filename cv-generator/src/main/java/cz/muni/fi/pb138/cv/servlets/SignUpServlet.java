@@ -5,6 +5,9 @@
  */
 package cz.muni.fi.pb138.cv.servlets;
 
+import cz.muni.fi.pb138.cv.servlets.utils.SessionService;
+import cz.muni.fi.pb138.cv.servlets.utils.Common;
+import cz.muni.fi.pb138.cv.servlets.utils.LoginsUtil;
 import cz.muni.fi.pb138.cv.service.*;
 
 import java.io.IOException;
@@ -24,7 +27,6 @@ import org.slf4j.LoggerFactory;
 @WebServlet(Common.URL_SIGNUP + "/*")
 public class SignUpServlet extends HttpServlet {
 
-    public static UserService userService = new UserServiceImpl();
     private final static Logger log = LoggerFactory.getLogger(SignUpServlet.class);
 
     /**
@@ -84,25 +86,20 @@ public class SignUpServlet extends HttpServlet {
         switch (action) {
 
             case "/submit":
+                //retrieve post data
                 String login = request.getParameter("login");
                 String password = request.getParameter("password");
                 String password2 = request.getParameter("password2");
-                log.debug("Credentials: Username: " + login + " Passwd: " + password);
-                Object data = "";
-                if (login == null || password == null || password2 == null) {
-                    data = "All fields are required!";
-                } else if (!password.equals(password2)) {
-                    data = "Passwords do not match!";
-                } else if (userService.checkIfExists(login)) {
-                    data = "Username: " + login + " already taken.";
-                } else if (!userService.registerNewUser(login, password)) {
-                    data = "Error while creating account.";
-                } else {
+                log.debug("SIGNUP: Username: " + login + " Passwd: " + password);
+                
+                // try to create an account
+                String error = getLoginsUtil().tryToCreateAnAccount(login, password, password2);
+                if(error == null) { // everything ok
                     SessionService.createSessionLogin(request, login);
                     response.sendRedirect(request.getContextPath() + Common.URL_EDIT);
                     return;
                 }
-                request.setAttribute("error", data);
+                request.setAttribute("error", error); // display error
                 request.getRequestDispatcher(Common.SIGNUP_JSP).forward(request, response);
                 return;
 
@@ -120,5 +117,9 @@ public class SignUpServlet extends HttpServlet {
     @Override
     public String getServletInfo() {
         return "Signup servlet of CV Generator app.";
+    }    
+    
+    private LoginsUtil getLoginsUtil() {
+        return (LoginsUtil) getServletContext().getAttribute("loginsUtil");
     }
 }

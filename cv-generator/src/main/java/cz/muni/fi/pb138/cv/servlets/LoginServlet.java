@@ -5,7 +5,7 @@
  */
 package cz.muni.fi.pb138.cv.servlets;
 
-import cz.muni.fi.pb138.cv.service.*;
+import cz.muni.fi.pb138.cv.servlets.utils.*;
 
 import java.io.IOException;
 import java.util.ResourceBundle;
@@ -24,7 +24,6 @@ import org.slf4j.LoggerFactory;
 @WebServlet(Common.URL_LOGIN + "/*")
 public class LoginServlet extends HttpServlet {
 
-    public static UserService userService = new UserServiceImpl();
     private final static Logger log = LoggerFactory.getLogger(LoginServlet.class);
 
     /**
@@ -81,24 +80,22 @@ public class LoginServlet extends HttpServlet {
         processRequest(request, response);
         ResourceBundle bundle = ResourceBundle.getBundle("texts", request.getLocale());
         String action = request.getPathInfo();
+
         switch (action) {
             case "/submit":
+                //retrieve post parameters
                 String login = request.getParameter("login");
                 String password = request.getParameter("password");
                 log.debug("LOGIN Username: " + login + " Passwd: " + password);
-                Object data = "";
-                //find out if user exists
-                if (!userService.checkIfExists(login)) {
-                    data = "Username: " + login + " does not exists";
-                //check password
-                } else if (!userService.verifyCredentials(login, password)) {
-                    data = "Wrong password.";
-                } else {
+
+                //verify credentials
+                String error = getLoginsUtil().verifyCredentials(login, password);
+                if (error == null) { // everything ok
                     SessionService.createSessionLogin(request, login);
                     response.sendRedirect(request.getContextPath() + Common.URL_EDIT);
                     return;
                 }
-                request.setAttribute("error", data);
+                request.setAttribute("error", error); // display error
                 request.getRequestDispatcher(Common.LOGIN_JSP).forward(request, response);
                 return;
 
@@ -116,5 +113,9 @@ public class LoginServlet extends HttpServlet {
     @Override
     public String getServletInfo() {
         return "Login servlet of CV Generator app.";
+    }
+
+    private LoginsUtil getLoginsUtil() {
+        return (LoginsUtil) getServletContext().getAttribute("loginsUtil");
     }
 }

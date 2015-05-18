@@ -5,7 +5,11 @@
  */
 package cz.muni.fi.pb138.cv.servlets;
 
+import cz.muni.fi.pb138.cv.servlets.utils.CvUtil;
 import cz.muni.fi.pb138.cv.service.*;
+import cz.muni.fi.pb138.cv.servlets.utils.Common;
+import cz.muni.fi.pb138.cv.servlets.utils.SessionService;
+import cz.muni.fi.pb138.cv.servlets.utils.CvUtil;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -30,8 +34,6 @@ import org.slf4j.LoggerFactory;
 @WebServlet(Common.URL_PROFILE + "/*")
 public class ProfileServlet extends HttpServlet {
 
-    public static UserService userService = new UserServiceImpl();
-    public static CvService cvService = new CvServiceImpl();
     private final static Logger log = LoggerFactory.getLogger(ProfileServlet.class);
 
     /**
@@ -68,12 +70,11 @@ public class ProfileServlet extends HttpServlet {
             String login = SessionService.getSessionLogin(request);
             if (login != null) {
                 log.debug("PROFILE Logged user: " + login);
-                JSONObject userData = cvService.loadCvJSON(login);
+                JSONObject userData = getCvService().loadCvJSON(login);
                 request.setAttribute("userData", userData);
 
-                System.out.println("User: " + login);
-                System.out.println("Data: " + userData);
-
+                //System.out.println("User: " + login);
+                //System.out.println("Data: " + userData);
                 request.getRequestDispatcher(Common.PROFILE_JSP).forward(request, response);
             } else {
                 //user is not logged in
@@ -84,20 +85,20 @@ public class ProfileServlet extends HttpServlet {
         }
         switch (action) {
             case "/download":
+                // retrieve session and form info
                 String login = SessionService.getSessionLogin(request);
-                try {
-                    String lang = request.getParameter("lang");
-                    if(lang == null || lang.length() == 0){
-                        lang = "en";
-                    }
-                    attachFile(response, login, lang);
-                } catch (IOException e) {
+                String lang = request.getParameter("lang");
+                if (lang == null || lang.length() == 0) {
+                    lang = "en";
+                }
+                try { // attach pdf 
+                    File file = getCvService().generatePdf(login, lang);
+                    getCvUtil().attachFile(response, file);
+                } catch (IOException e) { // display error
                     request.setAttribute("error", "Sorry, some error occured while generating your CV.");
                     log.error("Failed to generate cv for " + login, e);
-                    request.getRequestDispatcher(Common.PROFILE_JSP).forward(request, response);
-                    return;
                 }
-                response.sendRedirect(request.getContextPath() + Common.URL_PROFILE);
+                request.getRequestDispatcher(Common.PROFILE_JSP).forward(request, response);
                 return;
             default:
                 response.sendError(HttpServletResponse.SC_NOT_FOUND, "Unknown action ");
@@ -137,24 +138,11 @@ public class ProfileServlet extends HttpServlet {
         return "Profile servlet of CV Generator app.";
     }
 
-    private void attachFile(HttpServletResponse response, String login, String lang) throws IOException {
-        File file = cvService.generatePdf(login, lang);
-        if(file == null){
-            return;
-        }
+    private CvService getCvService() {
+        return (CvService) getServletContext().getAttribute("cvService");
+    }
 
-        response.setContentType("application/octet-stream");
-        response.setContentLength((int) file.length());
-        response.setHeader("Content-Disposition", String.format("attachment; filename=\"%s\"", file.getName()));
-
-        OutputStream out = response.getOutputStream();
-        try (FileInputStream in = new FileInputStream(file)) {
-            byte[] buffer = new byte[4096];
-            int length;
-            while ((length = in.read(buffer)) > 0) {
-                out.write(buffer, 0, length);
-            }
-        }
-        out.flush();
+    private CvUtil getCvUtil() {
+        return (CvUtil) getServletContext().getAttribute("cvUtil");
     }
 }
