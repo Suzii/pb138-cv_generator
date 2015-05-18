@@ -44,11 +44,11 @@
                             </button>
                         </form>
 
-                        <form action="${pageContext.request.contextPath}/profile/edit" method="GET">
+                        <a href="edit">
                             <button class="btn btn-primary btn-block" >
                                 <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Edit
                             </button>
-                        </form>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -68,7 +68,7 @@
                     <div class="row">
                         <div class="col-sm-2"><strong>Social:</strong></div>
                         <div class="col-sm-4">
-                            <a ng-repeat="social in info.social" ng-href="{{social.value}}" target="_blank">{{social.value}}<br /></a>
+                            <a ng-repeat="social in info.social" ng-href="http://{{social.value}}" target="_blank">{{social.value}}<br /></a>
                         </div>
                     </div>
                     <div class="row">

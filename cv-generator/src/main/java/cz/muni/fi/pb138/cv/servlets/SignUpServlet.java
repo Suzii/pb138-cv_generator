@@ -89,7 +89,7 @@ public class SignUpServlet extends HttpServlet {
                 String password2 = request.getParameter("password2");
                 log.debug("Credentials: Username: " + login + " Passwd: " + password);
                 Object data = "";
-                if (password == null || password2 == null) {
+                if (login == null || password == null || password2 == null) {
                     data = "All fields are required!";
                 } else if (!password.equals(password2)) {
                     data = "Passwords do not match!";

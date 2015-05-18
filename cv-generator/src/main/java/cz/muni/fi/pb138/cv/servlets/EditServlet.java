@@ -84,9 +84,6 @@ public class EditServlet extends HttpServlet {
                 SessionService.deleteSessionLogin(request);
                 response.sendRedirect(request.getContextPath() + Common.URL_LOGIN);
                 return;
-            case "/profile":
-                response.sendRedirect(request.getContextPath() + Common.URL_PROFILE);
-                return;
             default:
                 response.sendError(HttpServletResponse.SC_NOT_FOUND, "Unknown action " + action);
                 return;

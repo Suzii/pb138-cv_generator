@@ -82,7 +82,6 @@ public class LoginServlet extends HttpServlet {
         ResourceBundle bundle = ResourceBundle.getBundle("texts", request.getLocale());
         String action = request.getPathInfo();
         switch (action) {
-
             case "/submit":
                 String login = request.getParameter("login");
                 String password = request.getParameter("password");

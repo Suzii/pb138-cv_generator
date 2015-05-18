@@ -99,9 +99,6 @@ public class ProfileServlet extends HttpServlet {
                 }
                 response.sendRedirect(request.getContextPath() + Common.URL_PROFILE);
                 return;
-            case "/edit":
-                response.sendRedirect(request.getContextPath() + Common.URL_EDIT);
-                return;
             default:
                 response.sendError(HttpServletResponse.SC_NOT_FOUND, "Unknown action ");
                 return;
