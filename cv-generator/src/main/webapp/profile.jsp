@@ -5,7 +5,7 @@
 <html ng-app="profileApp">
     <head>
         <%@ include file="/meta-data.html" %> 
-        <script src="js/profile.js"></script>
+        <script src="${pageContext.request.contextPath}/js/profile.js"></script>
         <script>
             var userData = undefined;
             <c:if test="${not empty userData}">
@@ -27,7 +27,7 @@
                     <div class="col-sm-3">
                         <form action="${pageContext.request.contextPath}/profile/download" class="form-inline" method="GET">
                             <div class="form-group">
-                                <select class="form-control" required>
+                                <select class="form-control" name="lang" required>
                                     <option value="en" selected="selected">English</option>
                                     <option value="sk">Slovak</option>
                                 </select>

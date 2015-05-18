@@ -87,6 +87,7 @@ public class ProfileServlet extends HttpServlet {
                     lang = "en";
                 }
                 try { // attach pdf 
+                    log.debug("PROFILE: requesting pdf generation for " + login + " in " + lang);
                     File file = getCvService().generatePdf(login, lang);
                     getCvUtil().attachFile(response, file);
                 } catch (IOException e) { // display error

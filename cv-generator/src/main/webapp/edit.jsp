@@ -6,7 +6,7 @@
 <html ng-app="editApp">
     <head>
         <%@ include file="/meta-data.html" %> 
-        <script src="js/edit.js"></script>
+        <script src="${pageContext.request.contextPath}/js/edit.js"></script>
         <script>
                     var userData = undefined;
             <c:if test="${not empty userData}">
@@ -69,29 +69,24 @@
                     <div class="well well-sm strong"><f:message key="personal-details" /></div>
                     <div class="col-sm-6">
                         <!-- **************************** given names ************************** -->
-                        <div class="form-group" ng-class="{
-                                'has-error'
-                                        : showErrors &&  userForm['given-names'].$invalid}">
+                        <div class="form-group" ng-class="{'has-error': (!userForm['given-names'].$pristine || showErrors) &&  userForm['given-names'].$invalid}">
                             <label for="given-names" class="col-sm-2 control-label"><f:message key="given-names" />*</label>
                             <div class="col-sm-9">
                                 <input type="text" name="given-names" ng-model="data['personal-details']['given-names']" class="form-control" required/>
-                                <p ng-show="userForm['given-names'].$invalid && !userForm['given-names'].$pristine" class="help-block">Given names are required.</p>
+                                <p ng-show="userForm['given-names'].$invalid && (!userForm['given-names'].$pristine || showError)" class="help-block">Given names are required.</p>
                             </div>
                         </div>
                         <!-- **************************** surname ************************** -->
                         <div class="form-group"  ng-class="{
-                                'has-error'
-                                        : showErrors && userForm.surname.$invalid}">
+                                'has-error': (!userForm.surname.$pristine || showError) && userForm.surname.$invalid}">
                             <label for="surname" class="col-sm-2 control-label"><f:message key="surname" />*</label>
                             <div class="col-sm-9">
                                 <input type="text" name="surname" ng-model="data['personal-details'].surname" class="form-control" required />
-                                <p ng-show="userForm.surname.$invalid && !userForm.surname.$pristine" class="help-block">Surname is required.</p>
+                                <p ng-show="userForm.surname.$invalid && (!userForm.surname.$pristine || showError)" class="help-block">Surname is required.</p>
                             </div>
                         </div>
                         <!-- **************************** date of birth ************************** -->
-                        <div class="form-group"  ng-class="{
-                                'has-error'
-                                : showErrors && userForm.dateOfBirth.$invalid}">
+                        <div class="form-group"  ng-class="{'has-error': userForm.dateOfBirth.$invalid && (!userForm.dateOfBirth.$pristine || showError)}">
                             <label for="dateOfBirth" class="col-sm-2 control-label"><f:message key="dateOfBirth" />*</label>
                             <div class="col-sm-9" ng-controller="DateController">
                                 <ng-form name="dateOfBirth" class="form-inline">
@@ -105,7 +100,7 @@
                                         <select class="form-control" ng-model="data['personal-details']['date-of-birth'].year" ng-options="y for y in years" required>
                                             <option value="Year" selected="">Year</option>
                                         </select>
-                                        <p ng-show="userForm.dateOfBirth.$invalid && !userForm.dateOfBirth.$pristine" class="help-block">Date of birth is required.</p>
+                                        <p ng-show="userForm.dateOfBirth.$invalid && (!userForm.dateOfBirth.$pristine || showError)" class="help-block">Date of birth is required.</p>
                                     </div>
                                 </ng-form>
                             </div>
@@ -113,12 +108,12 @@
                         <!-- **************************** phones ************************** -->
                         <div ng-repeat="phone in data['personal-details'].phones" class="form-group"  ng-class="{
                                 'has-error'
-                                        : showErrors && phoneForm.phone.$invalid}">
+                                        : phoneForm.phone.$invalid && (!phoneForm.phone.$pristine || showError)}">
                             <ng-form name="phoneForm">
                                 <label for="phone" class="col-sm-2 control-label"><f:message key="phone" /> {{$index + 1}}*</label>
                                 <div class="col-sm-9">
                                     <input type="text" name="phone" ng-model="phone.value" class="form-control" required/>
-                                    <p ng-show="phoneForm.phone.$invalid && !phoneForm.phone.$pristine" class="help-block">Required.</p>
+                                    <p ng-show="phoneForm.phone.$invalid && (!phoneForm.phone.$pristine || showError)" class="help-block">Required.</p>
                                 </div>
                                 <a ng-click="$event.preventDefault();
                                             deleteItem(data['personal-details'].phones, $index);" class="col-sm-1">
@@ -135,15 +130,15 @@
                         <label ng-show="data['personal-details'].emails.length == 0" class="col-sm-6">Emails</label>
                         <div ng-repeat="email in data['personal-details'].emails" class="form-group"  ng-class="{
                                 'has-error'
-                                        : showErrors && emailForm.email.$invalid }">
+                                        : emailForm.email.$invalid && (!emailForm.email.$pristine || showError)}">
                             <ng-form name="emailForm">
                                 <label for="email" class="col-sm-2 control-label"><f:message key="email" /> {{$index + 1}}*</label>
                                 <div class="col-sm-9">
                                     <div class="input-group">
                                         <div class="input-group-addon">@</div>
                                         <input type="email" name="email" ng-model="email.value" class="form-control" required/>
-                                        <p class="help-block" ng-show="emailForm.email.$invalid && !emailForm.email.$pristine">Please, enter a valid email</p>
                                     </div>
+                                        <p class="help-block" ng-show="emailForm.email.$invalid && (!emailForm.email.$pristine || showError)">Please, enter a valid email</p>
                                 </div>
                                 <a ng-click="$event.preventDefault();
                                             deleteItem(data['personal-details'].emails, $index);" class="col-sm-1">
@@ -159,15 +154,15 @@
                         <label ng-show="data['personal-details'].social.length == 0" class="col-sm-6">Social</label>
                         <div ng-repeat="social in data['personal-details'].social" class="form-group"  ng-class="{
                                 'has-error'
-                                        : showErrors && socialForm.social.$invalid}">
+                                        : socialForm.social.$invalid && (!socialForm.social.$pristine || showError)}">
                             <ng-form name="socialForm">
                                 <label for="social" class="col-sm-2 control-label"><f:message key="social" /> {{$index + 1}}*</label>
                                 <div class="col-sm-9">
                                     <div class="input-group">
                                         <div class="input-group-addon">http://</div>
                                         <input type="text" name="social" ng-model="social.value" class="form-control" required/>
-                                        <p class="help-block" ng-show="socialForm.social.$invalid && !socialForm.social.$pristine">Please, enter a valid link</p>
                                     </div>
+                                        <p class="help-block" ng-show="socialForm.social.$invalid && (!socialForm.social.$pristine || showError)">Please, enter a valid link</p>
                                 </div>
                                 <a ng-click="$event.preventDefault();
                                             deleteItem(data['personal-details'].social, $index);" class="col-sm-1">
@@ -184,61 +179,61 @@
                         <!-- **************************** street ************************** -->
                         <div class="form-group" ng-class="{
                                 'has-error'
-                                        : showErrors && userForm.street.$invalid}">
+                                        : userForm.street.$invalid && (!userForm.street.$pristine || showError)}">
                             <label for="street" class="col-sm-2 control-label"><f:message key="street" /></label>
                             <div class="col-sm-10">
                                 <input type="text" name="street" ng-model="data['personal-details'].address.street" class="form-control" required/>
-                                <p class="help-block" ng-show="userForm.street.$invalid && !userForm.street.$pristine">Please, enter your street</p>
+                                <p class="help-block" ng-show="userForm.street.$invalid && (!userForm.street.$pristine || showError)">Please, enter your street</p>
                             </div>
                         </div>
                         <!-- **************************** number ************************** -->
                         <div class="form-group" ng-class="{
                                 'has-error'
-                                        : userForm.number.$invalid && !userForm.number.$pristine}">
+                                        :userForm.number.$invalid && (!userForm.number.$pristine || showError)}">
                             <label for="number" class="col-sm-2 control-label"><f:message key="number" /></label>
                             <div class="col-sm-10">
                                 <input type="number" min="1" name="number" ng-model="data['personal-details'].address.number" class="form-control"/>
-                                <p class="help-block" ng-show="userForm.number.$invalid && !userForm.number.$pristine">Invalid value.</p>
+                                <p class="help-block" ng-show="userForm.number.$invalid && (!userForm.number.$pristine || showError)">Invalid value.</p>
                             </div>
                         </div>
                         <!-- **************************** city ************************** -->
                         <div class="form-group" ng-class="{
                                 'has-error'
-                                        : userForm.city.$invalid && !userForm.city.$pristine}">
+                                        : userForm.city.$invalid && (!userForm.city.$pristine || showError)}">
                             <label for="city" class="col-sm-2 control-label"><f:message key="city" /></label>
                             <div class="col-sm-10">
                                 <input type="text" name="city" ng-model="data['personal-details'].address.city" class="form-control" required/>
-                                <p class="help-block" ng-show="userForm.city.$invalid && !userForm.city.$pristine">Please, enter your city.</p>
+                                <p class="help-block" ng-show="userForm.city.$invalid && (!userForm.city.$pristine || showError)">Please, enter your city.</p>
                             </div>
                         </div>
                         <!-- **************************** postal code ************************** -->
                         <div class="form-group" ng-class="{
                                 'has-error'
-                                        : userForm['postal-code'].$invalid && !userForm['postal-code'].$pristine}">
+                                        : userForm['postal-code'].$invalid && (!userForm['postal-code'].$pristine || showError)}">
                             <label for="postal-code" class="col-sm-2 control-label"><f:message key="postal-code" /></label>
                             <div class="col-sm-10">
                                 <input type="number" name="postal-code" ng-model="data['personal-details'].address['postal-code']" class="form-control" required/>
-                                <p class="help-block" ng-show="userForm['postal-code'].$invalid && !userForm['postal-code'].$pristine">Invalid value.</p>
+                                <p class="help-block" ng-show="userForm['postal-code'].$invalid && (!userForm['postal-code'].$pristine || showError)">Invalid value.</p>
                             </div>
                         </div>
                         <!-- **************************** state ************************** -->
                         <div class="form-group" ng-class="{
                                 'has-error'
-                                        : userForm.state.$invalid && !userForm.state.$pristine}">
+                                        : userForm.state.$invalid && (!userForm.state.$pristine || showError)}">
                             <label for="state" class="col-sm-2 control-label"><f:message key="state" /></label>
                             <div class="col-sm-10">
                                 <input type="text" name="state" ng-model="data['personal-details'].address.state" class="form-control"/>
-                                <p class="help-block" ng-show="userForm.state.$invalid && !userForm.state.$pristine">Please, enter your state.</p>
+                                <p class="help-block" ng-show="userForm.state.$invalid && (!userForm.state.$pristine || showError)">Please, enter your state.</p>
                             </div>
                         </div>
                         <!-- **************************** country ************************** -->
                         <div class="form-group" ng-class="{
                                 'has-error'
-                                        : userForm.country.$invalid && !userForm.country.$pristine}">
+                                        : userForm.country.$invalid && (!userForm.country.$pristine || showError)}">
                             <label for="country" class="col-sm-2 control-label"><f:message key="country" /></label>
                             <div class="col-sm-10">
                                 <input type="text" name="country" ng-model="data['personal-details'].address.country" class="form-control" required/>
-                                <p class="help-block" ng-show="userForm.country.$invalid && !userForm.country.$pristine">Please, enter your country.</p>
+                                <p class="help-block" ng-show="userForm.country.$invalid && (!userForm.country.$pristine || showError)">Please, enter your country.</p>
                             </div>
                         </div>
                     </div>
@@ -248,7 +243,7 @@
                     <div class="well well-sm strong"><f:message key="education" /></div>
                     <div ng-repeat="edu in data.education" class="box"  ng-class="{
                             'has-error'
-                                    : eduForm.$invalid && !eduForm.$pristine}">
+                                    : eduForm.$invalid && (!eduForm.$pristine || showError)}">
                         <ng-form name="eduForm" class="form-group">
                             <div class="row">
                                 <div class="col-sm-6">
@@ -277,9 +272,9 @@
                                     <i class="glyphicon glyphicon-remove"></i>
                                 </a>
                             </div>
-                            <p class="help-block" ng-show="eduForm.value.$invalid && !eduForm.value.$pristine">School is required.</p>
-                            <p class="help-block" ng-show="eduForm.from.$invalid && !eduForm.from.$pristine">'From' year value invalid.</p>
-                            <p class="help-block" ng-show="eduForm.to.$invalid && !eduForm.to.$pristine">'To' year value invalid.</p>
+                            <p class="help-block" ng-show="eduForm.value.$invalid && (!eduForm.value.$pristine || showError)">School is required.</p>
+                            <p class="help-block" ng-show="eduForm.from.$invalid && (!eduForm.from.$pristine || showError)">'From' year value invalid.</p>
+                            <p class="help-block" ng-show="eduForm.to.$invalid && (!eduForm.to.$pristine || showError)">'To' year value invalid.</p>
                         </ng-form>
                     </div>
                     <button class="btn btn-primary btn-sm col-sm-1 col-sm-offset-10" ng-click="$event.preventDefault();
@@ -292,7 +287,7 @@
                     <div class="well well-sm strong"><f:message key="employment" /></div>
                     <div ng-repeat="emp in data.employment" class="box"  ng-class="{
                             'has-error'
-                                    : empForm.$invalid && !empForm.$pristine}">
+                                    : empForm.$invalid && (!empForm.$pristine || showError)}">
                         <ng-form name="empForm" class="form-group">
                             <div class="row">
                                 <div class="col-sm-6">
@@ -322,10 +317,10 @@
                                     <i class="glyphicon glyphicon-remove"></i>
                                 </a>
                             </div>
-                            <p class="help-block" ng-show="empForm.company.$invalid && !empForm.company.$pristine">Company is required.</p>
-                            <p class="help-block" ng-show="empForm.position.$invalid && !empForm.position.$pristine">Position is required.</p>
-                            <p class="help-block" ng-show="empForm.from.$invalid && !empForm.from.$pristine">'From' year value invalid.</p>
-                            <p class="help-block" ng-show="empForm.to.$invalid && !empForm.to.$pristine">'To' year value invalid.</p>
+                            <p class="help-block" ng-show="empForm.company.$invalid && (!empForm.company.$pristine || showError)">Company is required.</p>
+                            <p class="help-block" ng-show="empForm.position.$invalid && (!empForm.position.$pristine || showError)">Position is required.</p>
+                            <p class="help-block" ng-show="empForm.from.$invalid && (!empForm.from.$pristine || showError)">'From' year value invalid.</p>
+                            <p class="help-block" ng-show="empForm.to.$invalid && (!empForm.to.$pristine || showError)">'To' year value invalid.</p>
                         </ng-form>
                     </div>         
                     <button class="btn btn-primary btn-sm col-sm-1 col-sm-offset-10" ng-click="$event.preventDefault();
@@ -338,7 +333,7 @@
                     <div class="well well-sm strong"><f:message key="language-skills" /></div>
                     <div ng-repeat="skill in data['language-skills']"  class="box"  ng-class="{
                             'has-error'
-                                    : langForm.$invalid && !langForm.$pristine}">
+                                    : langForm.$invalid && (!langForm.$pristine || showError)}">
                         <ng-form name="langForm" class="form-group">
                             <div class="row">
                                 <div class="col-sm-3">
@@ -364,8 +359,8 @@
                                     <i class="glyphicon glyphicon-remove"></i>
                                 </a>
                             </div>
-                            <p class="help-block" ng-show="langForm.name.$invalid && !langForm.name.$pristine">Language is required.</p>
-                            <p class="help-block" ng-show="langForm.level.$invalid && !langForm.level.$pristine">Level is required.</p>
+                            <p class="help-block" ng-show="langForm.name.$invalid && (!langForm.name.$pristine || showError)">Language is required.</p>
+                            <p class="help-block" ng-show="langForm.level.$invalid && (!langForm.level.$pristine || showError)">Level is required.</p>
                         </ng-form>
                     </div>
                     <button class="btn btn-primary btn-sm col-sm-1 col-sm-offset-10" ng-click="$event.preventDefault();
@@ -378,7 +373,7 @@
                     <div class="well well-sm strong"><f:message key="computer-skills" /></div>
                     <div ng-repeat="skill in data['computer-skills']" class="box"  ng-class="{
                             'has-error'
-                                    : compForm.$invalid && !compForm.$pristine}">
+                                    : compForm.$invalid && (!compForm.$pristine || showError)}">
                         <ng-form name="compForm" class="form-group">
                             <div class="row">
                                 <div class="col-sm-3">
@@ -394,8 +389,8 @@
                                     <i class="glyphicon glyphicon-remove"></i>
                                 </a>
                             </div>
-                            <p class="help-block" ng-show="compForm.name.$invalid && !compForm.name.$pristine">Skill is required.</p>
-                            <p class="help-block" ng-show="compForm.level.$invalid && !compForm.level.$pristine">Level is required.</p>
+                            <p class="help-block" ng-show="compForm.name.$invalid && (!compForm.name.$pristine || showError)">Skill is required.</p>
+                            <p class="help-block" ng-show="compForm.level.$invalid && (!compForm.level.$pristine || showError)">Level is required.</p>
                         </ng-form>
                     </div>
                     <button class="btn btn-primary btn-sm col-sm-1 col-sm-offset-10" ng-click="$event.preventDefault();
@@ -408,7 +403,7 @@
                     <div class="well well-sm strong"><f:message key="driving-license" /></div>
                     <div ng-repeat="skill in data['driving-licence']" class="box"  ng-class="{
                             'has-error'
-                                    : driveForm.$invalid && !driveForm.$pristine}">
+                                    : driveForm.$invalid && (!driveForm.$pristine || showError)}">
                         <ng-form name="driveForm" class="form-group">
                             <div class="row">
                                 <div class="col-sm-3">
@@ -424,7 +419,7 @@
                                     <i class="glyphicon glyphicon-remove"></i>
                                 </a>
                             </div>
-                            <p class="help-block" ng-show="driveForm.name.$invalid && !driveForm.name.$pristine">Skill is required.</p>
+                            <p class="help-block" ng-show="driveForm.name.$invalid && (!driveForm.name.$pristine || showError)">Type is required.</p>
                         </ng-form>
                     </div>
                     <button class="btn btn-primary btn-sm col-sm-1 col-sm-offset-10" ng-click="$event.preventDefault();
@@ -437,12 +432,12 @@
                     <div class="well well-sm strong"><f:message key="certificates" /></div>
                     <div ng-repeat="cert in data.certificates" class="box"  ng-class="{
                             'has-error'
-                                    : certForm.$invalid && !certForm.$pristine}">
+                                    : certForm.$invalid && (!certForm.$pristine || showError)}">
                         <ng-form name="certForm" class="form-group">
                             <div class="row">
                                 <div class="col-sm-3">
                                     <label for="name">Certificate {{$index + 1}}</label> 
-                                    <input type="text" name="name" placeholder="Skill..." ng-model="cert.name"  class="form-control" required />
+                                    <input type="text" name="name" placeholder="Certificate..." ng-model="cert.name"  class="form-control" required />
                                 </div>
                                 <div class="col-sm-3">
                                     <label for="year">Year</label> 
@@ -456,7 +451,8 @@
                                     <i class="glyphicon glyphicon-remove"></i>
                                 </a>
                             </div>
-                            <p class="help-block" ng-show="certForm.year.$invalid && !certForm.year.$pristine">Year is invalid.</p>
+                            <p class="help-block" ng-show="certForm.year.$invalid && (!certForm.year.$pristine || showError)">Year is invalid.</p>
+                            <p class="help-block" ng-show="certForm.name.$invalid && (!certForm.name.$pristine || showError)">Name is required.</p>
                         </ng-form>
                     </div>
                     <button class="btn btn-primary btn-sm col-sm-1 col-sm-offset-10" ng-click="$event.preventDefault();
