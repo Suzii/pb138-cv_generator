@@ -5,7 +5,6 @@
  */
 package cz.muni.fi.pb138.cv.servlets.utils;
 
-import cz.muni.fi.pb138.cv.servlets.utils.CvUtil;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;

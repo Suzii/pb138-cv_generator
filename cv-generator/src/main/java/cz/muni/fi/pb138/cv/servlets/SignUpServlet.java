@@ -8,7 +8,6 @@ package cz.muni.fi.pb138.cv.servlets;
 import cz.muni.fi.pb138.cv.servlets.utils.SessionService;
 import cz.muni.fi.pb138.cv.servlets.utils.Common;
 import cz.muni.fi.pb138.cv.servlets.utils.LoginsUtil;
-import cz.muni.fi.pb138.cv.service.*;
 
 import java.io.IOException;
 import java.util.ResourceBundle;

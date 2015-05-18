@@ -5,18 +5,13 @@
  */
 package cz.muni.fi.pb138.cv.servlets;
 
-import cz.muni.fi.pb138.cv.servlets.utils.CvUtil;
 import cz.muni.fi.pb138.cv.service.*;
 import cz.muni.fi.pb138.cv.servlets.utils.Common;
 import cz.muni.fi.pb138.cv.servlets.utils.SessionService;
 import cz.muni.fi.pb138.cv.servlets.utils.CvUtil;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 
 import java.io.IOException;
-import java.io.OutputStream;
-import java.io.PrintStream;
 import java.util.ResourceBundle;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
