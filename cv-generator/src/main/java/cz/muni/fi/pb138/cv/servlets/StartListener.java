@@ -10,6 +10,7 @@ import cz.muni.fi.pb138.cv.servlets.utils.CvUtil;
 import cz.muni.fi.pb138.cv.common.SpringConfig;
 import cz.muni.fi.pb138.cv.service.CvService;
 import cz.muni.fi.pb138.cv.service.UserService;
+import cz.muni.fi.pb138.cv.servlets.utils.SessionService;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
@@ -36,6 +37,7 @@ public class StartListener implements ServletContextListener {
         servletContext.setAttribute("cvUtil", appContext.getBean("cvUtil", CvUtil.class));
         servletContext.setAttribute("userService", appContext.getBean("userService", UserService.class));
         servletContext.setAttribute("cvService", appContext.getBean("cvService", CvService.class));
+        servletContext.setAttribute("sessionService", appContext.getBean("sessionService", SessionService.class));
         log.info("managers instantiated");
     }
 

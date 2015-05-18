@@ -11,6 +11,8 @@ import cz.muni.fi.pb138.cv.servlets.utils.CvUtilImpl;
 import cz.muni.fi.pb138.cv.servlets.utils.CvUtil;
 import cz.muni.fi.pb138.cv.service.*;
 import cz.muni.fi.pb138.cv.servlets.*;
+import cz.muni.fi.pb138.cv.servlets.utils.SessionService;
+import cz.muni.fi.pb138.cv.servlets.utils.SessionServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,5 +48,10 @@ public class SpringConfig {
     @Bean
     public CvUtil cvUtil(){
         return new CvUtilImpl();        
+    }
+    
+    @Bean
+    public SessionService sessionService(){
+        return new SessionServiceImpl();                
     }
 }

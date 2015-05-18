@@ -60,7 +60,7 @@ public class EditServlet extends HttpServlet {
         String action = request.getPathInfo();
         if (action == null) {
             //load json object with user data associated with 'login'
-            String login = SessionService.getSessionLogin(request);
+            String login = getSessionService().getSessionLogin(request);
             if (login != null) {
                 log.debug("EDIT Logged user: " + login);
                 JSONObject userData = getCvService().loadCvJSON(login);
@@ -80,7 +80,7 @@ public class EditServlet extends HttpServlet {
         }
         switch (action) {
             case "/logout":
-                SessionService.deleteSessionLogin(request);
+                getSessionService().deleteSessionLogin(request);
                 response.sendRedirect(request.getContextPath() + Common.URL_LOGIN);
                 return;
             default:
@@ -106,7 +106,7 @@ public class EditServlet extends HttpServlet {
         switch (action) {
             case "/save":
                 response.setStatus(HttpServletResponse.SC_OK);
-                String login = SessionService.getSessionLogin(request);
+                String login = getSessionService().getSessionLogin(request);
                 log.debug("EDIT - save: This is recieved JSON for " + login + ": ");
 
                 //this is JSON object with user data
@@ -165,5 +165,8 @@ public class EditServlet extends HttpServlet {
     }
     private CvUtil getCvUtil(){ return 
             (CvUtil) getServletContext().getAttribute("cvUtil");
+    }
+    private SessionService getSessionService() {
+        return (SessionService) getServletContext().getAttribute("sessionService");
     }
 }

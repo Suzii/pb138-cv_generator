@@ -91,7 +91,7 @@ public class LoginServlet extends HttpServlet {
                 //verify credentials
                 String error = getLoginsUtil().verifyCredentials(login, password);
                 if (error == null) { // everything ok
-                    SessionService.createSessionLogin(request, login);
+                    getSessionService().createSessionLogin(request, login);
                     response.sendRedirect(request.getContextPath() + Common.URL_EDIT);
                     return;
                 }
@@ -117,5 +117,8 @@ public class LoginServlet extends HttpServlet {
 
     private LoginsUtil getLoginsUtil() {
         return (LoginsUtil) getServletContext().getAttribute("loginsUtil");
+    }
+    private SessionService getSessionService() {
+        return (SessionService) getServletContext().getAttribute("sessionService");
     }
 }

@@ -62,7 +62,7 @@ public class ProfileServlet extends HttpServlet {
         String action = request.getPathInfo();
         if (action == null) {
             //load json with user data associated with 'login'
-            String login = SessionService.getSessionLogin(request);
+            String login = getSessionService().getSessionLogin(request);
             if (login != null) {
                 log.debug("PROFILE Logged user: " + login);
                 JSONObject userData = getCvService().loadCvJSON(login);
@@ -81,7 +81,7 @@ public class ProfileServlet extends HttpServlet {
         switch (action) {
             case "/download":
                 // retrieve session and form info
-                String login = SessionService.getSessionLogin(request);
+                String login = getSessionService().getSessionLogin(request);
                 String lang = request.getParameter("lang");
                 if (lang == null || lang.length() == 0) {
                     lang = "en";
@@ -139,5 +139,8 @@ public class ProfileServlet extends HttpServlet {
 
     private CvUtil getCvUtil() {
         return (CvUtil) getServletContext().getAttribute("cvUtil");
+    }
+    private SessionService getSessionService() {
+        return (SessionService) getServletContext().getAttribute("sessionService");
     }
 }

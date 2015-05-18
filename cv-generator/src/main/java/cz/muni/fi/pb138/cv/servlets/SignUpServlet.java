@@ -94,7 +94,7 @@ public class SignUpServlet extends HttpServlet {
                 // try to create an account
                 String error = getLoginsUtil().tryToCreateAnAccount(login, password, password2);
                 if(error == null) { // everything ok
-                    SessionService.createSessionLogin(request, login);
+                    getSessionService().createSessionLogin(request, login);
                     response.sendRedirect(request.getContextPath() + Common.URL_EDIT);
                     return;
                 }
@@ -121,4 +121,8 @@ public class SignUpServlet extends HttpServlet {
     private LoginsUtil getLoginsUtil() {
         return (LoginsUtil) getServletContext().getAttribute("loginsUtil");
     }
+    private SessionService getSessionService() {
+        return (SessionService) getServletContext().getAttribute("sessionService");
+    }
 }
+
