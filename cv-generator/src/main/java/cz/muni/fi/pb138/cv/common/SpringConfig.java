@@ -40,7 +40,7 @@ public class SpringConfig {
     @Bean
     public CvService cvService() {
         //return new MockedCvServiceImpl(); // for testing only
-        //return new CvServiceImpl(getDbFolder());
+        //return new CvServiceImpl(getDbFolder(), getLatexFolder());
         return new CvServiceImpl();
     }
 
@@ -50,16 +50,20 @@ public class SpringConfig {
     }
 
     @Bean
-    public CvUtil cvUtil(){
-        return new CvUtilImpl();        
+    public CvUtil cvUtil() {
+        return new CvUtilImpl();
     }
-    
+
     @Bean
-    public SessionService sessionService(){
-        return new SessionServiceImpl();                
+    public SessionService sessionService() {
+        return new SessionServiceImpl();
     }
-    
-    private String getDbFolder(){
+
+    private String getDbFolder() {
         return environment.getRequiredProperty("database.folder");
+    }
+
+    private String getLatexFolder() {
+        return environment.getRequiredProperty("latex.folder");
     }
 }
