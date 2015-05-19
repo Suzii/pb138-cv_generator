@@ -32,11 +32,15 @@ public class SpringConfig {
 
     @Bean
     public UserService userService() {
+        //return new MockedUserServiceImpl(); //for testing only
+        //return new UserServiceImpl(getDbFolder());
         return new UserServiceImpl();
     }
 
     @Bean
     public CvService cvService() {
+        //return new MockedCvServiceImpl(); // for testing only
+        //return new CvServiceImpl(getDbFolder());
         return new CvServiceImpl();
     }
 
@@ -53,5 +57,9 @@ public class SpringConfig {
     @Bean
     public SessionService sessionService(){
         return new SessionServiceImpl();                
+    }
+    
+    private String getDbFolder(){
+        return environment.getRequiredProperty("database.folder");
     }
 }

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<curriculum-vitae>
+<personal-details>
+<given-names>Ander</given-names>
+<surname>z Košíc</surname>
+<date-of-birth>
+<day>01</day>
+<month>04</month>
+<year>1998</year>
+</date-of-birth>
+<address>
+<street>Košická</street>
+<number>33</number>
+<city>Košice</city>
+<postal-code>123</postal-code>
+<state/>
+<country>Slovakia</country>
+</address>
+<phones>
+<phone>0905123123</phone>
+<phone>0905124124</phone>
+</phones>
+<emails>
+<email>ander@zkosic.sk</email>
+</emails>
+<social>
+<site>facebook.com/ander</site>
+</social>
+</personal-details>
+<education>
+<edu from="2004" to="2008">
+<name-of-education>Základka</name-of-education>
+<name-of-school>Adnerova</name-of-school>
+<note/>
+</edu>
+</education>
+<employment>
+<emp from="2001" to="null">
+<company>Andrašovci</company>
+<position>Velitel</position>
+<note>Velil som</note>
+</emp>
+</employment>
+<language-skills>
+<lang name="Čengliš">
+<level>A2</level>
+<note>Dajak sa dohovorim</note>
+</lang>
+</language-skills>
+<computer-skills>
+<skill>
+<name>nope</name>
+<note>Úplná lama</note>
+</skill>
+</computer-skills>
+<certificates>
+<cert year="2000">
+<name>FCE</name>
+<note>Ha!</note>
+</cert>
+</certificates>
+<driving-licence/>
+<characteristic>Anderko z Košic, co se na mne šicke ľudze šmeju.</characteristic>
+<hobbies>Zabavac, pic</hobbies>
+</curriculum-vitae>
