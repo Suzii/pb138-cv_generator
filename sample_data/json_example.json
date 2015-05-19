@@ -40,11 +40,6 @@
     "hobbies": "I ride ponnies and bike.. I hate football...",
     "personal-details": {
         "given-names": "Anca Maria",
-        "date-of-birth": {
-            "month": "01",
-            "year": 1990,
-            "day": "01"
-        },
         "emails": [
             {"value": "anca@zranca.com"},
             {"value": "anicka.z.ranca@gmail.com"}

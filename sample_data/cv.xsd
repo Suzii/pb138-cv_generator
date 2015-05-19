@@ -21,8 +21,8 @@
             <xsd:element name="education" type="educationType" />
             <xsd:element name="employment" type="employmentType" />
             <xsd:element name="language-skills" type="languageSkillsType" />
-            <xsd:element name="certificates" type="certificatesType" />
             <xsd:element name="computer-skills" type="computerSkillsType" />
+            <xsd:element name="certificates" type="certificatesType" />
             <xsd:element name="driving-licence" type="drivingLicenceType" />
             <xsd:element name="characteristic" type="xsd:string" />
             <xsd:element name="hobbies" type="xsd:string" />
