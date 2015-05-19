@@ -2,19 +2,95 @@
 /* Sticky footer styles
 -------------------------------------------------- */
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
-body {
-  /* Margin bottom by footer height */
-  margin-bottom: 10vh;
+
+/*==========  Mobile First Method  ==========*/
+.footer .copy {
+    margin: 1vh;
 }
-.footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  /* Set the fixed height of the footer here */
-  height: 10vh;
-  background-color: #f5f5f5;
-  text-align: center;
+/* Custom, iPhone Retina */ 
+@media only screen and (min-width : 320px) {
+    body {
+        /* Margin bottom by footer height */
+        margin-bottom: 45px;
+    }
+    .footer {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        /* Set the fixed height of the footer here */
+        height: 45px;
+        background-color: #f5f5f5;
+        text-align: center;
+    }
+}
+
+/* Extra Small Devices, Phones */ 
+@media only screen and (min-width : 480px) {
+    body {
+        /* Margin bottom by footer height */
+        margin-bottom: 45px;
+    }
+    .footer {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        /* Set the fixed height of the footer here */
+        height: 45px;
+        background-color: #f5f5f5;
+        text-align: center;
+    }
+}
+
+/* Small Devices, Tablets */
+@media only screen and (min-width : 768px) {
+    body {
+        /* Margin bottom by footer height */
+        margin-bottom: 45px;
+    }
+    .footer {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        /* Set the fixed height of the footer here */
+        height: 45px;
+        background-color: #f5f5f5;
+        text-align: center;
+    }
+}
+
+/* Medium Devices, Desktops */
+@media only screen and (min-width : 992px) {
+    body {
+        /* Margin bottom by footer height */
+        margin-bottom: 175px;
+    }
+    .footer {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        /* Set the fixed height of the footer here */
+        height: 175px;
+        background-color: #f5f5f5;
+        text-align: center;
+    }
+}
+
+/* Large Devices, Wide Screens */
+@media only screen and (min-width : 1200px) {
+    body {
+        /* Margin bottom by footer height */
+        margin-bottom: 175px;
+    }
+    .footer {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        /* Set the fixed height of the footer here */
+        height: 175px;
+        background-color: #f5f5f5;
+        text-align: center;
+    }
 }
