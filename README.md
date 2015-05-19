@@ -10,10 +10,10 @@ Team members:
 * Jozef Zivcic
 
 !!! CONFIGURATION !!!
-1. Open file pb138-cv_generator/cv-generator/src/main/resources/cvgenerator.properties
-2. Change the database.folder property to absolute path to folder pb138-cv_generator/pb138-database
-3. Change the latex.folder property to absolute path to folder of your TeX distribution containing pdflatex.exe file
-4. Save changes to the properties file.
-5. Start Tomcat server and run the application.
+* 1. Open file pb138-cv_generator/cv-generator/src/main/resources/cvgenerator.properties
+* 2. Change the database.folder property to absolute path to folder pb138-cv_generator/pb138-database
+* 3. Change the latex.folder property to absolute path to folder of your TeX distribution containing pdflatex.exe file
+* 4. Save changes to the properties file.
+* 5. Start Tomcat server and run the application.
 
 More info can be found in project wiki.
