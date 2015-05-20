@@ -44,7 +44,10 @@ public class UserServiceImpl implements UserService {
 
     public UserServiceImpl(String DBpath) {
         log.debug("Checking database direcotry.");
-        FileService fs = new FileService();
+        if (DBpath == null) throw new RuntimeException("Cannot access database!");
+        databasePath = DBpath;
+        openDocument();
+        /*FileService fs = new FileService();
 
         if (fs.checkDirectory()) {
             if (fs.checkUsersFile()) {
@@ -58,12 +61,13 @@ public class UserServiceImpl implements UserService {
             } else {
                 openDocument();
             }
-        }
-        databasePath = DBpath;
+        }*/
+        
     }
 
     @Override
     public boolean checkIfExists(String login) {
+        if(login == null) return false;
         openDocument();
         try {
             log.debug("login check : " + login);
@@ -91,6 +95,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean registerNewUser(String login, String password) {
+        if(login == null || password == null) return false;
         if (!checkIfExists(login)) {
             log.debug("Registering new user : " + login + " with psw hash : " +password);
             Element root = logins.getDocumentElement();
@@ -112,7 +117,7 @@ public class UserServiceImpl implements UserService {
                 transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
                 transformer.setOutputProperty(OutputKeys.INDENT, "yes");
                 DOMSource source = new DOMSource(logins);
-                StreamResult result = new StreamResult(new File(databasePath + "users.xml"));
+                StreamResult result = new StreamResult(new File(databasePath + "/users.xml"));
                 transformer.transform(source, result);               
             }catch(TransformerFactoryConfigurationError|TransformerException ex){
                 log.error("Error ocurred by adding to db. ",ex);
@@ -125,6 +130,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean verifyCredentials(String login, String password) {
+        if(login == null || password == null) return false;
         if (checkIfExists(login)) {
             try {
                 log.debug("Credentials verifing ,user: " +login + "  psw hash : "+password);
@@ -174,8 +180,9 @@ public class UserServiceImpl implements UserService {
         try {
             dBuilder = dbFactory.newDocumentBuilder();
             logins = dBuilder.parse(doc);
+            log.debug(logins.getDocumentElement().getNodeName());
         } catch (SAXException | ParserConfigurationException | IOException ex) {
-            log.error("Error when opening(loading) users document. ");
+            log.error("Error when opening(loading) users document. ",ex);
         }
     }
 
