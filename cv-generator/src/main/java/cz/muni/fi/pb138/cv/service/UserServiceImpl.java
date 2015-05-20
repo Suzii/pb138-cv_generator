@@ -39,9 +39,10 @@ import org.xml.sax.SAXException;
 public class UserServiceImpl implements UserService {
 
     private Document logins;
+    private String databasePath;
     private final static Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
 
-    public UserServiceImpl() {
+    public UserServiceImpl(String DBpath) {
         log.debug("Checking database direcotry.");
         FileService fs = new FileService();
 
@@ -58,6 +59,7 @@ public class UserServiceImpl implements UserService {
                 openDocument();
             }
         }
+        databasePath = DBpath;
     }
 
     @Override
@@ -110,7 +112,7 @@ public class UserServiceImpl implements UserService {
                 transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
                 transformer.setOutputProperty(OutputKeys.INDENT, "yes");
                 DOMSource source = new DOMSource(logins);
-                StreamResult result = new StreamResult(new File(Config.LOGINS));
+                StreamResult result = new StreamResult(new File(databasePath + "users.xml"));
                 transformer.transform(source, result);               
             }catch(TransformerFactoryConfigurationError|TransformerException ex){
                 log.error("Error ocurred by adding to db. ",ex);
@@ -163,7 +165,8 @@ public class UserServiceImpl implements UserService {
 
     private void openDocument() {
         log.debug("Reload of user document. ");
-        File doc = new File(Config.LOGINS);
+        File doc = new File(databasePath + "/users.xml");
+        log.debug("Path of doc : " + doc.getAbsolutePath());
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
         dbFactory.setValidating(false);
         dbFactory.setNamespaceAware(true);

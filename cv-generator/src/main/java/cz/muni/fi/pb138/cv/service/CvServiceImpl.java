@@ -52,11 +52,15 @@ public class CvServiceImpl implements CvService {
 
     private Json2XmlImpl json2xml;
     private Xml2JsonImpl xml2json;
+    private String databasePath;
+    private String pathToPdflatexBin;
     private final static Logger log = LoggerFactory.getLogger(CvServiceImpl.class);
 
-    public CvServiceImpl() {
+    public CvServiceImpl(String DBpath , String pathTolatexBin) {
         json2xml = new Json2XmlImpl();
         xml2json = new Xml2JsonImpl();
+        databasePath = DBpath;
+        pathToPdflatexBin = pathTolatexBin;
     }
 
     @Override
@@ -72,7 +76,7 @@ public class CvServiceImpl implements CvService {
 
     @Override
     public Document loadCvXML(String login) {
-        String filePath = Config.DIRECTORY + "/" + login + ".xml";
+        String filePath = databasePath + "/" + login + ".xml";
         log.debug("Load xml : " + filePath);
         File doc = new File(filePath);
         if (!doc.exists()) {
@@ -118,7 +122,7 @@ public class CvServiceImpl implements CvService {
 
     @Override
     public boolean saveCv(String login, Document cv) {
-        String filePath = Config.DIRECTORY + "/" + login + ".xml";
+        String filePath = databasePath + "/" + login + ".xml";
         //System.out.println("Filepath for new CV: " + filePath);
         log.debug("Saving cv XML , login : " + login + " FILEPATH : " + filePath);
         try {
@@ -139,12 +143,12 @@ public class CvServiceImpl implements CvService {
 
     @Override
     public File generatePdf(String login, String lang) {
-        if (transforToTexFile(login, lang)) {
+        if (transformToTexFile(login, lang)) {
 
-            File tex = new File(Config.DBUTIL + "/resultCV.tex");
+            File tex = new File(databasePath + "/Utils/resultCV.tex");
             
             List<String> params = new ArrayList<String>();
-            params.add(Config.PATHTOLATEXBIN + "pdflatex");
+            params.add(pathToPdflatexBin + "/pdflatex");
             params.add(tex.getAbsolutePath());
             log.debug("TEX INFO : " + tex.getAbsolutePath() + " " + tex.getParentFile());
             
@@ -159,16 +163,16 @@ public class CvServiceImpl implements CvService {
                 log.debug("Starting command: " + pb.command());
                 Process pdfCreation = pb.start();
                 
-                BufferedReader reader = new BufferedReader(new InputStreamReader(pdfCreation.getInputStream()));
+               /* BufferedReader reader = new BufferedReader(new InputStreamReader(pdfCreation.getInputStream()));
                 String line;
                 while ((line = reader.readLine()) != null) {
                     log.debug(line);
-                }
+                }*/
             } catch (IOException ex) {
                 log.error("Error generating PDF file.",ex);
                 return null;
             }
-            return new File(Config.DBUTIL + "/resultCV.pdf");
+            return new File(databasePath + "/Utils/resultCV.pdf");
         }
         return null;
         
@@ -180,7 +184,7 @@ public class CvServiceImpl implements CvService {
         SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
         log.debug("Checking validity of XML file.");
         // load a WXS schema, represented by a Schema instance
-        Source schemaFile = new StreamSource(new File(Config.DBUTIL + "\\cv.xsd")); // TODO create schema
+        Source schemaFile = new StreamSource(new File(databasePath + "/Utils/cv.xsd")); // TODO create schema
         //log.debug("Schema : ");
         try {
             Schema schema = factory.newSchema(schemaFile);
@@ -208,14 +212,14 @@ public class CvServiceImpl implements CvService {
         return result;
     }
 
-    private boolean transforToTexFile(String login, String lang) {
+    public boolean transformToTexFile(String login, String lang) {
         // todo vyriesit ako mat ten xml subor ulozeny alebo odkial ho nacucat
-        StreamSource xml = new StreamSource(new File(Config.DIRECTORY + "/" + login + ".xml"));
-        StreamSource xslt = new StreamSource(new File(Config.DBUTIL + "/xml-to-tex.xsl")); // XSLT FILE
+        StreamSource xml = new StreamSource(new File(databasePath + "/" + login + ".xml"));
+        StreamSource xslt = new StreamSource(new File(databasePath + "/Utils/xml-to-tex.xsl")); // XSLT FILE
 
         StreamResult result;
         try {
-            FileOutputStream os = new FileOutputStream(Config.DBUTIL + "/resultCV.tex");
+            FileOutputStream os = new FileOutputStream(databasePath + "/Utils/resultCV.tex");
             result = new StreamResult(os);
             TransformerFactory tf = TransformerFactory.newInstance();
 
@@ -241,17 +245,17 @@ public class CvServiceImpl implements CvService {
         out.delete();*/
         
         //delete intermediate .aux file       
-        File aux = new File(Config.DBUTIL + "/resultCV.aux");
+        File aux = new File(databasePath + "/Utils/resultCV.aux");
         aux.delete();
 
         //delete intermediate .log file
-        File logF = new File(Config.DBUTIL + "/resultCV.log");
+        File logF = new File(databasePath + "/Utils/resultCV.log");
         logF.delete();
         
-        File tex = new File(Config.DBUTIL + "/resultCV.tex");
+        File tex = new File(databasePath + "/Utils/resultCV.tex");
         tex.delete();
         
-        File pdf = new File(Config.DBUTIL + "/resultCV.pdf");
+        File pdf = new File(databasePath + "/Utils/resultCV.pdf");
         pdf.delete();
     }
 }
