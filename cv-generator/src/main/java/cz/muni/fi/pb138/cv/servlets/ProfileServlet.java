@@ -59,53 +59,18 @@ public class ProfileServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
-        String action = request.getPathInfo();
-        if (action == null) {
-            //load json with user data associated with 'login'
-            String login = getSessionService().getSessionLogin(request);
-            if (login != null) {
-                log.debug("PROFILE Logged user: " + login);
-                JSONObject userData = getCvService().loadCvJSON(login);
-                request.setAttribute("userData", userData);
-
-                //System.out.println("User: " + login);
-                //System.out.println("Data: " + userData);
-                request.getRequestDispatcher(Common.PROFILE_JSP).forward(request, response);
-            } else {
-                //user is not logged in
-                request.setAttribute("error", "You are not logged in.");
-                log.warn("Attempt for an anauthorized access.");
-                response.sendRedirect(request.getContextPath() + Common.URL_LOGIN);
-            }
-            return;
+        //load json with user data associated with 'login'
+        String login = getSessionService().getSessionLogin(request);
+        if (login != null) {
+            log.debug("PROFILE Logged user: " + login);
+            JSONObject userData = getCvService().loadCvJSON(login);
+            request.setAttribute("userData", userData);
+            request.getRequestDispatcher(Common.PROFILE_JSP).forward(request, response);
+        } else {//user is not logged in
+            log.warn("Attempt for an anauthorized access.");
+            response.sendRedirect(request.getContextPath() + Common.URL_LOGIN);
         }
-        switch (action) {
-            case "/download":
-                // retrieve session and form info
-                String login = getSessionService().getSessionLogin(request);
-                String lang = request.getParameter("lang");
-                if (lang == null || lang.length() == 0) {
-                    lang = "en";
-                }
-                try { // attach pdf 
-                    log.debug("PROFILE: requesting pdf generation for " + login + " in " + lang);
-                    File file = getCvService().generatePdf(login, lang);
-                    if (!getCvUtil().attachFile(response, file)) {
-                        request.setAttribute("error", "You have to create and save your CV first!");
-                    } else {
-                        request.setAttribute("msg", "Cv downloaded!");
-                    }
-                } catch (IOException e) { // display error
-                    request.setAttribute("error", "Sorry, some error occured while generating your CV.");
-                    log.error("Failed to generate cv for " + login, e);
-                }
-                request.getRequestDispatcher(Common.PROFILE_JSP).forward(request, response);
-                return;
-            default:
-                response.sendError(HttpServletResponse.SC_NOT_FOUND, "Unknown action ");
-                return;
-        }
-
+        return;
     }
 
     /**
@@ -123,9 +88,28 @@ public class ProfileServlet extends HttpServlet {
         ResourceBundle bundle = ResourceBundle.getBundle("texts", request.getLocale());
         String action = request.getPathInfo();
         switch (action) {
+            case "/download":
+                // retrieve session and form info
+                String login = getSessionService().getSessionLogin(request);
+                String lang = request.getParameter("lang");
+                if (lang == null || lang.length() == 0) {
+                    lang = "en";
+                }
+                try { // attach pdf 
+                    log.debug("PROFILE: requesting pdf generation for " + login + " in " + lang);
+                    File file = getCvService().generatePdf(login, lang);
+                    if (!getCvUtil().attachFile(response, file)) {
+                        request.setAttribute("error", "You have to create and save your CV first!");
+                    }
+                } catch (IOException e) { // display error
+                    request.setAttribute("error", "Sorry, some error occured while generating your CV.");
+                    log.error("Failed to generate cv for " + login, e);
+                }
+                request.getRequestDispatcher(Common.PROFILE_JSP).forward(request, response);
+                return;
             default:
-                log.error("Unknown action " + action);
-                response.sendError(HttpServletResponse.SC_NOT_FOUND, "Unknown action " + action);
+                response.sendError(HttpServletResponse.SC_NOT_FOUND, "Unknown action ");
+                return;
         }
     }
 

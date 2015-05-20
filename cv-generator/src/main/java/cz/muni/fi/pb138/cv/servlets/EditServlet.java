@@ -65,14 +65,8 @@ public class EditServlet extends HttpServlet {
                 log.debug("EDIT Logged user: " + login);
                 JSONObject userData = getCvService().loadCvJSON(login);
                 request.setAttribute("userData", userData);
-
-                //System.out.println("User: " + login);
-                //System.out.println("Data: " + userData);
-
                 request.getRequestDispatcher(Common.EDIT_JSP).forward(request, response);
-            } else {
-                //user is not logged in
-                request.setAttribute("error", "You are not logged in.");
+            } else { //user is not logged in
                 log.warn("Attempt for an anauthorized access.");
                 response.sendRedirect(request.getContextPath() + Common.URL_LOGIN);
             }

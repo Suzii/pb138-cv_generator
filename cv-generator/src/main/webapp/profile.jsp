@@ -26,7 +26,7 @@
                         <h3 data-ng-bind="info.surname"></h3>
                     </div>
                     <div class="col-sm-2">
-                        <form action="${pageContext.request.contextPath}/profile/download" class="form-inline" name="langForm" method="GET">
+                        <form action="${pageContext.request.contextPath}/profile/download" class="form-inline" name="langForm" method="POST">
                             <div class="form-group">
                                 <label class="sr-only" for="lang">Language</label>
                                 <select class="form-control" name="lang" id="lang" required>
@@ -47,7 +47,7 @@
                             </button>
                         </form>
 
-                        <a href="edit">
+                        <a href="${pageContext.request.contextPath}/edit">
                             <span class="btn btn-primary btn-block" >
                                 <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Edit
                             </span>

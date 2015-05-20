@@ -34,7 +34,7 @@
                             </button>
                         </form>
 
-                        <a href="profile">
+                        <a href="${pageContext.request.contextPath}/profile">
                             <span class="btn btn-primary btn-block" >
                                 <span class="glyphicon glyphicon-user" aria-hidden="true"></span> Go to profile
                             </span>
@@ -476,9 +476,9 @@
         </div>
 
 
-        <div class="container">
+        <!--div class="container">
             <pre>{{data| json : spacing}}</pre>
-        </div>
+        </div-->
         <%@ include file="/footer.jsp" %> 
     </body>
 </html>

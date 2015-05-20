@@ -46,7 +46,7 @@ editApp.controller('FormController', ['$scope', '$window', '$http', function ($s
                     headers: {'Content-Type': 'application/json'},
                     data: data})
                         .success(function (data, status) {
-                            $window.alert('You rock!');
+                            $window.alert('Your CV was successfully saved. Got to profile for downloading it!');
                             //$window.alert(data);
                         })
                         .error(function (data, status) {
