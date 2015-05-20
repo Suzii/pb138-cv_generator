@@ -5,8 +5,9 @@
  */
 package cz.muni.fi.pb138.cv.servlets;
 
-import cz.muni.fi.pb138.cv.service.MockedUserServiceImpl;
-import cz.muni.fi.pb138.cv.service.UserService;
+import cz.muni.fi.pb138.cv.servlets.utils.SessionService;
+import cz.muni.fi.pb138.cv.servlets.utils.Common;
+import cz.muni.fi.pb138.cv.servlets.utils.LoginsUtil;
 
 import java.io.IOException;
 import java.util.ResourceBundle;
@@ -25,7 +26,6 @@ import org.slf4j.LoggerFactory;
 @WebServlet(Common.URL_SIGNUP + "/*")
 public class SignUpServlet extends HttpServlet {
 
-    public static UserService userService = new MockedUserServiceImpl();
     private final static Logger log = LoggerFactory.getLogger(SignUpServlet.class);
 
     /**
@@ -83,26 +83,23 @@ public class SignUpServlet extends HttpServlet {
         ResourceBundle bundle = ResourceBundle.getBundle("texts", request.getLocale());
         String action = request.getPathInfo();
         switch (action) {
-            
-            case "/submit":
-                String login = request.getParameter("login");
-                String passwordHash = request.getParameter("password");
-                Object data = "";
-                //find out if user exists
-                if (userService.checkIfExists(login)) {
-                    data = "Username: " + login + " already taken.";
-                    request.setAttribute("error", data);
-                    response.sendRedirect(request.getContextPath() + Common.URL_EDIT);
-                    //check password
-                } else if (!userService.registerNewUser(login, passwordHash)) {
-                    data = "Error while creating account.";
-                    request.setAttribute("error", data);
-                    request.getRequestDispatcher(Common.SIGNUP_JSP).forward(request, response);
 
-                } else {
-                    SessionService.createSessionLogin(request, login);
+            case "/submit":
+                //retrieve post data
+                String login = request.getParameter("login");
+                String password = request.getParameter("password");
+                String password2 = request.getParameter("password2");
+                log.debug("SIGNUP: Username: " + login + " Passwd: " + password);
+                
+                // try to create an account
+                String error = getLoginsUtil().tryToCreateAnAccount(login, password, password2);
+                if(error == null) { // everything ok
+                    getSessionService().createSessionLogin(request, login);
                     response.sendRedirect(request.getContextPath() + Common.URL_EDIT);
+                    return;
                 }
+                request.setAttribute("error", error); // display error
+                request.getRequestDispatcher(Common.SIGNUP_JSP).forward(request, response);
                 return;
 
             default:
@@ -118,6 +115,14 @@ public class SignUpServlet extends HttpServlet {
      */
     @Override
     public String getServletInfo() {
-        return "Short description";
+        return "Signup servlet of CV Generator app.";
+    }    
+    
+    private LoginsUtil getLoginsUtil() {
+        return (LoginsUtil) getServletContext().getAttribute("loginsUtil");
+    }
+    private SessionService getSessionService() {
+        return (SessionService) getServletContext().getAttribute("sessionService");
     }
 }
+

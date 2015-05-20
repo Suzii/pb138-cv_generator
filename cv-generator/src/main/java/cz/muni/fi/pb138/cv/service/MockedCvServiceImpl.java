@@ -20,9 +20,6 @@ import org.w3c.dom.Document;
  * @author Zuzana
  */
 public class MockedCvServiceImpl implements CvService {
-    //musi to byt na takejto absolutnej ceste, lebo inak by sa k tomu nedalo pristupit normalne (servlet bezi v inom prieciku)
-    public static final String SAMPLE_JSON_PATH = "C:/sample-data.json";
-    public static final String SAMPLE_PDF_PATH = "C:/cv_9.pdf";
 
     @Override
     public JSONObject loadCvJSON(String login) {
@@ -31,7 +28,7 @@ public class MockedCvServiceImpl implements CvService {
             return null;
         }
         try {
-            List<String> lines = Files.readAllLines(Paths.get(SAMPLE_JSON_PATH));
+            List<String> lines = Files.readAllLines(Paths.get(Config.SAMPLE_JSON_PATH));
             JSONObject jsonObject = new JSONObject(String.join("", lines));
             return jsonObject;
         } catch (Exception e) {
@@ -67,7 +64,7 @@ public class MockedCvServiceImpl implements CvService {
 
     @Override
     public File generatePdf(String login, String lang) {
-        return new File(SAMPLE_PDF_PATH);
+        return new File(Config.SAMPLE_PDF_PATH);
     }
 
     @Override

@@ -5,38 +5,19 @@
  */
 package cz.muni.fi.pb138.cv.servlets;
 
-import cz.muni.fi.pb138.cv.service.CvService;
-import cz.muni.fi.pb138.cv.service.MockedCvServiceImpl;
-import cz.muni.fi.pb138.cv.service.MockedUserServiceImpl;
-import cz.muni.fi.pb138.cv.service.UserService;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.PrintWriter;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.Map;
+import cz.muni.fi.pb138.cv.servlets.utils.*;
+import cz.muni.fi.pb138.cv.service.*;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.Map;
 import java.util.ResourceBundle;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import org.json.HTTP;
-//import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.json.JSONObject;
 
 /**
@@ -46,8 +27,6 @@ import org.json.JSONObject;
 @WebServlet(Common.URL_EDIT + "/*")
 public class EditServlet extends HttpServlet {
 
-    public static CvService cvService = new MockedCvServiceImpl();
-    public static UserService userService = new MockedUserServiceImpl();
     private final static Logger log = LoggerFactory.getLogger(EditServlet.class);
 
     /**
@@ -80,37 +59,34 @@ public class EditServlet extends HttpServlet {
         processRequest(request, response);
         String action = request.getPathInfo();
         if (action == null) {
-            //load json with user data associated with 'login'
-            String login = SessionService.getSessionLogin(request);
+            //load json object with user data associated with 'login'
+            String login = getSessionService().getSessionLogin(request);
             if (login != null) {
-                System.out.println("Logged user: " + login);
-                JSONObject userData = cvService.loadCvJSON(login);
-
+                log.debug("EDIT Logged user: " + login);
+                JSONObject userData = getCvService().loadCvJSON(login);
                 request.setAttribute("userData", userData);
-                System.out.println("User: " + login);
-                System.out.println("Data: " + userData);
+
+                //System.out.println("User: " + login);
+                //System.out.println("Data: " + userData);
 
                 request.getRequestDispatcher(Common.EDIT_JSP).forward(request, response);
             } else {
                 //user is not logged in
                 request.setAttribute("error", "You are not logged in.");
+                log.warn("Attempt for an anauthorized access.");
                 response.sendRedirect(request.getContextPath() + Common.URL_LOGIN);
             }
             return;
         }
         switch (action) {
             case "/logout":
-                SessionService.deleteSessionLogin(request);
+                getSessionService().deleteSessionLogin(request);
                 response.sendRedirect(request.getContextPath() + Common.URL_LOGIN);
                 return;
-            case "/profile":
-                response.sendRedirect(request.getContextPath() + Common.URL_PROFILE);
-                return;
             default:
-                response.sendError(HttpServletResponse.SC_NOT_FOUND, "Unknown action ");
+                response.sendError(HttpServletResponse.SC_NOT_FOUND, "Unknown action " + action);
                 return;
         }
-
     }
 
     /**
@@ -130,29 +106,40 @@ public class EditServlet extends HttpServlet {
         switch (action) {
             case "/save":
                 response.setStatus(HttpServletResponse.SC_OK);
-                System.out.println("This is recieved JSON:");
+                String login = getSessionService().getSessionLogin(request);
+                log.debug("EDIT - save: This is recieved JSON for " + login + ": ");
 
                 //this is JSON object with user data
-                JSONObject userData = extractUserData(request);
-                System.out.println(userData);
+                JSONObject userData;
+                try{
+                    userData = getCvUtil().extractUserData(request);
+                }catch(Exception ex){
+                    response.setStatus(HttpServletResponse.SC_PRECONDITION_FAILED);
+                    return;
+                }
+                log.debug(userData.toString());
 
                 //run XML schema
+                /*log.debug("Running validity check of CV for " + login);
                 String message = cvService.checkValidity(userData);
                 if (message != null) {
+                    log.debug(message);
+                    message += "Could not generate valid XML... Chceck if all date is filled in correctly, mainly if all years are OK...";
                     //TODO if not ok, display error, forward to edit.jsp
-                    request.setAttribute("message", message);
+                    request.setAttribute("msg", message);
                     request.getRequestDispatcher(Common.EDIT_JSP).forward(request, response);
                     return;
                 }
+                */
+                log.debug("Trying to store CV for " + login);
                 //if ok, store xml to DB, redirect to /profile
-                if (cvService.saveCv(SessionService.getSessionLogin(request), userData)) {
-                    System.out.println("CV saved");
-                    request.setAttribute("msg", "CV saved.");
+                if (getCvService().saveCv(login, userData)) {
+                    System.out.println("CV for " + login + " saved");
+                    request.setAttribute("msg", "CV saved. For downloading the PDF go to your profile page.");
                     request.getRequestDispatcher(Common.EDIT_JSP).forward(request, response);
-
                 } else {
-                    System.out.println("Error while storing CV.");
-                    request.setAttribute("error", "Unexpected error occured while storing your CV to database.");
+                    log.error("Error while storing CV for " + login + ".");
+                    request.setAttribute("error", "Unexpected error occured while storing your CV to database. Try again later.");
                     request.getRequestDispatcher(Common.EDIT_JSP).forward(request, response);
                 }
                 return;
@@ -169,31 +156,17 @@ public class EditServlet extends HttpServlet {
      */
     @Override
     public String getServletInfo() {
-        return "Short description";
+        return "Edit servlet of CV Generator app.";
     }
-
-    private JSONObject extractUserData(HttpServletRequest request) {
-
-        StringBuffer sb = new StringBuffer();
-
-        try {
-            BufferedReader reader = request.getReader();
-            String line = null;
-            while ((line = reader.readLine()) != null) {
-                sb.append(line);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        /*JSONParser parser = new JSONParser();
-         JSONObject userData = null;
-         try {
-         userData = (JSONObject) parser.parse(sb.toString());
-         return userData;
-         } catch (ParseException e) {
-         e.printStackTrace();
-         }*/
-        return new JSONObject(sb.toString());
+    
+    
+    private CvService getCvService(){
+        return (CvService) getServletContext().getAttribute("cvService");
+    }
+    private CvUtil getCvUtil(){ return 
+            (CvUtil) getServletContext().getAttribute("cvUtil");
+    }
+    private SessionService getSessionService() {
+        return (SessionService) getServletContext().getAttribute("sessionService");
     }
 }

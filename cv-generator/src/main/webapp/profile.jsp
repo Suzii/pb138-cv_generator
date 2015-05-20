@@ -4,12 +4,8 @@
 <f:setBundle basename="texts" />
 <html ng-app="profileApp">
     <head>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
-        <title><f:message key="title" /></title>
-        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
-        <script src="js/profile.js"></script>
-
+        <%@ include file="/meta-data.html" %> 
+        <script src="${pageContext.request.contextPath}/js/profile.js"></script>
         <script>
             var userData = undefined;
             <c:if test="${not empty userData}">
@@ -23,45 +19,83 @@
                 <h1><f:message key="heading" /></h1>
                 <p><f:message key="intro-text" /></p>
 
-                <h2 ng-bind="info['given-names']"></h2>
-                <h3 ng-bind="info.surname"></h3>
-                
                 <div class="row">
-                    <div class="col-sm-5 col-sm-offset-1">
+                    <div class="col-sm-6">
+                        <h2 ng-bind="info['given-names']"></h2>
+                        <h3 ng-bind="info.surname"></h3>
+                    </div>
+                    <div class="col-sm-2">
                         <form action="${pageContext.request.contextPath}/profile/download" class="form-inline" method="GET">
                             <div class="form-group">
-                                <select class="form-control" required>
+                                <label class="sr-only" for="Language">Language</label>
+                                <select class="form-control" name="lang" required>
                                     <option value="en" selected="selected">English</option>
                                     <option value="sk">Slovak</option>
                                 </select>
-                                <button class="btn btn-danger " >
-                                    <span class="glyphicon glyphicon-floppy-save" aria-hidden="true"></span> Download PDF
-                                </button>
                             </div>
-                        </form>
-
-                    </div>
-                    <div class="col-sm-6">
-                        <form action="${pageContext.request.contextPath}/profile/edit" method="GET">
-                            <button class="btn btn-primary col-sm-offset-1 col-sm-3" >
-                                <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Edit
+                            <button class="btn btn-default" >
+                                <span class="glyphicon glyphicon-floppy-save" aria-hidden="true"></span> Download PDF
                             </button>
                         </form>
-                    </div>    
+                    </div>
+                    <div class="col-sm-2 col-sm-offset-1">
+                        <form action="${pageContext.request.contextPath}/edit/logout" method="GET">
+                            <button class="btn btn-danger btn-block" >
+                                <span class="glyphicon glyphicon-off " aria-hidden="true"></span> Log out
+                            </button>
+                        </form>
+
+                        <a href="edit">
+                            <button class="btn btn-primary btn-block" >
+                                <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Edit
+                            </button>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
+
+
         <div class="container">
             <div class="row">
-                <div class="col-sm-3">Street</div>
-                <div class="col-sm-6">{{info.address.street}}</div>
+                <div class="col-sm-6">
+                    <div class="row">
+                        <h3> Contact info: </h3>
+                        <div class="col-sm-2"><strong>Emails:</strong></div>
+                        <div class="col-sm-4">
+                            <a ng-repeat="email in info.emails" ng-href="mailto:{{email.value}}" target="_blank">{{email.value}}<br /></a>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-2"><strong>Social:</strong></div>
+                        <div class="col-sm-4">
+                            <a ng-repeat="social in info.social" ng-href="http://{{social.value}}" target="_blank">{{social.value}}<br /></a>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-2"><strong>Phones: </strong></div>
+                        <div class="col-sm-4">
+                            <span ng-repeat="phone in info.phones">{{phone.value}}<br /></span>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-sm-6">
+                    <h3> Address: </h3>
+                    <address>
+                        <strong>{{info['given-names']}} {{info.surname}}</strong> <br />
+                        {{info.address.street}} {{info.address.number}} <br />
+                        {{info.address.city}}, {{info.address['postal-code']}} <br />
+                        {{info.address.state}} <br />
+                        {{info.address.country}} <br />
+                    </address>
+                </div>
             </div>
-
-
         </div>
-            <div class="container">
-                <pre>{{data| json : spacing}}</pre>
-            </div>
 
+        <!--div class="container">
+            <pre>{{data| json : spacing}}</pre>
+        </div-->
+        <%@ include file="/footer.jsp" %> 
     </body>
 </html>

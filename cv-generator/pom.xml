@@ -19,7 +19,16 @@
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
             <version>1.7.6</version>
-            <type>jar</type>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.1.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>jcl-over-slf4j</artifactId>
+            <version>1.7.6</version>
         </dependency>
         <dependency>
             <groupId>javax</groupId>
@@ -52,7 +61,13 @@
             <artifactId>json-simple</artifactId>
             <version>1.1.1</version>
         </dependency>-->
-        
+        <!-- dependecny for transformation , used for xml to tex transformation -->
+      <!--  <dependency>
+            <groupId>net.sf.saxon</groupId>
+            <artifactId>Saxon-HE</artifactId>
+            <version>9.4</version>
+        </dependency> -->
+
         <dependency>
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>

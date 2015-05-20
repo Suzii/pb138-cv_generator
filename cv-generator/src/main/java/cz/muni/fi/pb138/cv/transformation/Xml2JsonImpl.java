@@ -34,7 +34,8 @@ public class Xml2JsonImpl implements Xml2Json{
     public static void main(String[] args) {
         String data;
         try {
-            List<String> lines = Files.readAllLines(Paths.get(System.getProperty("user.dir") + "\\..\\sample_data\\sample-cv_test.xml"));
+            //List<String> lines = Files.readAllLines(Paths.get(System.getProperty("user.dir") + "\\..\\sample_data\\sample-cv_test.xml"));
+            List<String> lines = Files.readAllLines(Paths.get("C:\\pb138-database\\admin.xml"));
             data = String.join("", lines);
         } catch (IOException ex) {
             Logger.getLogger(Xml2JsonImpl.class.getName()).log(Level.SEVERE, null, ex);
@@ -46,7 +47,6 @@ public class Xml2JsonImpl implements Xml2Json{
             
         String jsonPrettyPrintString = xmlJSONObj.toString(4);
         System.out.println(jsonPrettyPrintString);
-
     }
     
     @Override
@@ -68,6 +68,7 @@ public class Xml2JsonImpl implements Xml2Json{
         return null;
     }
     
+    @Override
     public JSONObject transform(String data){
         JSONObject json;
         try {
@@ -79,7 +80,7 @@ public class Xml2JsonImpl implements Xml2Json{
         
         JSONObject jsonCV = json.getJSONObject("curriculum-vitae");
                 
-        JSONObject jsonPD = jsonCV.getJSONObject("personal-details"); //.getJSONObject("phones").getJSONArray("phone")
+        JSONObject jsonPD = jsonCV.getJSONObject("personal-details");
 
         
         checkArray(jsonCV, "driving-licence", "class");
@@ -122,8 +123,16 @@ public class Xml2JsonImpl implements Xml2Json{
             return;
         }
         
-        JSONArray jArray = jRoot.getJSONObject(parent).getJSONArray(name);
+        Object obj = jRoot.getJSONObject(parent).get(name);
         jRoot.remove(parent);
+
+        JSONArray jArray;
+        if (obj instanceof JSONArray){
+            jArray = (JSONArray) obj;
+        }else{
+            jArray = new JSONArray();
+            jArray.put(obj);
+        }
         
         JSONArray phones_new = new JSONArray();
         for (int i=0; i<jArray.length(); i++){

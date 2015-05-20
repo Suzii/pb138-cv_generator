@@ -4,12 +4,7 @@
 <f:setBundle basename="texts" />
 <html>
     <head>
-        <title><f:message key="title" /></title>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
-        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-        <script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5.js"></script>
-        <script src="js/login.js"></script>
-
+        <%@ include file="/meta-data.html" %> 
     </head>
     <body>
         <div class="jumbotron">
@@ -22,7 +17,7 @@
                     </button>
                 </a>
             </div>
-        </div>
-        
+        </div>  
+        <%@ include file="/footer.jsp" %> 
     </body>
 </html>
