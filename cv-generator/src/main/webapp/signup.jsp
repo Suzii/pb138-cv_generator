@@ -46,7 +46,7 @@
                         <input type="password" id="password2" name="password2" value="" class="form-control" required />
                     </div>
                 </div>
-                <input type="Submit" class="btn btn-primary col-sm-offset-2 col-sm-1" value="Sign up" />
+                <input type="Submit" class="btn btn-primary col-sm-offset-2" value="Sign up" />
             </form>
         </div>
         <%@ include file="/footer.jsp" %> 

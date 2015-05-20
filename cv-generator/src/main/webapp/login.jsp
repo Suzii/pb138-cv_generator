@@ -42,7 +42,7 @@
                 <input type="Submit" class="btn btn-primary col-sm-offset-2 col-sm-1" value="Login" />
             </form>
             <a href="${pageContext.request.contextPath}/signup">
-                <span class="btn btn-success col-sm-offset-1 col-sm-1" >
+                <span class="btn btn-success col-sm-offset-1" >
                     <span class="glyphicon glyphicon-user" aria-hidden="true"></span> Sign up
                 </span>
             </a>

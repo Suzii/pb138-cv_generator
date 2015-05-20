@@ -13,11 +13,15 @@ public class MockedUserServiceImpl implements UserService{
 
     @Override
     public boolean checkIfExists(String login) {
+        if(login == null)
+            return false;
         return login.equals("admin");
     }
 
     @Override
     public boolean registerNewUser(String login, String password) {
+        if(login == null || password == null)
+            return false;
         return !login.equals("admin");
     }
 
@@ -25,7 +29,7 @@ public class MockedUserServiceImpl implements UserService{
     public boolean verifyCredentials(String login, String password) {
         String usr = "admin";
         String psswd = "admin";
-        return login.equals(usr) && password.equals(psswd);
+        return usr.equals(login) && psswd.equals(password);
     }
     
 }
