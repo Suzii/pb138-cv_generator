@@ -65,6 +65,7 @@ public class CvServiceImpl implements CvService {
 
     @Override
     public JSONObject loadCvJSON(String login) {
+        if(login == null) return null;
         log.debug("LoadCvJson login:" + login);
         Document cvXml = loadCvXML(login);
         if (cvXml == null) {
@@ -76,6 +77,7 @@ public class CvServiceImpl implements CvService {
 
     @Override
     public Document loadCvXML(String login) {
+        if(login == null) return null;
         String filePath = databasePath + "/" + login + ".xml";
         log.debug("Load xml : " + filePath);
         File doc = new File(filePath);
@@ -106,6 +108,7 @@ public class CvServiceImpl implements CvService {
      */
     @Override
     public boolean saveCv(String login, JSONObject cv) {
+        if(login == null || cv == null) return false;
         //System.out.println("Converting JSON to XML");
         try {
             Document cvXml = json2xml.transform(cv);
@@ -122,6 +125,7 @@ public class CvServiceImpl implements CvService {
 
     @Override
     public boolean saveCv(String login, Document cv) {
+        if(login == null || cv == null) return false;
         String filePath = databasePath + "/" + login + ".xml";
         //System.out.println("Filepath for new CV: " + filePath);
         log.debug("Saving cv XML , login : " + login + " FILEPATH : " + filePath);
@@ -143,6 +147,7 @@ public class CvServiceImpl implements CvService {
 
     @Override
     public File generatePdf(String login, String lang) {
+        if(login == null || lang == null) return null;
         if (transformToTexFile(login, lang)) {
 
             File tex = new File(databasePath + "/Utils/resultCV.tex");
@@ -180,6 +185,7 @@ public class CvServiceImpl implements CvService {
 
     @Override
     public String checkValidity(Document cv) {
+        if(cv == null) return "CV is NULL";
         // create a SchemaFactory capable of understanding WXS schemas
         SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
         log.debug("Checking validity of XML file.");
@@ -206,6 +212,7 @@ public class CvServiceImpl implements CvService {
 
     @Override
     public String checkValidity(JSONObject cv) {
+        if(cv == null) return "CV is NULL.";
         log.debug("Checking validity for JSONobject.");
         Document cvXml = json2xml.transform(cv);
         String result = checkValidity(cvXml);

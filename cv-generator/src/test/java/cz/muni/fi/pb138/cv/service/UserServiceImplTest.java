@@ -125,7 +125,7 @@ public class UserServiceImplTest {
      * Test of registerNewUser method, of class UserServiceImpl.
      */
     @Test
-    public void testRegisterNewUserNotExsitingUser() {
+    public void testRegisterNewUserNotExsitingUserOK() {
         assertTrue("Create new user.", userService.registerNewUser("admin2", "blah"));
         assertTrue("Check if new user is registered", userService.checkIfExists("admin2"));
 
