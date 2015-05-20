@@ -8,14 +8,11 @@ package cz.muni.fi.pb138.cv.test;
 import cz.muni.fi.pb138.cv.service.*;
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -38,8 +35,7 @@ public class XMLToTeXTest {
                 sb.append(System.lineSeparator());
             }
             file = sb.toString();
-        }catch(IOException ex) {
-            
+        }catch(IOException ex){
         }
     }
     
@@ -58,5 +54,42 @@ public class XMLToTeXTest {
         assertTrue(file.contains("\\PersonalEntry{Name}"));
         assertTrue(file.contains("\\PersonalEntry{Surname}"));
         assertTrue(file.contains("\\PersonalEntry{Date of birth}"));
+        assertTrue(file.contains("\\PersonalEntry{Country}"));
     }
+    
+    @Test
+    public void testState() {
+        assertTrue(file.contains("\\PersonalEntry{State}"));
+    }
+    
+    @Test
+    public void testPhones() {
+        assertTrue(file.contains("\\PersonalEntry{Phones}"));
+        assertFalse(file.contains("\\PersonalEntry{Phone}"));
+    }
+    
+    @Test
+    public void testMails() {
+        assertTrue(file.contains("\\PersonalEntry{Emails}"));
+        assertFalse(file.contains("\\PersonalEntry{Email}"));
+    }
+    
+    @Test
+    public void testSites() {
+        assertTrue(file.contains("\\PersonalEntry{My sites}"));
+        assertFalse(file.contains("\\PersonalEntry{My site}"));
+    }
+    
+    @Test
+    public void testAllOptionalParts() {
+        assertTrue(file.contains("\\NewPart{EDUCATION}{}"));
+        assertTrue(file.contains("\\NewPart{WORK EXPERIENCE}{}"));
+        assertTrue(file.contains("\\NewPart{CERTIFICATES}{}"));
+        assertTrue(file.contains("\\NewPart{LANGUAGE SKILLS}{}"));
+        assertTrue(file.contains("\\NewPart{COMPUTER SKILLS}{}"));
+        assertTrue(file.contains("\\NewPart{DRIVING LICENCE}{}"));
+        assertTrue(file.contains("\\NewPart{CHARACTERISTICS}{}"));
+        assertTrue(file.contains("\\NewPart{HOBBIES}{}"));
+    }
+    
 }
