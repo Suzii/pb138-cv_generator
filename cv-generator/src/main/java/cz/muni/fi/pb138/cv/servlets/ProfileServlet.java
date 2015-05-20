@@ -98,7 +98,11 @@ public class ProfileServlet extends HttpServlet {
                 try { // attach pdf 
                     log.debug("PROFILE: requesting pdf generation for " + login + " in " + lang);
                     File file = getCvService().generatePdf(login, lang);
-                    if (!getCvUtil().attachFile(response, file)) {
+                    response.setContentType("application/octet-stream");
+                    response.setContentLength((int) file.length());
+                    response.setHeader("Content-Disposition", String.format("attachment; filename=\"%s\"", file.getName()));
+
+                    if (!getCvUtil().attachFile(response.getOutputStream(), file)) {
                         request.setAttribute("error", "You have to create and save your CV first!");
                     }
                 } catch (IOException e) { // display error

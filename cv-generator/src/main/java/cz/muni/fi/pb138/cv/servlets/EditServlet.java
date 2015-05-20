@@ -106,7 +106,7 @@ public class EditServlet extends HttpServlet {
                 //this is JSON object with user data
                 JSONObject userData;
                 try{
-                    userData = getCvUtil().extractUserData(request);
+                    userData = getCvUtil().extractUserData(request.getReader());
                 }catch(Exception ex){
                     response.setStatus(HttpServletResponse.SC_PRECONDITION_FAILED);
                     return;

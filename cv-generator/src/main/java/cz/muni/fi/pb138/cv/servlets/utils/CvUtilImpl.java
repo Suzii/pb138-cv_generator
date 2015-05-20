@@ -10,8 +10,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import org.json.JSONObject;
 
 /**
@@ -21,39 +19,45 @@ import org.json.JSONObject;
 public class CvUtilImpl implements CvUtil {
 
     @Override
-    public boolean attachFile(HttpServletResponse response, File file) throws IOException {
+    public boolean attachFile(OutputStream out, File file) throws IOException {
+        if (out == null) {
+            throw new IllegalArgumentException("outputstream is null");
+        }
+
         if (file == null) {
             return false;
         }
 
-        response.setContentType("application/octet-stream");
-        response.setContentLength((int) file.length());
-        response.setHeader("Content-Disposition", String.format("attachment; filename=\"%s\"", file.getName()));
-
-        OutputStream out = response.getOutputStream();
         try (FileInputStream in = new FileInputStream(file)) {
             byte[] buffer = new byte[4096];
             int length;
             while ((length = in.read(buffer)) > 0) {
                 out.write(buffer, 0, length);
             }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            return false;
         }
         out.flush();
         return true;
     }
-    
-    @Override
-    public JSONObject extractUserData(HttpServletRequest request) {
 
-        StringBuffer sb = new StringBuffer();
+    @Override
+    public JSONObject extractUserData(BufferedReader reader) {
+
+        if (reader == null) {
+            throw new IllegalArgumentException("reader is null");
+        }
+        StringBuilder sb = new StringBuilder();
         try {
-            BufferedReader reader = request.getReader();
+            //BufferedReader reader = request.getReader();
             String line = null;
             while ((line = reader.readLine()) != null) {
                 sb.append(line);
             }
         } catch (Exception e) {
             e.printStackTrace();
+            return null;
         }
         return new JSONObject(sb.toString());
     }
