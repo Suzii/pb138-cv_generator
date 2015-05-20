@@ -21,9 +21,10 @@ public interface CvUtil {
      * Attaches provided file to the http response
      * @param response response to attach file to 
      * @param file file to be attached
+     * @return true if file was attached, false otherwise
      * @throws IOException 
      */
-    void attachFile(HttpServletResponse response, File file) throws IOException;
+    boolean attachFile(HttpServletResponse response, File file) throws IOException;
     
     /**
      * Extracts data from request

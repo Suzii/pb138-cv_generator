@@ -169,8 +169,8 @@ editApp.controller('FormController', ['$scope', '$window', '$http', function ($s
             form.education.push({
                 note: "",
                 'name-of-education': "",
-                from: 2004,
-                to: 2008,
+                from: null,
+                to: null,
                 'name-of-school': ""
             });
         };

@@ -21,9 +21,9 @@ import org.json.JSONObject;
 public class CvUtilImpl implements CvUtil {
 
     @Override
-    public void attachFile(HttpServletResponse response, File file) throws IOException {
+    public boolean attachFile(HttpServletResponse response, File file) throws IOException {
         if (file == null) {
-            return;
+            return false;
         }
 
         response.setContentType("application/octet-stream");
@@ -39,6 +39,7 @@ public class CvUtilImpl implements CvUtil {
             }
         }
         out.flush();
+        return true;
     }
     
     @Override

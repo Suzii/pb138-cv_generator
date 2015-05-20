@@ -2,7 +2,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <f:setBundle basename="texts" />
-<html ng-app="profileApp">
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"  data-ng-app="profileApp">
     <head>
         <%@ include file="/meta-data.html" %> 
         <script src="${pageContext.request.contextPath}/js/profile.js"></script>
@@ -13,7 +14,7 @@
             </c:if>
         </script>
     </head>
-    <body ng-controller="ProfileController">
+    <body data-ng-controller="ProfileController">
         <div class="jumbotron">
             <div class="container">
                 <h1><f:message key="heading" /></h1>
@@ -21,19 +22,20 @@
 
                 <div class="row">
                     <div class="col-sm-6">
-                        <h2 ng-bind="info['given-names']"></h2>
-                        <h3 ng-bind="info.surname"></h3>
+                        <h2 data-ng-bind="info['given-names']"></h2>
+                        <h3 data-ng-bind="info.surname"></h3>
                     </div>
                     <div class="col-sm-2">
-                        <form action="${pageContext.request.contextPath}/profile/download" class="form-inline" method="GET">
+                        <form action="${pageContext.request.contextPath}/profile/download" class="form-inline" name="langForm" method="GET">
                             <div class="form-group">
-                                <label class="sr-only" for="Language">Language</label>
-                                <select class="form-control" name="lang" required>
-                                    <option value="en" selected="selected">English</option>
+                                <label class="sr-only" for="lang">Language</label>
+                                <select class="form-control" name="lang" id="lang" required>
+                                    <option value="" selected="selected">Select language</option>
+                                    <option value="en">English</option>
                                     <option value="sk">Slovak</option>
                                 </select>
                             </div>
-                            <button class="btn btn-default" >
+                            <button class="btn btn-default">
                                 <span class="glyphicon glyphicon-floppy-save" aria-hidden="true"></span> Download PDF
                             </button>
                         </form>
@@ -46,9 +48,9 @@
                         </form>
 
                         <a href="edit">
-                            <button class="btn btn-primary btn-block" >
+                            <span class="btn btn-primary btn-block" >
                                 <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Edit
-                            </button>
+                            </span>
                         </a>
                     </div>
                 </div>
@@ -58,24 +60,36 @@
 
         <div class="container">
             <div class="row">
+                <c:if test="${not empty error}">
+                    <div class="alert alert-danger" role="alert">
+                        <c:out value="${error}"/>
+                    </div>
+                </c:if>
+                <c:if test="${not empty msg}">
+                    <div class="alert alert-info" role="alert">
+                        <c:out value="${msg}"/>
+                    </div>
+                </c:if>
+            </div>
+            <div class="row">
                 <div class="col-sm-6">
                     <div class="row">
                         <h3> Contact info: </h3>
                         <div class="col-sm-2"><strong>Emails:</strong></div>
                         <div class="col-sm-4">
-                            <a ng-repeat="email in info.emails" ng-href="mailto:{{email.value}}" target="_blank">{{email.value}}<br /></a>
+                            <a data-ng-repeat="email in info.emails" data-ng-href="mailto:{{email.value}}" target="_blank">{{email.value}}<br /></a>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-sm-2"><strong>Social:</strong></div>
                         <div class="col-sm-4">
-                            <a ng-repeat="social in info.social" ng-href="http://{{social.value}}" target="_blank">{{social.value}}<br /></a>
+                            <a data-ng-repeat="social in info.social" data-ng-href="http://{{social.value}}" target="_blank">{{social.value}}<br /></a>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-sm-2"><strong>Phones: </strong></div>
                         <div class="col-sm-4">
-                            <span ng-repeat="phone in info.phones">{{phone.value}}<br /></span>
+                            <span data-ng-repeat="phone in info.phones">{{phone.value}}<br /></span>
                         </div>
                     </div>
 

@@ -2,7 +2,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <f:setBundle basename="texts" />
-<html>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en" >
     <head>
         <%@ include file="/meta-data.html" %> 
     </head>
@@ -41,9 +42,9 @@
                 <input type="Submit" class="btn btn-primary col-sm-offset-2 col-sm-1" value="Login" />
             </form>
             <a href="signup">
-                <button class="btn btn-success col-sm-offset-1 col-sm-1" >
+                <span class="btn btn-success col-sm-offset-1 col-sm-1" >
                     <span class="glyphicon glyphicon-user" aria-hidden="true"></span> Sign up
-                </button>
+                </span>
             </a>
 
         </div>

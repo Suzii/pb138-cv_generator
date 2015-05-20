@@ -77,6 +77,7 @@ public class ProfileServlet extends HttpServlet {
                 log.warn("Attempt for an anauthorized access.");
                 response.sendRedirect(request.getContextPath() + Common.URL_LOGIN);
             }
+            return;
         }
         switch (action) {
             case "/download":
@@ -89,7 +90,11 @@ public class ProfileServlet extends HttpServlet {
                 try { // attach pdf 
                     log.debug("PROFILE: requesting pdf generation for " + login + " in " + lang);
                     File file = getCvService().generatePdf(login, lang);
-                    getCvUtil().attachFile(response, file);
+                    if (!getCvUtil().attachFile(response, file)) {
+                        request.setAttribute("error", "You have to create and save your CV first!");
+                    } else {
+                        request.setAttribute("msg", "Cv downloaded!");
+                    }
                 } catch (IOException e) { // display error
                     request.setAttribute("error", "Sorry, some error occured while generating your CV.");
                     log.error("Failed to generate cv for " + login, e);
@@ -141,6 +146,7 @@ public class ProfileServlet extends HttpServlet {
     private CvUtil getCvUtil() {
         return (CvUtil) getServletContext().getAttribute("cvUtil");
     }
+
     private SessionService getSessionService() {
         return (SessionService) getServletContext().getAttribute("sessionService");
     }
