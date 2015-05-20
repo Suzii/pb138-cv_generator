@@ -27,7 +27,7 @@ public interface UserService {
      * @param passwordHash hash of user's password
      * @return true if process was successful, false otherwise
      */
-    boolean registerNewUser(String login, String passwordHash);
+    boolean registerNewUser(String login, String password);
     
     /**
      * Verifies provided user credentials.
@@ -36,5 +36,5 @@ public interface UserService {
      * @param passwordHash hash of password associated with login
      * @return true if login and passwordHash match any entry in database
      */
-    boolean verifyCredentials(String login, String passwordHash);
+    boolean verifyCredentials(String login, String password);
 }

@@ -16,7 +16,7 @@ public class Config {
     public static final String DIRECTORY = "C:/pb138-database";
     public static final String LOGINS = "C:/pb138-database/users.xml";
     public static final String DBUTIL="C:/pb138-database/Utils";
-    //public static final String PATHTOLATEXBIN="C:\\Programy\\MiKTeX 2.9\\miktex\\bin\\";  //Cypo
-    public static final String PATHTOLATEXBIN="C:\\Program Files (x86)\\MiKTeX 2.9\\miktex\\bin\\"; //Suzii
+    public static final String PATHTOLATEXBIN="C:\\Programy\\MiKTeX 2.9\\miktex\\bin\\";  //Cypo
+   // public static final String PATHTOLATEXBIN="C:\\Program Files (x86)\\MiKTeX 2.9\\miktex\\bin\\"; //Suzii
     // public static final String XMLVALIDATIONFILE;    TODO
 }

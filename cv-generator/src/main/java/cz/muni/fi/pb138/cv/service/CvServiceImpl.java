@@ -209,7 +209,7 @@ public class CvServiceImpl implements CvService {
     }
 
     private boolean transforToTexFile(String login, String lang) {
-        // todo vyriesit ako mat ten xml subor ulozeny alebo odkial ho nacucat + ako presne volat xslt transformator
+        // todo vyriesit ako mat ten xml subor ulozeny alebo odkial ho nacucat
         StreamSource xml = new StreamSource(new File(Config.DIRECTORY + "/" + login + ".xml"));
         StreamSource xslt = new StreamSource(new File(Config.DBUTIL + "/xml-to-tex.xsl")); // XSLT FILE
 
@@ -218,7 +218,7 @@ public class CvServiceImpl implements CvService {
             FileOutputStream os = new FileOutputStream(Config.DBUTIL + "/resultCV.tex");
             result = new StreamResult(os);
             TransformerFactory tf = TransformerFactory.newInstance();
-            //tf.setAttribute("lang", lang);
+
             Transformer transformer = tf.newTransformer(xslt);
             transformer.setParameter("cv-language", lang);
             transformer.transform(xml, result);
@@ -240,7 +240,7 @@ public class CvServiceImpl implements CvService {
         /*File out = new File(Config.DBUTIL + "/resultCV.out");
         out.delete();*/
         
-//delete intermediate .aux file       
+        //delete intermediate .aux file       
         File aux = new File(Config.DBUTIL + "/resultCV.aux");
         aux.delete();
 

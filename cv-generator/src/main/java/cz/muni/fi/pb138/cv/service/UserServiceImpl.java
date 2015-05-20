@@ -7,6 +7,8 @@ package cz.muni.fi.pb138.cv.service;
 
 import java.io.File;
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.util.logging.Level;
 //import java.util.logging.Logger;
 import javax.xml.parsers.DocumentBuilder;
@@ -86,14 +88,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean registerNewUser(String login, String passwordHash) {
+    public boolean registerNewUser(String login, String password) {
         if (!checkIfExists(login)) {
-            log.debug("Registering new user : " + login + " with psw hash : " +passwordHash);
+            log.debug("Registering new user : " + login + " with psw hash : " +password);
             Element root = logins.getDocumentElement();
 
             Element newUser = logins.createElement("user");
             newUser.appendChild(createElementWithText("login", login));
-            newUser.appendChild(createElementWithText("passwordHash", passwordHash));
+            try {
+                newUser.appendChild(createElementWithText("passwordHash", PasswordHash.createHash(password)));
+            } catch (NoSuchAlgorithmException|InvalidKeySpecException ex) {
+                log.error("Create user - Problem with hashing password : " + password ,ex );
+            } 
 
             root.appendChild(newUser);
 
@@ -116,17 +122,23 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean verifyCredentials(String login, String passwordHash) {
+    public boolean verifyCredentials(String login, String password) {
         if (checkIfExists(login)) {
             try {
-                log.debug("Credentials verifing ,user: " +login + "  psw hash : "+passwordHash);
+                log.debug("Credentials verifing ,user: " +login + "  psw hash : "+password);
                 XPathFactory xPathfactory = XPathFactory.newInstance();
                 XPath xpath = xPathfactory.newXPath();
-                XPathExpression expr = xpath.compile("/users/user[./login/text()=\""+login+"\" and ./passwordHash/text()=\""+passwordHash+"\"]/passwordHash/text()");
-                String password = expr.evaluate(logins);
+                //XPathExpression expr = xpath.compile("/users/user[./login/text()=\""+login+"\" and ./passwordHash/text()=\""+passwordHash+"\"]/passwordHash/text()");
+                XPathExpression expr = xpath.compile("/users/user[./login/text()=\""+login+"\"]/passwordHash/text()");
+                String passwordHash = expr.evaluate(logins);
                 log.debug("Founded psw: "+ password);
-                //return login.equals(userLogin);"\"
-                return (password.equals(passwordHash));
+                try {
+                    //return login.equals(userLogin);"\"
+                    //return (password.equals(passwordHash));
+                    return PasswordHash.validatePassword(password, passwordHash);
+                } catch (NoSuchAlgorithmException|InvalidKeySpecException ex) {
+                   log.error("Verify credentials - Problem with hashing password : " + password + " and login : " + login,ex );
+                }
 
             } catch (XPathExpressionException ex) {
                 log.error("Error by verifing credentials of user :" + login ,ex);
