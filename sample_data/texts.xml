@@ -1,0 +1,52 @@
+<texts>
+    <language id="en">
+        <curriculum-vitae>Curriculum vitae</curriculum-vitae>
+        <personal-details>PERSONAL DETAILS</personal-details>
+        <education>EDUCATION</education>
+        <work-experience>WORK EXPERIENCE</work-experience>
+        <certificates>CERTIFICATES</certificates>
+        <language-skills>LANGUAGE SKILLS</language-skills>
+        <computer-skills>COMPUTER SKILLS</computer-skills>
+        <driving-licence>DRIVING LICENCE</driving-licence>
+        <characteristics>CHARACTERISTICS</characteristics>
+        <hobbies>HOBBIES</hobbies>
+        <name>Name</name>
+        <surname>Surname</surname>
+        <date-of-birth>Date of birth</date-of-birth>
+        <address>Address</address>
+        <country>Country</country>
+        <state>State</state>
+        <phone>Phone</phone>
+        <phones>Phones</phones>
+        <email>Email</email>
+        <emails>Emails</emails>
+        <my-site>My site</my-site>
+        <my-sites>My sites</my-sites>
+        <present>present</present>
+    </language>
+    <language id="sk">
+        <curriculum-vitae>Životopis</curriculum-vitae>
+        <personal-details>OSOBNÉ ÚDAJE</personal-details>
+        <education>VZDELANIE</education>
+        <work-experience>PRACOVNÉ SKÚSENOSTI</work-experience>
+        <certificates>CERTIFIKÁTY</certificates>
+        <language-skills>JAZYKOVÉ ZNALOSTI</language-skills>
+        <computer-skills>POČÍTAČOVÉ ZNALOSTI</computer-skills>
+        <driving-licence>VODIČSKÝ PREUKAZ</driving-licence>
+        <characteristics>VLASTNOSTI</characteristics>
+        <hobbies>ZÁUJMY</hobbies>
+        <name>Meno</name>
+        <surname>Priezvisko</surname>
+        <date-of-birth>Dátum narodenia</date-of-birth>
+        <address>Adresa</address>
+        <country>Krajina</country>
+        <state>Štát</state>
+        <phone>Telefón</phone>
+        <phones>Telefóny</phones>
+        <email>E-mail</email>
+        <emails>E-maily</emails>
+        <my-site>Moja stránka</my-site>
+        <my-sites>Moje stránky</my-sites>
+        <present>doteraz</present>
+    </language>
+</texts>
