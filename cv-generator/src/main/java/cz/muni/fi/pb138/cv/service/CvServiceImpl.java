@@ -208,7 +208,7 @@ public class CvServiceImpl implements CvService {
         return result;
     }
 
-    private boolean transforToTexFile(String login, String lang) {
+    public boolean transforToTexFile(String login, String lang) {
         // todo vyriesit ako mat ten xml subor ulozeny alebo odkial ho nacucat
         StreamSource xml = new StreamSource(new File(Config.DIRECTORY + "/" + login + ".xml"));
         StreamSource xslt = new StreamSource(new File(Config.DBUTIL + "/xml-to-tex.xsl")); // XSLT FILE
