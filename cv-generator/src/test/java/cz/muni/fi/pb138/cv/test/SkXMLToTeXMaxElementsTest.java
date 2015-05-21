@@ -18,6 +18,8 @@ import org.junit.Test;
  */
 public class SkXMLToTeXMaxElementsTest {
     
+    private static final String DB = "C:\\pb138-database";
+    private static final String MIKTEX = "C:\\Program Files (x86)\\MiKTeX 2.9\\miktex\\bin";
     private static final String LANGUAGE = "sk";
     private static final String INPUT_XML = "anicka";
     private static final String OUTPUT_FILE_NAME = "resultCV.tex";
@@ -27,8 +29,8 @@ public class SkXMLToTeXMaxElementsTest {
     
     public SkXMLToTeXMaxElementsTest() throws IOException {
         CvServiceImpl cvService;
-        cvService = new CvServiceImpl();
-        cvService.transforToTexFile(INPUT_XML, LANGUAGE);
+        cvService = new CvServiceImpl(DB,MIKTEX);
+        cvService.transformToTexFile(INPUT_XML, LANGUAGE);
         StringBuilder sb = new StringBuilder();
         try(BufferedReader br = new BufferedReader(new FileReader(OUTPUT_TEX))) {
             for (String s = br.readLine(); s != null; s=br.readLine()) {
