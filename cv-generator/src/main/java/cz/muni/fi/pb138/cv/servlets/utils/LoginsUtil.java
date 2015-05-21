@@ -12,8 +12,10 @@ package cz.muni.fi.pb138.cv.servlets.utils;
 public interface LoginsUtil {
     
     /**
-     * Verifies if user with provided creadentials exists.
-     * If yes, returns null. If not, returns meaningfull message.
+     * Verifies if user with provided credentials exists.
+     * If yes, returns null. If not, returns meaningful message. One of:
+     * "Username: " + login + " does not exists!"
+     * "Wrong password!"
      * 
      * @param login login of user to look for
      * @param password password for provided login to check
@@ -24,8 +26,13 @@ public interface LoginsUtil {
     /**
      * Tries creating an accout from provided credentials.
      * If passwords match and no such login is used so far, creates new account 
-     * and returns null. Otherwise returns meaningful message.
-     * @param login login to be used for new account
+     * and returns null. Otherwise returns meaningful message. One of:
+     * "All fields are required!";
+     * "Passwords do not match!";
+     * "Username: " + login + " already taken!";
+     * "Error while creating account!";
+     * 
+     * @param login login to be used for new account  - not only whitespaces
      * @param password password for provided login
      * @param password2 password for check
      * @return null if new account was created, message otherwise

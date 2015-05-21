@@ -46,7 +46,7 @@ public class Json2XmlImpl implements Json2Xml {
         + "}";
         
         try {
-            List<String> lines = Files.readAllLines(Paths.get(System.getProperty("user.dir") + "\\..\\sample_data\\json_example.json"));
+            List<String> lines = Files.readAllLines(Paths.get("C:\\sample-data.json"));
             data = String.join("", lines);
         } catch (IOException ex) {
             Logger.getLogger(Json2XmlImpl.class.getName()).log(Level.SEVERE, null, ex);
@@ -106,6 +106,8 @@ public class Json2XmlImpl implements Json2Xml {
     
     private void parse(){
         Element rootElement = doc.createElement("curriculum-vitae");
+        rootElement.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
+        rootElement.setAttribute("xsi:noNamespaceSchemaLocation", "cv.xsd");
         
         //rootElement.appendChild(parseAutentication());
         rootElement.appendChild(parsePersonalDetails());

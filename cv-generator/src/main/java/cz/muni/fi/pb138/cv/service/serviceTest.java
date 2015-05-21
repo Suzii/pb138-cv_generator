@@ -16,8 +16,8 @@ public class serviceTest {
      */
     public static void main(String[] args) {
         System.out.println("welcome in main;");
-        UserServiceImpl us = new UserServiceImpl();
-        CvServiceImpl cvs = new CvServiceImpl();
+        UserServiceImpl us = new UserServiceImpl("C:\\pb138-database");
+        CvServiceImpl cvs = new CvServiceImpl("C:\\pb138-database","C:\\Programy\\MiKTeX 2.9\\miktex\\bin\\");
         String p = "pato";
         System.out.println(us.registerNewUser("jozo",p));
         System.out.println(us.verifyCredentials(p, p));

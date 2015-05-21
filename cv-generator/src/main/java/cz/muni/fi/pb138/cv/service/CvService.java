@@ -71,4 +71,9 @@ public interface CvService {
      * @return message with error, null if ok
      */
     String checkValidity(JSONObject cv);
+    
+    /**
+     * Delete all files witch were created by generating of PDF.
+     */
+    void cleanAfterGeneratingPDF();
 }

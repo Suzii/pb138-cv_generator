@@ -65,14 +65,8 @@ public class EditServlet extends HttpServlet {
                 log.debug("EDIT Logged user: " + login);
                 JSONObject userData = getCvService().loadCvJSON(login);
                 request.setAttribute("userData", userData);
-
-                //System.out.println("User: " + login);
-                //System.out.println("Data: " + userData);
-
                 request.getRequestDispatcher(Common.EDIT_JSP).forward(request, response);
-            } else {
-                //user is not logged in
-                request.setAttribute("error", "You are not logged in.");
+            } else { //user is not logged in
                 log.warn("Attempt for an anauthorized access.");
                 response.sendRedirect(request.getContextPath() + Common.URL_LOGIN);
             }
@@ -101,6 +95,7 @@ public class EditServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
+        response.setContentType("application/json");
         ResourceBundle bundle = ResourceBundle.getBundle("texts", request.getLocale());
         String action = request.getPathInfo();
         switch (action) {
@@ -111,42 +106,46 @@ public class EditServlet extends HttpServlet {
 
                 //this is JSON object with user data
                 JSONObject userData;
-                try{
-                    userData = getCvUtil().extractUserData(request);
-                }catch(Exception ex){
+                try {
+                    userData = getCvUtil().extractUserData(request.getReader());
+                } catch (Exception ex) {
                     response.setStatus(HttpServletResponse.SC_PRECONDITION_FAILED);
+                    setMessage(response, "Some error occured while parsing your CV.");
                     return;
                 }
                 log.debug(userData.toString());
 
                 //run XML schema
-                /*log.debug("Running validity check of CV for " + login);
-                String message = cvService.checkValidity(userData);
+                log.debug("Running validity check of CV for " + login);
+                String message = getCvService().checkValidity(userData);
                 if (message != null) {
                     log.debug(message);
-                    message += "Could not generate valid XML... Chceck if all date is filled in correctly, mainly if all years are OK...";
                     //TODO if not ok, display error, forward to edit.jsp
-                    request.setAttribute("msg", message);
-                    request.getRequestDispatcher(Common.EDIT_JSP).forward(request, response);
+                    setMessage(response, "Could not generate valid XML. " + message);
                     return;
                 }
-                */
+
                 log.debug("Trying to store CV for " + login);
-                //if ok, store xml to DB, redirect to /profile
+                //if ok, store xml to DB
                 if (getCvService().saveCv(login, userData)) {
-                    System.out.println("CV for " + login + " saved");
-                    request.setAttribute("msg", "CV saved. For downloading the PDF go to your profile page.");
-                    request.getRequestDispatcher(Common.EDIT_JSP).forward(request, response);
+                    log.debug("CV for " + login + " saved");
+
+                    setMessage(response, "CV saved. For downloading the PDF go to your profile page.");
                 } else {
                     log.error("Error while storing CV for " + login + ".");
-                    request.setAttribute("error", "Unexpected error occured while storing your CV to database. Try again later.");
-                    request.getRequestDispatcher(Common.EDIT_JSP).forward(request, response);
+                    setMessage(response, "Unexpected error occured while storing your CV to database. Try again later.");
                 }
                 return;
             default:
                 log.error("Unknown action " + action);
                 response.sendError(HttpServletResponse.SC_NOT_FOUND, "Unknown action " + action);
         }
+    }
+
+    private void setMessage(HttpServletResponse response, String message) throws IOException {
+        JSONObject json = new JSONObject();
+        json.put("msg", message);
+        response.getWriter().write(json.toString());
     }
 
     /**
@@ -158,14 +157,15 @@ public class EditServlet extends HttpServlet {
     public String getServletInfo() {
         return "Edit servlet of CV Generator app.";
     }
-    
-    
-    private CvService getCvService(){
+
+    private CvService getCvService() {
         return (CvService) getServletContext().getAttribute("cvService");
     }
-    private CvUtil getCvUtil(){ return 
-            (CvUtil) getServletContext().getAttribute("cvUtil");
+
+    private CvUtil getCvUtil() {
+        return (CvUtil) getServletContext().getAttribute("cvUtil");
     }
+
     private SessionService getSessionService() {
         return (SessionService) getServletContext().getAttribute("sessionService");
     }

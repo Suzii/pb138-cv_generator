@@ -5,10 +5,11 @@
  */
 package cz.muni.fi.pb138.cv.servlets.utils;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import java.io.OutputStream;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -18,17 +19,19 @@ import org.json.JSONObject;
 public interface CvUtil {
     
     /**
-     * Attaches provided file to the http response
-     * @param response response to attach file to 
+     * Attaches provided file to given output stream
+     * @param out output stream to attach file to 
      * @param file file to be attached
+     * @return true if file was attached, false otherwise
      * @throws IOException 
      */
-    void attachFile(HttpServletResponse response, File file) throws IOException;
+    boolean attachFile(OutputStream out, File file) throws IOException;
     
     /**
-     * Extracts data from request
-     * @param request request to extract data from
+     * Extracts data from given buffered reader
+     * @param reader reader to extract data from
      * @return JSONObject containing extracted data
+     * @throws JSONException on parse error
      */
-    JSONObject extractUserData(HttpServletRequest request);
+    JSONObject extractUserData(BufferedReader reader) throws JSONException;
 }
