@@ -54,16 +54,8 @@ public class LoginServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
-        String action = request.getPathInfo();
-        if (action == null) {
-            request.getRequestDispatcher(Common.LOGIN_JSP).forward(request, response);
-            return;
-        }
-        switch (action) {
-            default:
-                response.sendError(HttpServletResponse.SC_NOT_FOUND, "Unknown action " + action);
-                return;
-        }
+        request.getRequestDispatcher(Common.LOGIN_JSP).forward(request, response);
+        return;
     }
 
     /**
@@ -118,6 +110,7 @@ public class LoginServlet extends HttpServlet {
     private LoginsUtil getLoginsUtil() {
         return (LoginsUtil) getServletContext().getAttribute("loginsUtil");
     }
+
     private SessionService getSessionService() {
         return (SessionService) getServletContext().getAttribute("sessionService");
     }

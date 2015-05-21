@@ -1,15 +1,15 @@
 <texts>
     <language id="en">
         <curriculum-vitae>Curriculum vitae</curriculum-vitae>
-        <personal-details>Personal details</personal-details>
-        <education>Education</education>
-        <work-experience>Work experience</work-experience>
-        <certificates>Certificates</certificates>
-        <language-skills>Language skills</language-skills>
-        <computer-skills>Computer skills</computer-skills>
-        <driving-licence>Driving licence</driving-licence>
-        <characteristics>Characteristics</characteristics>
-        <hobbies>Hobbies</hobbies>
+        <personal-details>PERSONAL DETAILS</personal-details>
+        <education>EDUCATION</education>
+        <work-experience>WORK EXPERIENCE</work-experience>
+        <certificates>CERTIFICATES</certificates>
+        <language-skills>LANGUAGE SKILLS</language-skills>
+        <computer-skills>COMPUTER SKILLS</computer-skills>
+        <driving-licence>DRIVING LICENCE</driving-licence>
+        <characteristics>CHARACTERISTICS</characteristics>
+        <hobbies>HOBBIES</hobbies>
         <name>Name</name>
         <surname>Surname</surname>
         <date-of-birth>Date of birth</date-of-birth>
@@ -26,15 +26,15 @@
     </language>
     <language id="sk">
         <curriculum-vitae>Životopis</curriculum-vitae>
-        <personal-details>Osobné údaje</personal-details>
-        <education>Vzdelanie</education>
-        <work-experience>Pracovné skúsenosti</work-experience>
-        <certificates>Certifikáty</certificates>
-        <language-skills>Jazykové znalosti</language-skills>
-        <computer-skills>PoČítaČové znalosti</computer-skills>
-        <driving-licence>VodiČský preukaz</driving-licence>
-        <characteristics>Vlastnosti</characteristics>
-        <hobbies>Záujmy</hobbies>
+        <personal-details>OSOBNÉ ÚDAJE</personal-details>
+        <education>VZDELANIE</education>
+        <work-experience>PRACOVNÉ SKÚSENOSTI</work-experience>
+        <certificates>CERTIFIKÁTY</certificates>
+        <language-skills>JAZYKOVÉ ZNALOSTI</language-skills>
+        <computer-skills>POČÍTAČOVÉ ZNALOSTI</computer-skills>
+        <driving-licence>VODIČSKÝ PREUKAZ</driving-licence>
+        <characteristics>VLASTNOSTI</characteristics>
+        <hobbies>ZÁUJMY</hobbies>
         <name>Meno</name>
         <surname>Priezvisko</surname>
         <date-of-birth>Dátum narodenia</date-of-birth>

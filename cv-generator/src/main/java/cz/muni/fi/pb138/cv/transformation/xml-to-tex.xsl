@@ -293,7 +293,7 @@
                         \end{center}
                         \par \normalsize \normalfont}
 
-        \newcommand{\NewPart}[1]{\section*{\uppercase{#1}}}
+        \newcommand{\NewPart}[1]{\section*{#1}}
 
         \newcommand{\PersonalEntry}[2]{
                         \noindent\hangindent=2em\hangafter=0

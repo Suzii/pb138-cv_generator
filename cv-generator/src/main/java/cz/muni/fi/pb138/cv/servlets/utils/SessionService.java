@@ -14,7 +14,7 @@ import javax.servlet.http.HttpSession;
  */
 public interface SessionService {
     /**
-     * Creates a parameter containing login of currently logged in user of this session.
+     * Creates an attribute login of session associated with request, containing passed login.
      * @param request request associated with this session
      * @param login value of login parameter to be set
      */

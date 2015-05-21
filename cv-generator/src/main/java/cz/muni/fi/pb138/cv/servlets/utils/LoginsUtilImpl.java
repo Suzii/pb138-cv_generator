@@ -26,10 +26,10 @@ public class LoginsUtilImpl implements LoginsUtil {
         String result = null;
         //find out if user exists
         if (!userService.checkIfExists(login)) {
-            result = "Username: " + login + " does not exists";
+            result = "Username: " + login + " does not exists!";
             //check password
         } else if (!userService.verifyCredentials(login, password)) {
-            result = "Wrong password.";
+            result = "Wrong password!";
         }
         return result;
     }
@@ -37,14 +37,16 @@ public class LoginsUtilImpl implements LoginsUtil {
     @Override
     public String tryToCreateAnAccount(String login, String password, String password2) {
         String result = null;
-        if (login == null || password == null || password2 == null) {
+        if (login == null || login.trim().length() == 0 || 
+                password == null || password.length() == 0 ||
+                password2 == null || password2.length() == 0) {
             result = "All fields are required!";
         } else if (!password.equals(password2)) {
             result = "Passwords do not match!";
         } else if (userService.checkIfExists(login)) {
-            result = "Username: " + login + " already taken.";
+            result = "Username: " + login + " already taken!";
         } else if (!userService.registerNewUser(login, password)) {
-            result = "Error while creating account.";
+            result = "Error while creating account!";
         }
         return result;
     }
