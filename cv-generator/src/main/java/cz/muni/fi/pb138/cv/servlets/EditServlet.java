@@ -95,6 +95,7 @@ public class EditServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
+        response.setContentType("application/json");        
         ResourceBundle bundle = ResourceBundle.getBundle("texts", request.getLocale());
         String action = request.getPathInfo();
         switch (action) {
@@ -105,37 +106,40 @@ public class EditServlet extends HttpServlet {
 
                 //this is JSON object with user data
                 JSONObject userData;
-                try{
+                try {
                     userData = getCvUtil().extractUserData(request.getReader());
-                }catch(Exception ex){
+                } catch (Exception ex) {
                     response.setStatus(HttpServletResponse.SC_PRECONDITION_FAILED);
+                    response.getWriter().write("{msg: 'Some error occured while parsing your CV.'}");
                     return;
                 }
                 log.debug(userData.toString());
 
                 //run XML schema
-                /*log.debug("Running validity check of CV for " + login);
-                String message = cvService.checkValidity(userData);
+                log.debug("Running validity check of CV for " + login);
+                String message = getCvService().checkValidity(userData);
                 if (message != null) {
                     log.debug(message);
                     message += "Could not generate valid XML... Chceck if all date is filled in correctly, mainly if all years are OK...";
                     //TODO if not ok, display error, forward to edit.jsp
-                    request.setAttribute("msg", message);
-                    request.getRequestDispatcher(Common.EDIT_JSP).forward(request, response);
+                    response.getWriter().write("{msg: " + message + "}");
+                    //request.getRequestDispatcher(Common.EDIT_JSP).forward(request, response);
                     return;
                 }
-                */
+
                 log.debug("Trying to store CV for " + login);
                 //if ok, store xml to DB, redirect to /profile
                 if (getCvService().saveCv(login, userData)) {
-                    System.out.println("CV for " + login + " saved");
-                    request.setAttribute("msg", "CV saved. For downloading the PDF go to your profile page.");
-                    request.getRequestDispatcher(Common.EDIT_JSP).forward(request, response);
+                    log.debug("CV for " + login + " saved");
+                    response.getWriter().write("{msg: 'CV saved. For downloading the PDF go to your profile page.'}");
+                    //request.getRequestDispatcher(Common.EDIT_JSP).forward(request, response);
                 } else {
                     log.error("Error while storing CV for " + login + ".");
-                    request.setAttribute("error", "Unexpected error occured while storing your CV to database. Try again later.");
-                    request.getRequestDispatcher(Common.EDIT_JSP).forward(request, response);
+                    response.getWriter().write("{msg: 'Unexpected error occured while storing your CV to database. Try again later.'}");
+                    //request.getRequestDispatcher(Common.EDIT_JSP).forward(request, response);
                 }
+                
+        
                 return;
             default:
                 log.error("Unknown action " + action);
@@ -152,14 +156,15 @@ public class EditServlet extends HttpServlet {
     public String getServletInfo() {
         return "Edit servlet of CV Generator app.";
     }
-    
-    
-    private CvService getCvService(){
+
+    private CvService getCvService() {
         return (CvService) getServletContext().getAttribute("cvService");
     }
-    private CvUtil getCvUtil(){ return 
-            (CvUtil) getServletContext().getAttribute("cvUtil");
+
+    private CvUtil getCvUtil() {
+        return (CvUtil) getServletContext().getAttribute("cvUtil");
     }
+
     private SessionService getSessionService() {
         return (SessionService) getServletContext().getAttribute("sessionService");
     }

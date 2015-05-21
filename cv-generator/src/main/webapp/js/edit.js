@@ -26,6 +26,7 @@ editApp.controller('DateController', ['$scope', function ($scope) {
 
 editApp.controller('FormController', ['$scope', '$window', '$http', function ($scope, $window, $http) {
         $scope.showErrors = false;
+        
         $scope.submit = function () {
             if ($scope.userForm.$valid) {
                 if (!checkDate()) {
@@ -47,7 +48,7 @@ editApp.controller('FormController', ['$scope', '$window', '$http', function ($s
                     data: data})
                         .success(function (data, status) {
                             $window.alert('Your CV was successfully saved. Got to profile for downloading it!');
-                            //$window.alert(data);
+                            $window.alert(data);
                         })
                         .error(function (data, status) {
                             $window.alert('Could not reach the server!\n' + data + status);
@@ -175,6 +176,7 @@ editApp.controller('FormController', ['$scope', '$window', '$http', function ($s
             });
         };
 
+        //check for paramater set on JSP page, if not create blank form
         if (userData) {
             $scope.data = userData['curriculum-vitae'];
         } else {
