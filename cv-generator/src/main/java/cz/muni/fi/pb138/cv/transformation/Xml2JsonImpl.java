@@ -1,15 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package cz.muni.fi.pb138.cv.transformation;
 
-import java.io.IOException;
 import java.io.StringWriter;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.transform.Transformer;
@@ -25,30 +16,13 @@ import org.json.XML;
 
 import org.w3c.dom.Document;
 
+
 /**
  *
  * @author Peto
  */
 public class Xml2JsonImpl implements Xml2Json{
 
-    public static void main(String[] args) {
-        String data;
-        try {
-            List<String> lines = Files.readAllLines(Paths.get(System.getProperty("user.dir") + "\\..\\sample_data\\sample-cv.xml"));
-            //List<String> lines = Files.readAllLines(Paths.get("C:\\pb138-database\\admin.xml"));
-            data = String.join("", lines);
-        } catch (IOException ex) {
-            Logger.getLogger(Xml2JsonImpl.class.getName()).log(Level.SEVERE, null, ex);
-            return;
-        }
-        
-        Xml2JsonImpl xl2 = new Xml2JsonImpl();
-        JSONObject xmlJSONObj = xl2.transform(data);
-            
-        String jsonPrettyPrintString = xmlJSONObj.toString(4);
-        System.out.println(jsonPrettyPrintString);
-    }
-    
     @Override
     public JSONObject transform(Document dom){
         try{
@@ -74,11 +48,14 @@ public class Xml2JsonImpl implements Xml2Json{
         try {
             json = XML.toJSONObject(data);
         } catch (JSONException je) {
-            System.out.println(je.toString());
+            System.out.println(je);
             return null;
         }
         
         JSONObject jsonCV = json.getJSONObject("curriculum-vitae");
+        
+        jsonCV.remove("xmlns:xsi");
+        jsonCV.remove("xsi:noNamespaceSchemaLocation");
                 
         JSONObject jsonPD = jsonCV.getJSONObject("personal-details");
 

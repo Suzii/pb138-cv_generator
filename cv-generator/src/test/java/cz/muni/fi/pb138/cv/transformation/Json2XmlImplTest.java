@@ -12,8 +12,6 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.w3c.dom.Document;
-
-import cz.muni.fi.pb138.cv.service.Config;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -23,9 +21,10 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import org.w3c.dom.Element;
-
 import org.custommonkey.xmlunit.*;
 import org.xml.sax.SAXException;
+
+import cz.muni.fi.pb138.cv.service.Config;
 
 /**
  *
@@ -74,6 +73,9 @@ public class Json2XmlImplTest extends XMLTestCase{
     @After
     public void tearDown() {}
     
+    /**
+     * Get text from first element
+     */
     private String getElementContent(Element e, String name){
         return ((Element) e.getElementsByTagName(name).item(0)).getTextContent();
     }
@@ -87,9 +89,6 @@ public class Json2XmlImplTest extends XMLTestCase{
         
         Document doc = inst.transform(str_json);
         
-        Element pd = (Element) doc.getElementsByTagName("personal-details").item(0);
-        assertEquals("Anca Maria", getElementContent(pd, "given-names"));
-        
         assertXMLEqual(sample_dom, doc);
     }
 
@@ -99,15 +98,18 @@ public class Json2XmlImplTest extends XMLTestCase{
     @Test
     public void testTransform_JSONObject() {
         System.out.println("transform from json object");
-
-        JSONObject json_object = new JSONObject(str_json);
         
-        Document doc = inst.transform(json_object);
+        Document doc = inst.transform(new JSONObject(str_json));
+        
+        assertXMLEqual(sample_dom, doc);
+    }
+    
+    @Test
+    public void testOther(){
+        Document doc = inst.transform(str_json);
         
         Element pd = (Element) doc.getElementsByTagName("personal-details").item(0);
         assertEquals("Anca Maria", getElementContent(pd, "given-names"));
-        
-        assertXMLEqual(sample_dom, doc);
     }
     
 }
