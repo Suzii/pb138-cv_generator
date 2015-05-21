@@ -22,8 +22,8 @@
 
                 <div class="row">
                     <div class="col-sm-6">
-                        <h2 data-ng-bind="info['given-names']"></h2>
-                        <h3 data-ng-bind="info.surname"></h3>
+                        <h2 data-ng-bind="info['given-names']">Name</h2>
+                        <h3 data-ng-bind="info.surname">Surname</h3>
                     </div>
                     <div class="col-sm-2">
                         <form action="${pageContext.request.contextPath}/profile/download" class="form-inline" name="langForm" method="POST">

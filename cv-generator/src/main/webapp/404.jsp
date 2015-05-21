@@ -13,9 +13,9 @@
                 <h1>404 not found</h1>
                 <p>This site does not exist.</p>
                 <a href="${pageContext.request.contextPath}/login">
-                    <button class="btn btn-primary col-sm-offset-1 col-sm-3" >
+                    <span class="btn btn-primary col-sm-offset-1 col-sm-3" >
                         <span class="glyphicon glyphicon-home" aria-hidden="true"></span> Home
-                    </button>
+                    </span>
                 </a>
             </div>
         </div>  
