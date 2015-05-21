@@ -23,6 +23,7 @@
         <my-site>My site</my-site>
         <my-sites>My sites</my-sites>
         <present>present</present>
+        <postal-code>Postal code</postal-code>
     </language>
     <language id="sk">
         <curriculum-vitae>Životopis</curriculum-vitae>
@@ -48,5 +49,6 @@
         <my-site>Moja stránka</my-site>
         <my-sites>Moje stránky</my-sites>
         <present>doteraz</present>
+        <postal-code>PSČ</postal-code>
     </language>
 </texts>

@@ -14,8 +14,8 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
     <xsl:output method="text"/>
     
-    <!-- This parameter specifies cv output languate. en stands for english, sk for slovak -->
-    <xsl:param name="cv-language" select="'sk'"/>
+    <!-- This parameter specifies cv output languate. Only en and sk values are available, en stands for english, sk for slovak -->
+    <xsl:param name="cv-language" select="'en'"/>
     
     <!--Text file which contains definitions of output texts-->
     <xsl:variable name="texts" select="document('texts.xml')" />
@@ -94,6 +94,7 @@
             <xsl:apply-templates select="emails" />
         </xsl:if>
         
+        <!--social-->
         <xsl:if test="social">
             <xsl:apply-templates select="social" />
         </xsl:if>
@@ -103,6 +104,7 @@
     <xsl:template match="/curriculum-vitae/personal-details/date-of-birth">
         \PersonalEntry{<xsl:value-of select="$texts//language[@id = $cv-language]/date-of-birth" />}{<xsl:value-of select="day" />.<xsl:value-of select="month" />.<xsl:value-of select="year" />}
     </xsl:template>
+    
     <!-- address -->
     <xsl:template match="/curriculum-vitae/personal-details/address" >
         \PersonalEntry{<xsl:value-of select="$texts//language[@id = $cv-language]/address" />}{<xsl:value-of select="street" />
@@ -111,11 +113,11 @@
             <xsl:text> </xsl:text>
             <xsl:value-of select="city" />
         }
-        \PersonalEntry{}{<xsl:value-of select="postal-code" />}
+        \PersonalEntry{<xsl:value-of select="$texts//language[@id = $cv-language]/postal-code" />}{<xsl:value-of select="postal-code" />}
         \PersonalEntry{<xsl:value-of select="$texts//language[@id = $cv-language]/country" />}{<xsl:value-of select="country" />}
         
         <!--test if state is present-->
-        <xsl:if test="state">
+        <xsl:if test="state/text() !=''">
             \PersonalEntry{<xsl:value-of select="$texts//language[@id = $cv-language]/state" />}{<xsl:value-of select="state" />}
         </xsl:if>
     </xsl:template>
