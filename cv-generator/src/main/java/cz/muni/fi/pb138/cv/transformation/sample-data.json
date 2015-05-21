@@ -35,7 +35,6 @@
         "year": 2000,
         "name": "Baking with mum"
     }],
-    "xsi:noNamespaceSchemaLocation": "cv.xsd",
     "hobbies": "I ride ponnies and bike.. I hate football...",
     "personal-details": {
         "given-names": "Anca Maria",
@@ -71,7 +70,6 @@
         "note": "I drove my uncle's truck...",
         "name": "B"
     }],
-    "xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
     "employment": [
         {
             "note": "I was cleaning floors all the time...",
