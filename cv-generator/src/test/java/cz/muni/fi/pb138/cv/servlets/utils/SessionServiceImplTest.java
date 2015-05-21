@@ -12,6 +12,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.springframework.mock.web.MockHttpServletRequest;
 
 /**
  *
@@ -19,57 +20,108 @@ import static org.junit.Assert.*;
  */
 public class SessionServiceImplTest {
     
-    public SessionServiceImplTest() {
-    }
-      
+    MockHttpServletRequest request;
+    SessionServiceImpl instance = new SessionServiceImpl();
+
     @Before
     public void setUp() {
-    }
-    
-    @After
-    public void tearDown() {
+        this.request = new MockHttpServletRequest();
     }
 
     /**
      * Test of createSessionLogin method, of class SessionServiceImpl.
      */
-    //@Test
+    @Test
     public void testCreateSessionLogin() {
         System.out.println("createSessionLogin");
-        HttpServletRequest request = null;
-        String login = "";
-        SessionServiceImpl instance = new SessionServiceImpl();
+        String login = "anicka";        
         instance.createSessionLogin(request, login);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertEquals(login, request.getSession().getAttribute("login"));
+    }
+    
+    /**
+     * Test of createSessionLogin method, of class SessionServiceImpl.
+     */
+    @Test
+    public void testCreateSessionLogin_update() {
+        System.out.println("createSessionLogin when one already existed");
+        String login_former = "hackre";     
+        String login = "anicka";     
+        request.getSession().setAttribute("login", login_former);
+        instance.createSessionLogin(request, login);
+        assertEquals(login, request.getSession().getAttribute("login"));
     }
 
     /**
      * Test of getSessionLogin method, of class SessionServiceImpl.
      */
-    //@Test
+    @Test
     public void testGetSessionLogin() {
         System.out.println("getSessionLogin");
-        HttpServletRequest request = null;
-        SessionServiceImpl instance = new SessionServiceImpl();
-        String expResult = "";
+        String expResult = "anicka";
+        request.getSession().setAttribute("login", expResult);
         String result = instance.getSessionLogin(request);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    }
+    
+    /**
+     * Test of getSessionLogin method, of class SessionServiceImpl.
+     */
+    @Test
+    public void testGetSessionLogin_notExisting() {
+        System.out.println("getSessionLogin no login attr set");
+        String expResult = null;
+        request.getSession().setAttribute("login_bad", "whatever");
+        String result = instance.getSessionLogin(request);
+        assertEquals(expResult, result);
     }
 
     /**
      * Test of deleteSessionLogin method, of class SessionServiceImpl.
      */
-    //@Test
+    @Test
     public void testDeleteSessionLogin() {
         System.out.println("deleteSessionLogin");
-        HttpServletRequest request = null;
-        SessionServiceImpl instance = new SessionServiceImpl();
+        request.getSession().setAttribute("login", "anicka");
         instance.deleteSessionLogin(request);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertNull(instance.getSessionLogin(request));
     }
     
+   /**
+    * Tests complex functionality of SessionService
+    */
+    @Test
+    public void testCreateGetDeleteUseCase(){
+        System.out.println("trstCreateGetDeleteUseCase");
+        String login = "anicka";
+        //no user currently logged in
+        assertNull(instance.getSessionLogin(request));
+        
+        //log anicka in
+        instance.createSessionLogin(request, login);
+        
+        //check if anicka is logged in
+        assertEquals(login, instance.getSessionLogin(request));
+        
+        //log anicka out
+        instance.deleteSessionLogin(request);
+        
+        //check that nobody is logged in now
+        assertNull(instance.getSessionLogin(request));
+    }
+    
+    /**
+     * Tests invalidation of login after session timeout.
+     */
+    public void testLoginInvalidation() throws InterruptedException{
+        HttpServletRequest req = new MockHttpServletRequest();
+        req.getSession().setMaxInactiveInterval(3);
+        String login = "anicka";
+        instance.createSessionLogin(request, login);
+        assertEquals(login, instance.getSessionLogin(req));
+        
+        wait(5000l);
+        assertNull(instance.getSessionLogin(req));
+        
+    }
 }
