@@ -56,16 +56,8 @@ public class SignUpServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
-        String action = request.getPathInfo();
-        if (action == null) {
-            request.getRequestDispatcher(Common.SIGNUP_JSP).forward(request, response);
-            return;
-        }
-        switch (action) {
-            default:
-                response.sendError(HttpServletResponse.SC_NOT_FOUND, "Unknown action ");
-                return;
-        }
+        request.getRequestDispatcher(Common.SIGNUP_JSP).forward(request, response);
+        return;
     }
 
     /**
@@ -90,10 +82,10 @@ public class SignUpServlet extends HttpServlet {
                 String password = request.getParameter("password");
                 String password2 = request.getParameter("password2");
                 log.debug("SIGNUP: Username: " + login + " Passwd: " + password);
-                
+
                 // try to create an account
                 String error = getLoginsUtil().tryToCreateAnAccount(login, password, password2);
-                if(error == null) { // everything ok
+                if (error == null) { // everything ok
                     getSessionService().createSessionLogin(request, login);
                     response.sendRedirect(request.getContextPath() + Common.URL_EDIT);
                     return;
@@ -116,13 +108,13 @@ public class SignUpServlet extends HttpServlet {
     @Override
     public String getServletInfo() {
         return "Signup servlet of CV Generator app.";
-    }    
-    
+    }
+
     private LoginsUtil getLoginsUtil() {
         return (LoginsUtil) getServletContext().getAttribute("loginsUtil");
     }
+
     private SessionService getSessionService() {
         return (SessionService) getServletContext().getAttribute("sessionService");
     }
 }
-

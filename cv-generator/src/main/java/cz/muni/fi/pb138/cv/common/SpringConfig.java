@@ -33,15 +33,15 @@ public class SpringConfig {
     @Bean
     public UserService userService() {
         //return new MockedUserServiceImpl(); //for testing only
-        //return new UserServiceImpl(getDbFolder());
-        return new UserServiceImpl();
+        return new UserServiceImpl(getDbFolder());
+        //return new UserServiceImpl();
     }
 
     @Bean
     public CvService cvService() {
         //return new MockedCvServiceImpl(); // for testing only
-        //return new CvServiceImpl(getDbFolder(), getLatexFolder());
-        return new CvServiceImpl();
+        return new CvServiceImpl(getDbFolder(), getLatexFolder());
+        //return new CvServiceImpl();
     }
 
     @Bean

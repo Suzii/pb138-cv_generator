@@ -13,19 +13,23 @@ public class MockedUserServiceImpl implements UserService{
 
     @Override
     public boolean checkIfExists(String login) {
+        if(login == null)
+            return false;
         return login.equals("admin");
     }
 
     @Override
-    public boolean registerNewUser(String login, String passwordHash) {
-        return true;
+    public boolean registerNewUser(String login, String password) {
+        if(login == null || password == null)
+            return false;
+        return !login.equals("admin");
     }
 
     @Override
-    public boolean verifyCredentials(String login, String passwordHash) {
+    public boolean verifyCredentials(String login, String password) {
         String usr = "admin";
-        String psswd = "21232f297a57a5a743894a0e4a801fc3"; //MD5 of "admin"
-        return login.equals(usr) && passwordHash.equals(psswd);
+        String psswd = "admin";
+        return usr.equals(login) && psswd.equals(password);
     }
     
 }

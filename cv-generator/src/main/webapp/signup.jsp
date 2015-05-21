@@ -2,7 +2,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <f:setBundle basename="texts" />
-<html>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en" >
     <head>
         <%@ include file="/meta-data.html" %> 
     </head>
@@ -45,7 +46,7 @@
                         <input type="password" id="password2" name="password2" value="" class="form-control" required />
                     </div>
                 </div>
-                <input type="Submit" class="btn btn-primary col-sm-offset-2 col-sm-1" value="Sign up" />
+                <input type="Submit" class="btn btn-primary col-sm-offset-2" value="Sign up" />
             </form>
         </div>
         <%@ include file="/footer.jsp" %> 
