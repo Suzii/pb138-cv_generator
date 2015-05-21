@@ -15,6 +15,7 @@ import java.io.IOException;
  * @author Jozef Živčic
  */
 public class ExtractConstants {
+    
     public static String getStringConstants(String language) throws IOException {
         StringBuilder sb = new StringBuilder();
         try(BufferedReader br = new BufferedReader(new FileReader(Config.DBUTIL + "\\texts.xml"))) {

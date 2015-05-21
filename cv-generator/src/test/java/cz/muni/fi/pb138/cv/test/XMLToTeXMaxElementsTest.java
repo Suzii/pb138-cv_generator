@@ -25,14 +25,14 @@ public class XMLToTeXMaxElementsTest {
     private String file;
     private String constants;
     private static final String language = "en";
-    
+    private static final String outputFileName = "resultCV.tex";
     @Before
     public void setUp() throws IOException {
         CvServiceImpl cvService;
         cvService = new CvServiceImpl();
         cvService.transforToTexFile("anicka", language);
         StringBuilder sb = new StringBuilder();
-        try(BufferedReader br = new BufferedReader(new FileReader(Config.DBUTIL + "\\resultCV.tex"))) {
+        try(BufferedReader br = new BufferedReader(new FileReader(Config.DBUTIL + "\\" + outputFileName))) {
             for (String s = br.readLine(); s != null; s=br.readLine()) {
                 sb.append(s);
                 sb.append(System.lineSeparator());
@@ -44,7 +44,7 @@ public class XMLToTeXMaxElementsTest {
     
     @After
     public void tearDown() {
-        File f = new File(Config.DBUTIL + "\\resultCV.tex");
+        File f = new File(Config.DBUTIL + "\\" + outputFileName);
         f.delete();
     }
     
