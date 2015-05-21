@@ -1,33 +1,19 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package cz.muni.fi.pb138.cv.transformation;
 
 
-import java.io.IOException;
-import java.io.StringWriter;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import org.json.JSONObject;
 import org.json.JSONArray;
+
+
 /**
  *
  * @author Peto
@@ -37,47 +23,10 @@ public class Json2XmlImpl implements Json2Xml {
     private Document doc;
     private JSONObject jsonRoot;
     
-    public static void main(String[] args) {
-        String data;
-        
-        data = "{"
-        + "\"autentication\": {\"name\": \"Meno\", \"password\": \"heslo\", \"lang\": \"en\"},"
-        + "\"personal-details\": {\"address\": {\"street\":\"Ulica\", \"number\": 5, \"city\": \"Ranc\"}, \"phones\": [\"454545\", \"884455554\"]}"
-        + "}";
-        
-        try {
-            List<String> lines = Files.readAllLines(Paths.get("C:\\sample-data.json"));
-            data = String.join("", lines);
-        } catch (IOException ex) {
-            Logger.getLogger(Json2XmlImpl.class.getName()).log(Level.SEVERE, null, ex);
-            return;
-        }        
-        
-        
-        
-        Json2XmlImpl p = new Json2XmlImpl();
-        Document doc = p.transform(data);
-        
-        try{
-            TransformerFactory transformerFactory = TransformerFactory.newInstance();
-            Transformer transformer = transformerFactory.newTransformer();
-            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-            DOMSource source = new DOMSource(doc);
-            StringWriter writer = new StringWriter();
-            StreamResult result = new StreamResult(writer);
-            transformer.transform(source, result);
-            
-            writer.flush();
-            
-            System.out.println("XML IN String format is: \n" + writer.toString());
-        } catch (TransformerException ex) {
-            Logger.getLogger(Json2XmlImpl.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
+    private static final String XML_SCHEME = "cv.xsd";
+    private static final String XML_NS = "http://www.w3.org/2001/XMLSchema-instance";
     
-    public Json2XmlImpl(){
-    } 
-    
+
     @Override
     public Document transform(String data){
         return transform(new JSONObject(data));
@@ -106,10 +55,9 @@ public class Json2XmlImpl implements Json2Xml {
     
     private void parse(){
         Element rootElement = doc.createElement("curriculum-vitae");
-        rootElement.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
-        rootElement.setAttribute("xsi:noNamespaceSchemaLocation", "cv.xsd");
+        rootElement.setAttribute("xmlns:xsi", XML_NS);
+        rootElement.setAttribute("xsi:noNamespaceSchemaLocation", XML_SCHEME);
         
-        //rootElement.appendChild(parseAutentication());
         rootElement.appendChild(parsePersonalDetails());
         rootElement.appendChild(createCustomElems("education", "edu", new String[] {"from", "to"}, new String[] {"name-of-education", "name-of-school", "note"}));
         rootElement.appendChild(createCustomElems("employment", "emp", new String[] {"from", "to"}, new String[] {"company", "position", "note"}));
@@ -118,7 +66,6 @@ public class Json2XmlImpl implements Json2Xml {
         rootElement.appendChild(createCustomElems("certificates", "cert", new String[] {"year"}, new String[] {"name", "note"}));
         rootElement.appendChild(createCustomElems("driving-licence", "class", null, new String[] {"name", "note"}));
         parseOthers(rootElement);
-        
         
         doc.appendChild(rootElement);
     }
