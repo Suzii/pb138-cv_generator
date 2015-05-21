@@ -6,6 +6,11 @@
 package cz.muni.fi.pb138.cv.service;
 
 import java.io.File;
+import java.io.IOException;
+import java.util.Properties;
+import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.json.JSONObject;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -21,33 +26,37 @@ import org.w3c.dom.Document;
  * @author pato
  */
 public class CvServiceImplTest {
-        private final CvService cvService;
-    private static final String users = "users.xml";
-    private static File usersFile;
-    private static Document logins;
-    private final static org.slf4j.Logger log = LoggerFactory.getLogger(UserServiceImplTest.class);
+    private final CvService cvService;
+    private final static org.slf4j.Logger log = LoggerFactory.getLogger(CvServiceImplTest.class);
+    private static final String dbPath="src\\main\\resources\\TestData\\pb138-database";
 
 
     public CvServiceImplTest() {
-        cvService = new CvServiceImpl("str","str");
+        final Properties properties = new Properties();
+        try {
+            properties.load(this.getClass().getResourceAsStream("/cvgenerator.properties"));
+        } catch (IOException ex) {
+            log.error("Problem with latexbin.",ex);
+            throw new RuntimeException();
+        }   
+        cvService = new CvServiceImpl(dbPath,properties.getProperty("latex.folder"));
     }
     
-    
-    
-    @Before
-    public void setUp() {
-    }
-    
-    @After
-    public void tearDown() {
-    }
 
     /**
      * Test of loadCvJSON method, of class CvServiceImpl.
      */
     @Test
     public void testLoadCvJSON() {
-        
+        assertNotSame("Load JSON object.",cvService.loadCvJSON("anicka"), null);
+        assertFalse("Return JSON object not null.",cvService.loadCvJSON("anicka").equals(null));
+    }
+    /**
+     * Test of loadCvJSON method, of class CvServiceImpl.
+     */
+    @Test
+    public void testLoadCvJSONwithNullLogin() {
+        assertEquals(null, cvService.loadCvJSON(null));
     }
 
     /**
@@ -55,7 +64,16 @@ public class CvServiceImplTest {
      */
     @Test
     public void testLoadCvXML() {
-
+        assertNotSame("Load XML file.",cvService.loadCvXML("anicka"), null);
+        assertFalse("Return XML file not null.",cvService.loadCvXML("anicka").equals(null));
+    }
+    
+    /**
+     * Test of loadCvXML method, of class CvServiceImpl.
+     */
+    @Test
+    public void testLoadCvXMLwithNullLogin() {
+         assertEquals(null, cvService.loadCvXML(null));
     }
 
     /**
@@ -63,7 +81,7 @@ public class CvServiceImplTest {
      */
     @Test
     public void testSaveCv_String_JSONObject() {
-
+        
     }
 
     /**
@@ -78,8 +96,24 @@ public class CvServiceImplTest {
      * Test of generatePdf method, of class CvServiceImpl.
      */
     @Test
-    public void testGeneratePdf() {
-
+    public void testGeneratePdfAndCleanFiles() {
+        cvService.generatePdf("anicka", "sk");
+        File pdf = new File(dbPath+"/Utils/resultCV.pdf");
+        assertTrue("Generated pdf exists.",pdf.exists());
+        //cleaning
+        cvService.cleanAfterGeneratingPDF();
+        assertFalse("Generated pdf not exists.",pdf.exists());
+        assertFalse("Generated aux not exists.",new File(dbPath+"/Utils/resultCV.aux").exists());
+        assertFalse("Generated tex not exists.",new File(dbPath+"/Utils/resultCV.tex").exists());
+        assertFalse("Generated log not exists.",new File(dbPath+"/Utils/resultCV.log").exists());
+    }
+    
+        /**
+     * Test of generatePdf method, of class CvServiceImpl.
+     */
+    @Test
+    public void testGeneratePdfwithNullLogin() {
+        assertEquals(null, cvService.generatePdf(null, "sk"));
     }
 
     /**
@@ -87,7 +121,7 @@ public class CvServiceImplTest {
      */
     @Test
     public void testCheckValidity_Document() {
-
+        
     }
 
     /**
@@ -96,14 +130,5 @@ public class CvServiceImplTest {
     @Test
     public void testCheckValidity_JSONObject() {
 
-    }
-
-    /**
-     * Test of cleanAfterGeneratingPDF method, of class CvServiceImpl.
-     */
-    @Test
-    public void testCleanAfterGeneratingPDF() {
-        
-    }
-    
+    }  
 }

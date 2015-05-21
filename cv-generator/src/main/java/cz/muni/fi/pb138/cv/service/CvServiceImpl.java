@@ -153,7 +153,7 @@ public class CvServiceImpl implements CvService {
             File tex = new File(databasePath + "/Utils/resultCV.tex");
             
             List<String> params = new ArrayList<String>();
-            params.add(pathToPdflatexBin + "/pdflatex");
+            params.add(pathToPdflatexBin + "pdflatex");
             params.add(tex.getAbsolutePath());
             log.debug("TEX INFO : " + tex.getAbsolutePath() + " " + tex.getParentFile());
             
@@ -168,11 +168,11 @@ public class CvServiceImpl implements CvService {
                 log.debug("Starting command: " + pb.command());
                 Process pdfCreation = pb.start();
                 
-               /* BufferedReader reader = new BufferedReader(new InputStreamReader(pdfCreation.getInputStream()));
+                BufferedReader reader = new BufferedReader(new InputStreamReader(pdfCreation.getInputStream()));
                 String line;
                 while ((line = reader.readLine()) != null) {
-                    log.debug(line);
-                }*/
+                    //log.debug(line);
+                }
             } catch (IOException ex) {
                 log.error("Error generating PDF file.",ex);
                 return null;
@@ -221,6 +221,8 @@ public class CvServiceImpl implements CvService {
 
     public boolean transformToTexFile(String login, String lang) {
         // todo vyriesit ako mat ten xml subor ulozeny alebo odkial ho nacucat
+        File cv = new File(databasePath + "/" + login + ".xml");
+        if (!cv.exists()) return false;
         StreamSource xml = new StreamSource(new File(databasePath + "/" + login + ".xml"));
         StreamSource xslt = new StreamSource(new File(databasePath + "/Utils/xml-to-tex.xsl")); // XSLT FILE
 
