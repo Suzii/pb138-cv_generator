@@ -46,11 +46,12 @@ editApp.controller('FormController', ['$scope', '$window', '$http', function ($s
                     responseType: "json",
                     headers: {'Content-Type': 'application/json'},
                     data: data})
-                        .success(function (data, status) {
-                            $window.alert('Your CV was successfully saved. Got to profile for downloading it!');
-                            $window.alert(data);
+                        .success(function (response, status) {
+                            console.log(response);
+                            $window.alert(status);
+                            $window.alert(response.msg);
                         })
-                        .error(function (data, status) {
+                        .error(function (response, status) {
                             $window.alert('Could not reach the server!\n' + data + status);
                         });
             } else {

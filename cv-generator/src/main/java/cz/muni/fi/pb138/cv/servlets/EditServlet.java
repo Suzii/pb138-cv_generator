@@ -95,7 +95,7 @@ public class EditServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
-        response.setContentType("application/json");        
+        response.setContentType("application/json");
         ResourceBundle bundle = ResourceBundle.getBundle("texts", request.getLocale());
         String action = request.getPathInfo();
         switch (action) {
@@ -110,7 +110,7 @@ public class EditServlet extends HttpServlet {
                     userData = getCvUtil().extractUserData(request.getReader());
                 } catch (Exception ex) {
                     response.setStatus(HttpServletResponse.SC_PRECONDITION_FAILED);
-                    response.getWriter().write("{msg: 'Some error occured while parsing your CV.'}");
+                    setMessage(response, "Some error occured while parsing your CV.");
                     return;
                 }
                 log.debug(userData.toString());
@@ -120,31 +120,32 @@ public class EditServlet extends HttpServlet {
                 String message = getCvService().checkValidity(userData);
                 if (message != null) {
                     log.debug(message);
-                    message += "Could not generate valid XML... Chceck if all date is filled in correctly, mainly if all years are OK...";
                     //TODO if not ok, display error, forward to edit.jsp
-                    response.getWriter().write("{msg: " + message + "}");
-                    //request.getRequestDispatcher(Common.EDIT_JSP).forward(request, response);
+                    setMessage(response, "Could not generate valid XML. " + message);
                     return;
                 }
 
                 log.debug("Trying to store CV for " + login);
-                //if ok, store xml to DB, redirect to /profile
+                //if ok, store xml to DB
                 if (getCvService().saveCv(login, userData)) {
                     log.debug("CV for " + login + " saved");
-                    response.getWriter().write("{msg: 'CV saved. For downloading the PDF go to your profile page.'}");
-                    //request.getRequestDispatcher(Common.EDIT_JSP).forward(request, response);
+
+                    setMessage(response, "CV saved. For downloading the PDF go to your profile page.");
                 } else {
                     log.error("Error while storing CV for " + login + ".");
-                    response.getWriter().write("{msg: 'Unexpected error occured while storing your CV to database. Try again later.'}");
-                    //request.getRequestDispatcher(Common.EDIT_JSP).forward(request, response);
+                    setMessage(response, "Unexpected error occured while storing your CV to database. Try again later.");
                 }
-                
-        
                 return;
             default:
                 log.error("Unknown action " + action);
                 response.sendError(HttpServletResponse.SC_NOT_FOUND, "Unknown action " + action);
         }
+    }
+
+    private void setMessage(HttpServletResponse response, String message) throws IOException {
+        JSONObject json = new JSONObject();
+        json.put("msg", message);
+        response.getWriter().write(json.toString());
     }
 
     /**
