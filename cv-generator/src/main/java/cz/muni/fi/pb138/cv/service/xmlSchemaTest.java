@@ -28,7 +28,7 @@ public class xmlSchemaTest {
     private final static Logger log = LoggerFactory.getLogger(xmlSchemaTest.class);
 
     public static void main(String[] args) {
-        CvService service = new CvServiceImpl();
+        CvService service = new CvServiceImpl("C:\\pb138-database","C:\\Programy\\MiKTeX 2.9\\miktex\\bin\\");
         Document cv = service.loadCvXML("anicka");
         // create a SchemaFactory capable of understanding WXS schemas
         SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);

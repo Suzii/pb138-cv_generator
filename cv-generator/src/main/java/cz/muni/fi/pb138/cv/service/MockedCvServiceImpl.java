@@ -77,4 +77,8 @@ public class MockedCvServiceImpl implements CvService {
         return null;
     }
 
+    @Override
+    public void cleanAfterGeneratingPDF() {
+    }
+   
 }
