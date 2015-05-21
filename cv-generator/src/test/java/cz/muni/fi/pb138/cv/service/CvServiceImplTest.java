@@ -11,6 +11,9 @@ import java.util.Properties;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import org.json.JSONObject;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -20,6 +23,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
+import org.xml.sax.SAXException;
 
 /**
  *
@@ -121,14 +125,27 @@ public class CvServiceImplTest {
      */
     @Test
     public void testCheckValidity_Document() {
-        
+        Document logins = null;
+        File doc = new File(dbPath + "/anicka.xml");
+        log.debug("Path of doc : " + doc.getAbsolutePath());
+        DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+        dbFactory.setValidating(false);
+        dbFactory.setNamespaceAware(true);
+        DocumentBuilder dBuilder;
+        try {
+            dBuilder = dbFactory.newDocumentBuilder();
+            logins = dBuilder.parse(doc);
+            log.debug(logins.getDocumentElement().getNodeName());
+        } catch (SAXException | ParserConfigurationException | IOException ex) {
+            log.error("Error when opening(loading) users document. ",ex);
+        }
+        assertEquals("Not error message by validation.",null,cvService.checkValidity(logins));
+    }
+    
+    @Test
+    public void testCheckValidity_Document_NullDocument() {
+        Document logins = null;
+        assertFalse("Error message by validation.",cvService.checkValidity(logins).equals(null));
     }
 
-    /**
-     * Test of checkValidity method, of class CvServiceImpl.
-     */
-    @Test
-    public void testCheckValidity_JSONObject() {
-
-    }  
 }
