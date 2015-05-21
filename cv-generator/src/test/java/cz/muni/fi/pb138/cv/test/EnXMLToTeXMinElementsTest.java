@@ -13,39 +13,39 @@ import java.io.FileReader;
 import java.io.IOException;
 import org.junit.After;
 import static org.junit.Assert.*;
-import org.junit.Before;
 import org.junit.Test;
 
 /**
  *
  * @author Jozef Živčic
  */
-public class XMLToTeXMinElementsTest {
+public class EnXMLToTeXMinElementsTest {
     
+    private static final String LANGUAGE = "en";
+    private static final String INPUT_XML = "minElements";
+    private static final String OUTPUT_FILE_NAME = "resultCV.tex";
+    private static final String OUTPUT_TEX = Config.DBUTIL + "\\" + OUTPUT_FILE_NAME;
     private String file;
     private String constants;
-    private static final String language = "en";
-    private static final String outputFileName = "resultCV.tex";
     
-    @Before
-    public void setUp() throws IOException {
+    public EnXMLToTeXMinElementsTest() throws IOException {
         CvServiceImpl cvService;
         cvService = new CvServiceImpl();
-        cvService.transforToTexFile("minElements", language);
+        cvService.transforToTexFile(INPUT_XML, LANGUAGE);
         StringBuilder sb = new StringBuilder();
-        try(BufferedReader br = new BufferedReader(new FileReader(Config.DBUTIL + "\\" + outputFileName))) {
+        try(BufferedReader br = new BufferedReader(new FileReader(OUTPUT_TEX))) {
             for (String s = br.readLine(); s != null; s=br.readLine()) {
                 sb.append(s);
                 sb.append(System.lineSeparator());
             }
             file = sb.toString();
         }
-        constants = ExtractConstants.getStringConstants(language);
+        constants = ExtractConstants.getStringConstants(LANGUAGE);
     }
     
     @After
     public void tearDown() {
-        File f = new File(Config.DBUTIL + "\\" + outputFileName);
+        File f = new File(Config.DBUTIL + "\\" + OUTPUT_FILE_NAME);
         f.delete();
     }
    

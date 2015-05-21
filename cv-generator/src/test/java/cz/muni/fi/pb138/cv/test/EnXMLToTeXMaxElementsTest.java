@@ -7,45 +7,37 @@ package cz.muni.fi.pb138.cv.test;
 
 import cz.muni.fi.pb138.cv.service.*;
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import static org.junit.Assert.*;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 
 /**
  *
  * @author Jozef Živčic
  */
-public class XMLToTeXMaxElementsTest {
+public class EnXMLToTeXMaxElementsTest {
+    
+    private static final String LANGUAGE = "en";
+    private static final String INPUT_XML = "anicka";
+    private static final String OUTPUT_FILE_NAME = "resultCV.tex";
+    private static final String OUTPUT_TEX = Config.DBUTIL + "\\" + OUTPUT_FILE_NAME;
     private String file;
     private String constants;
-    private static final String language = "en";
-    private static final String outputFileName = "resultCV.tex";
-    @Before
-    public void setUp() throws IOException {
+    
+    public EnXMLToTeXMaxElementsTest() throws IOException {
         CvServiceImpl cvService;
         cvService = new CvServiceImpl();
-        cvService.transforToTexFile("anicka", language);
+        cvService.transforToTexFile(INPUT_XML, LANGUAGE);
         StringBuilder sb = new StringBuilder();
-        try(BufferedReader br = new BufferedReader(new FileReader(Config.DBUTIL + "\\" + outputFileName))) {
+        try(BufferedReader br = new BufferedReader(new FileReader(OUTPUT_TEX))) {
             for (String s = br.readLine(); s != null; s=br.readLine()) {
                 sb.append(s);
                 sb.append(System.lineSeparator());
             }
             file = sb.toString();
         }
-        constants = ExtractConstants.getStringConstants(language);
-    }
-    
-    @After
-    public void tearDown() {
-        File f = new File(Config.DBUTIL + "\\" + outputFileName);
-        f.delete();
+        constants = ExtractConstants.getStringConstants(LANGUAGE);
     }
     
     @Test
@@ -93,31 +85,5 @@ public class XMLToTeXMaxElementsTest {
         assertTrue(file.contains("\\NewPart{" + ExtractConstants.getConstant(constants,"<driving-licence>")+ "}{}"));
         assertTrue(file.contains("\\NewPart{" + ExtractConstants.getConstant(constants,"<characteristics>")+ "}{}"));
         assertTrue(file.contains("\\NewPart{" + ExtractConstants.getConstant(constants,"<hobbies>")+ "}{}"));
-    }
-
-//    private String getStringConstants(String language) throws IOException {
-//        StringBuilder sb = new StringBuilder();
-//        try(BufferedReader br = new BufferedReader(new FileReader(Config.DBUTIL + "\\texts.xml"))) {
-//            for (String s = br.readLine(); s != null; s=br.readLine()) {
-//                sb.append(s);
-//                sb.append(System.lineSeparator());
-//            }
-//        }
-//        String temp = sb.toString();
-//        String array[] = temp.split("<language id=");
-//        for (int i = 0 ; i < array.length; i++) {
-//            if (array[i].contains("\"" + language + "\""))
-//                temp = array[i];
-//        }
-//        return temp;
-//    }
-//    
-//    private String getConstant(String element) {
-//        String closeElement = "</" + element.substring(1);
-//        int first = constants.indexOf(element);
-//        int last = constants.indexOf(closeElement);
-//        String output = constants.substring(first + element.length(),last);
-//        return output;
-//    }
-    
+    }    
 }
