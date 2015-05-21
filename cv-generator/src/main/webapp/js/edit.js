@@ -48,7 +48,7 @@ editApp.controller('FormController', ['$scope', '$window', '$http', function ($s
                     data: data})
                         .success(function (response, status) {
                             console.log(response);
-                            $window.alert(status);
+                            //$window.alert(status);
                             $window.alert(response.msg);
                         })
                         .error(function (response, status) {
