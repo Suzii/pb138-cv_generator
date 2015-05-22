@@ -14,59 +14,71 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
     <xsl:output method="text"/>
     
-    <!-- This parameter specifies cv output languate. en stands for english, sk for slovak -->
-    <xsl:param name="cv-language" select="'sk'"/>
+    <!-- This parameter specifies cv output languate. Only en and sk values are available, en stands for english, sk for slovak -->
+    <xsl:param name="cv-language" select="'en'"/>
     
     <!--Text file which contains definitions of output texts-->
+    <!--This file should be placed in the same folder as xml-to-tex.xsl template -->
     <xsl:variable name="texts" select="document('texts.xml')" />
     
     <xsl:template match="/curriculum-vitae">
+        
+        <!--TeX config-->
         <xsl:call-template name="tex-style" />
         
-        %At this point the document begins.
+        %At this point the TeX document begins.
         \begin{document}
 
         \MySlogan{<xsl:value-of select="$texts//language[@id = $cv-language]/curriculum-vitae" />}
         \sepspace
         
+        <!--Personal details-->
         \NewPart{<xsl:value-of select="$texts//language[@id = $cv-language]/personal-details" />}{}
         <xsl:apply-templates select="personal-details" />
         
+        <!--Education-->
         <xsl:if test="education/edu">
             \NewPart{<xsl:value-of select="$texts//language[@id = $cv-language]/education" />}{}
             <xsl:apply-templates select="education/edu" />
         </xsl:if>
         
+        <!--Employment-->
         <xsl:if test="employment/emp">
             \NewPart{<xsl:value-of select="$texts//language[@id = $cv-language]/work-experience" />}{}
             <xsl:apply-templates select="employment/emp" />
         </xsl:if>
         
+        <!--Certificates-->
         <xsl:if test="certificates/cert">
             \NewPart{<xsl:value-of select="$texts//language[@id = $cv-language]/certificates" />}{}
             <xsl:apply-templates select="certificates/cert" />
         </xsl:if>
         
+        <!--Language skills-->
         <xsl:if test="language-skills/lang">
             \NewPart{<xsl:value-of select="$texts//language[@id = $cv-language]/language-skills" />}{}
             <xsl:apply-templates select="language-skills/lang" />
         </xsl:if>
         
+        <!--Computer skills-->
         <xsl:if test="computer-skills/skill">
             \NewPart{<xsl:value-of select="$texts//language[@id = $cv-language]/computer-skills" />}{}
             <xsl:apply-templates select="computer-skills/skill" />
         </xsl:if>
         
+        <!--Driving licence-->
         <xsl:if test="driving-licence/class">
             \NewPart{<xsl:value-of select="$texts//language[@id = $cv-language]/driving-licence" />}{}
             <xsl:apply-templates select="driving-licence/class"/>
         </xsl:if>
         
+        <!--Characteristics-->
         <xsl:if test="characteristic/text() != ''">
             \NewPart{<xsl:value-of select="$texts//language[@id = $cv-language]/characteristics" />}{}
             <xsl:apply-templates select="characteristic" />
         </xsl:if>
         
+        <!--Hobbies-->
         <xsl:if test="hobbies/text() != ''">
             \NewPart{<xsl:value-of select="$texts//language[@id = $cv-language]/hobbies" />}{}
             <xsl:apply-templates select="hobbies" />
@@ -74,14 +86,15 @@
         \end{document}
     </xsl:template>
     
-    
-    
     <!-- Personal details -->
     <xsl:template match="/curriculum-vitae/personal-details">
         \PersonalEntry{<xsl:value-of select="$texts//language[@id = $cv-language]/name" />}{<xsl:value-of select="given-names" />}
         \PersonalEntry{<xsl:value-of select="$texts//language[@id = $cv-language]/surname" />}{<xsl:value-of select="surname" />}
-        \PersonalEntry{<xsl:value-of select="$texts//language[@id = $cv-language]/date-of-birth" />}{<xsl:value-of select="date-of-birth" />}
         
+        <!--Date of birth-->
+        <xsl:apply-templates select="date-of-birth" />
+        
+        <!--Address-->
         <xsl:apply-templates select="address" />
         
         <!-- test if phones are present -->
@@ -94,9 +107,15 @@
             <xsl:apply-templates select="emails" />
         </xsl:if>
         
+        <!--social-->
         <xsl:if test="social">
             <xsl:apply-templates select="social" />
         </xsl:if>
+    </xsl:template>
+    
+    <!-- date of birth -->
+    <xsl:template match="/curriculum-vitae/personal-details/date-of-birth">
+        \PersonalEntry{<xsl:value-of select="$texts//language[@id = $cv-language]/date-of-birth" />}{<xsl:value-of select="day" />. <xsl:value-of select="month" />. <xsl:value-of select="year" />}
     </xsl:template>
     
     <!-- address -->
@@ -107,13 +126,14 @@
             <xsl:text> </xsl:text>
             <xsl:value-of select="city" />
         }
-        \PersonalEntry{}{<xsl:value-of select="postal-code" />}
-        \PersonalEntry{<xsl:value-of select="$texts//language[@id = $cv-language]/country" />}{<xsl:value-of select="country" />}
+        \PersonalEntry{<xsl:value-of select="$texts//language[@id = $cv-language]/postal-code" />}{<xsl:value-of select="postal-code" />}
         
         <!--test if state is present-->
-        <xsl:if test="state">
+        <xsl:if test="state/text() !=''">
             \PersonalEntry{<xsl:value-of select="$texts//language[@id = $cv-language]/state" />}{<xsl:value-of select="state" />}
         </xsl:if>
+        
+        \PersonalEntry{<xsl:value-of select="$texts//language[@id = $cv-language]/country" />}{<xsl:value-of select="country" />}
     </xsl:template>
     
     <!-- phones -->
@@ -210,6 +230,7 @@
         <xsl:if test="$to = ''">
             \EducationEntry{<xsl:value-of select="position" />}{<xsl:value-of select="./@from" /> - <xsl:value-of select="$texts//language[@id = $cv-language]/present" />}{<xsl:value-of select="company" />}{<xsl:value-of select="note" />}
         </xsl:if>
+        
         <xsl:if test="$to !=''">
             \EducationEntry{<xsl:value-of select="position" />}{<xsl:value-of select="./@from" /> - <xsl:value-of select="./@to" />}{<xsl:value-of select="company" />}{<xsl:value-of select="note" />}
         </xsl:if>
@@ -234,8 +255,7 @@
     
     <!--computer skills-->
     <xsl:template match="/curriculum-vitae/computer-skills/skill">
-        \SkillsEntry{<xsl:value-of select="name" />}{<xsl:value-of select="level" />}
-        \SkillsEntry{}{<xsl:value-of select="note" />}
+        \SkillsEntry{<xsl:value-of select="name" />}{<xsl:value-of select="note" />}
         \sepspace
     </xsl:template>
     
@@ -290,7 +310,7 @@
                         \end{center}
                         \par \normalsize \normalfont}
 
-        \newcommand{\NewPart}[1]{\section*{\uppercase{#1}}}
+        \newcommand{\NewPart}[1]{\section*{#1}}
 
         \newcommand{\PersonalEntry}[2]{
                         \noindent\hangindent=2em\hangafter=0
