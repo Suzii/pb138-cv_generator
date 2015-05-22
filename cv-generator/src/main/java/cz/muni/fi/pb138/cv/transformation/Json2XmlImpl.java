@@ -55,8 +55,8 @@ public class Json2XmlImpl implements Json2Xml {
     
     private void parse(){
         Element rootElement = doc.createElement("curriculum-vitae");
-        rootElement.setAttribute("xmlns:xsi", XML_NS);
-        rootElement.setAttribute("xsi:noNamespaceSchemaLocation", XML_SCHEME);
+        /*rootElement.setAttribute("xmlns:xsi", XML_NS);
+        rootElement.setAttribute("xsi:noNamespaceSchemaLocation", XML_SCHEME);*/
         
         rootElement.appendChild(parsePersonalDetails());
         rootElement.appendChild(createCustomElems("education", "edu", new String[] {"from", "to"}, new String[] {"name-of-education", "name-of-school", "note"}));
