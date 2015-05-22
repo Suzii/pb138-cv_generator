@@ -18,14 +18,14 @@
 </address>
 <phones>
 <phone>0905123123</phone>
-<phone>0905123456</phone>
+<phone>0907123456</phone>
 </phones>
 <emails>
 <email>anca@zranca.com</email>
 <email>anicka.z.ranca@gmail.com</email>
 </emails>
 <social>
-<site>Linkedin.com/anicka</site>
+<site>linkedin.com/anicka</site>
 <site>www.anicka-z-ranca.com</site>
 </social>
 </personal-details>
@@ -35,12 +35,12 @@
 <name-of-school>Primary school NY</name-of-school>
 <note>What did I learn there.</note>
 </edu>
-<edu from="2008" to="2008">
+<edu from="2008" to="2010">
 <name-of-education>High school</name-of-education>
 <name-of-school>Primary school New York City</name-of-school>
-<note>What did I learn there.</note>
+<note>What did I learn there. I really have no idea.</note>
 </edu>
-<edu from="2004" to="2008">
+<edu from="2010" to="">
 <name-of-education>University</name-of-education>
 <name-of-school>University of Queensland</name-of-school>
 <note>...</note>
