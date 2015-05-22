@@ -24,7 +24,9 @@ import cz.muni.fi.pb138.cv.service.Config;
 public class TransformatorsTest {
     public static void main(String[] args) {
         
-        TransformatorsTest.testXml2Json();
+        //TransformatorsTest.testXml2Json();
+        
+        TransformatorsTest.testJson2Xml();
         
     }
     
@@ -48,14 +50,11 @@ public class TransformatorsTest {
     public static void testJson2Xml(){
         String data;
         
-        /*data = "{"
-        + "\"autentication\": {\"name\": \"Meno\", \"password\": \"heslo\", \"lang\": \"en\"},"
-        + "\"personal-details\": {\"address\": {\"street\":\"Ulica\", \"number\": 5, \"city\": \"Ranc\"}, \"phones\": [\"454545\", \"884455554\"]}"
-        + "}";*/
+        data = "{\"curriculum-vitae\":{\"computer-skills\":[{\"note\":\"I can use it...\",\"name\":\"Windows\"},{\"note\":\"I can open my browser window...\",\"name\":\"HTML\"}],\"education\":[{\"note\":\"What did I learn there.\",\"name-of-education\":\"Primary school\",\"from\":2004,\"to\":2008,\"name-of-school\":\"Primary school NY\"},{\"note\":\"What did I learn there. I really have no idea.\",\"name-of-education\":\"High school\",\"from\":2008,\"to\":2010,\"name-of-school\":\"Primary school New York City\"},{\"note\":\"...\",\"name-of-education\":\"University\",\"from\":2010,\"to\":null,\"name-of-school\":\"University of Queensland\"}],\"language-skills\":[{\"note\":\"\",\"level\":\"A2\",\"name\":\"en\"}],\"certificates\":[{\"note\":\"I made my first cake!\",\"year\":2000,\"name\":\"Baking with mum\"}],\"hobbies\":\"I ride ponnies and bike.. I hate football...\",\"personal-details\":{\"given-names\":\"Anca Maria\",\"emails\":[{\"value\":\"anca@zranca.com\"},{\"value\":\"anicka.z.ranca@gmail.com\"}],\"address\":{\"number\":42,\"country\":\"USA\",\"postal-code\":123456,\"city\":\"Ranc za Humnom\",\"street\":\"Rancova\",\"state\":\"Michigan\"},\"social\":[{\"value\":\"linkedin.com/anicka\"},{\"value\":\"www.anicka-z-ranca.com\"}],\"surname\":\"z Ranca\",\"date-of-birth\":{\"month\":\"04\",\"year\":1994,\"day\":\"01\"},\"phones\":[{\"value\":\"0905123123\"},{\"value\":\"0907123456\"}]},\"driving-licence\":[{\"note\":\"I drove my uncles truck...\",\"name\":\"B\"}],\"employment\":[{\"note\":\"I was cleaning floors all the time...\",\"from\":2014,\"company\":\"Looser, Inc.\",\"to\":2015,\"position\":\"cleaner\"},{\"note\":\"I am making coffee and I like it!\",\"from\":2015,\"company\":\"Starbucks, Inc.\",\"to\":null,\"position\":\"waitress\"}],\"characteristic\":\"I am a tall person with warm heart...\"}}";
         
         try {
             List<String> lines = Files.readAllLines(Paths.get(Config.SAMPLE_JSON_PATH));
-            data = String.join("", lines);
+            //data = String.join("", lines);
         } catch (IOException ex) {
             Logger.getLogger(Json2XmlImpl.class.getName()).log(Level.SEVERE, null, ex);
             return;

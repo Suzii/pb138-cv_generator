@@ -143,7 +143,7 @@ public class Json2XmlImpl implements Json2Xml {
             
             if (attributes != null){
                 for(String a : attributes){
-                    e.setAttribute(a, j.get(a) != null ? j.get(a).toString() : "");
+                    e.setAttribute(a, (j.get(a) != null && !"null".equals(j.get(a).toString()))  ? j.get(a).toString() : "");
                 }
             }
             
