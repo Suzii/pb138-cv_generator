@@ -14,7 +14,7 @@
             <xsd:field xpath="." />
         </xsd:unique>
         
-        <xs:anyAttribute/>
+        <xsd:anyAttribute/>
     </xsd:element>    
     
     <xsd:complexType name="cvType">
