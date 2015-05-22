@@ -54,8 +54,8 @@ public class Xml2JsonImpl implements Xml2Json{
         
         JSONObject jsonCV = json.getJSONObject("curriculum-vitae");
         
-        jsonCV.remove("xmlns:xsi");
-        jsonCV.remove("xsi:noNamespaceSchemaLocation");
+        /*jsonCV.remove("xmlns:xsi");
+        jsonCV.remove("xsi:noNamespaceSchemaLocation");*/
                 
         JSONObject jsonPD = jsonCV.getJSONObject("personal-details");
 
