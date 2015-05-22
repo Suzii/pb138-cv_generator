@@ -104,6 +104,8 @@ public class ProfileServlet extends HttpServlet {
 
                     if (!getCvUtil().attachFile(response.getOutputStream(), file)) {
                         request.setAttribute("error", "You have to create and save your CV first!");
+                    } else{
+                        getCvService().cleanAfterGeneratingPDF();
                     }
                 } catch (IOException e) { // display error
                     request.setAttribute("error", "Sorry, some error occured while generating your CV.");
