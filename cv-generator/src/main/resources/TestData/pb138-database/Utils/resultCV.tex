@@ -32,7 +32,7 @@
                         \end{center}
                         \par \normalsize \normalfont}
 
-        \newcommand{\NewPart}[1]{\section*{\uppercase{#1}}}
+        \newcommand{\NewPart}[1]{\section*{#1}}
 
         \newcommand{\PersonalEntry}[2]{
                         \noindent\hangindent=2em\hangafter=0
@@ -57,43 +57,100 @@
         \newcommand{\PlainText}[1]{\noindent\hangindent=2em\hangafter=0\par #1}
     
         
-        %At this point the document begins.
+        %At this point the TeX document begins.
         \begin{document}
 
-        \MySlogan{Životopis}
+        \MySlogan{Curriculum vitae}
         \sepspace
         
-        \NewPart{Osobné údaje}{}
         
-        \PersonalEntry{Meno}{Peter}
-        \PersonalEntry{Priezvisko}{Pekný}
-        \PersonalEntry{Dátum narodenia}{
-10
-05
-2005
-}
+        \NewPart{PERSONAL DETAILS}{}
+        
+        \PersonalEntry{Name}{Anca Maria Antoaneta}
+        \PersonalEntry{Surname}{z Ranca}
         
         
-        \PersonalEntry{Adresa}{Pekna, 59 Mestečko pri Bratislave
+        
+        \PersonalEntry{Date of birth}{05. 02. 1985}
+    
+        \PersonalEntry{Address}{Rancova, 42 Ranc za Humnom
         }
-        \PersonalEntry{}{1878}
-        \PersonalEntry{Krajina}{Slovakia}
+        \PersonalEntry{Postal code}{123456}
         
         
         
-            \PersonalEntry{Štát}{}
+            \PersonalEntry{State}{Michigan}
         
-            \PersonalEntry{Telefón}{+421949159753}
         
-            \PersonalEntry{E-mail}{peter@gmail.com}
-        
-            \PersonalEntry{Moja stránka}{www.peter.sk}
-        
-            \NewPart{Vzdelanie}{}
+        \PersonalEntry{Country}{USA}
+    
+                        \PersonalEntry{Phones}{0905123123}
+                    
+                        \PersonalEntry{}{0905123456}
+                    
+                        \PersonalEntry{Emails}{anca@zranca.com}
+                    
+                        \PersonalEntry{}{anicka.z.ranca@gmail.com}
+                    
+                        \PersonalEntry{My sites}{Linkedin.com/anicka}
+                    
+                        \PersonalEntry{}{www.anicka-z-ranca.com}
+                    
+            \NewPart{EDUCATION}{}
             
-            \EducationEntry{Nursery school}{2004 - 2005}{ZŠ s MŠ Mestečko}{}
+            \EducationEntry{Primary school}{2004 - 2008}{Primary school NY}{What did I learn there.}
         
         \sepspace
+    
+            \EducationEntry{High school}{2008 - 2008}{Primary school New York City}{What did I learn there.}
+        
+        \sepspace
+    
+            \EducationEntry{University}{2004 - 2008}{University of Queensland}{...}
+        
+        \sepspace
+    
+            \NewPart{WORK EXPERIENCE}{}
+            
+            \EducationEntry{cleaner}{2014 - 2015}{Looser, Inc.}{I was cleaning floors all the time...}
+        
+        \sepspace
+    
+            \EducationEntry{waitress}{2015 - present}{Starbucks, Inc.}{I am making coffee and I like it!}
+        
+        \sepspace
+    
+            \NewPart{CERTIFICATES}{}
+            
+        \EducationEntry{Baking with mum}{2000}{I made my first cake!}
+        \sepspace
+    
+            \NewPart{LANGUAGE SKILLS}{}
+            
+        \SkillsEntry{en}{A2}
+        
+        \sepspace
+    
+            \NewPart{COMPUTER SKILLS}{}
+            
+        \SkillsEntry{Windows}{I can use it...}
+        \sepspace
+    
+        \SkillsEntry{HTML}{I can open my browser window...}
+        \sepspace
+    
+            \NewPart{DRIVING LICENCE}{}
+            
+        \SkillsEntry{B}{I drove my uncle's truck...}
+        \sepspace
+    
+            \NewPart{CHARACTERISTICS}{}
+            
+        \PlainText{I am a tall person with warm heart...}
+    
+            \NewPart{HOBBIES}{}
+            
+        \PlainText{I ride ponnies and bike.. I hate football...}
     
         \end{document}
     
