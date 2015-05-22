@@ -18,7 +18,7 @@ public class ExtractConstants {
     
     public static String getStringConstants(String language) throws IOException {
         StringBuilder sb = new StringBuilder();
-        try(BufferedReader br = new BufferedReader(new FileReader(Config.DBUTIL + "\\texts.xml"))) {
+        try(BufferedReader br = new BufferedReader(new FileReader(Config.TEST_DB + "\\Utils\\texts.xml"))) {
             for (String s = br.readLine(); s != null; s=br.readLine()) {
                 sb.append(s);
                 sb.append(System.lineSeparator());
