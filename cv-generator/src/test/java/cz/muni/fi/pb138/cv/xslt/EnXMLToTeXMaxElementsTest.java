@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package cz.muni.fi.pb138.cv.test;
+package cz.muni.fi.pb138.cv.xslt;
 
 import cz.muni.fi.pb138.cv.service.*;
 import java.io.BufferedReader;

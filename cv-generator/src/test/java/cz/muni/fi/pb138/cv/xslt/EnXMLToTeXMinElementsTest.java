@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package cz.muni.fi.pb138.cv.test;
+package cz.muni.fi.pb138.cv.xslt;
 
 import cz.muni.fi.pb138.cv.service.Config;
 import cz.muni.fi.pb138.cv.service.CvServiceImpl;
@@ -19,18 +19,18 @@ import org.junit.Test;
  *
  * @author Jozef Živčic
  */
-public class EnXMLToTeXOnePhoneSocialMailTest {
+public class EnXMLToTeXMinElementsTest {
     
     private static final String DB = "C:\\pb138-database";
     private static final String MIKTEX = "C:\\Program Files (x86)\\MiKTeX 2.9\\miktex\\bin";
     private static final String LANGUAGE = "en";
-    private static final String INPUT_XML = "one_element_phone_mail_social";
+    private static final String INPUT_XML = "minElements";
     private static final String OUTPUT_FILE_NAME = "resultCV.tex";
     private static final String OUTPUT_TEX = Config.DBUTIL + "\\" + OUTPUT_FILE_NAME;
     private String file;
     private String constants;
     
-    public EnXMLToTeXOnePhoneSocialMailTest() throws IOException {
+    public EnXMLToTeXMinElementsTest() throws IOException {
         CvServiceImpl cvService;
         cvService = new CvServiceImpl(DB,MIKTEX);
         cvService.transformToTexFile(INPUT_XML, LANGUAGE);
@@ -50,7 +50,7 @@ public class EnXMLToTeXOnePhoneSocialMailTest {
         File f = new File(Config.DBUTIL + "\\" + OUTPUT_FILE_NAME);
         f.delete();
     }
-    
+   
     @Test
     public void testAllMandatoryElements() {
         assertTrue(file.contains("\\begin{document}"));
@@ -64,12 +64,15 @@ public class EnXMLToTeXOnePhoneSocialMailTest {
     }
     
     @Test
-    public void testOneElements() {
-        assertTrue(file.contains("\\PersonalEntry{" + ExtractConstants.getConstant(constants,"<phone>")+ "}"));
-        assertFalse(file.contains("\\PersonalEntry{" + ExtractConstants.getConstant(constants,"<phones>")+ "}"));
-        assertTrue(file.contains("\\PersonalEntry{" + ExtractConstants.getConstant(constants,"<email>")+ "}"));
-        assertFalse(file.contains("\\PersonalEntry{" + ExtractConstants.getConstant(constants,"<emails>")+ "}"));
-        assertTrue(file.contains("\\PersonalEntry{" + ExtractConstants.getConstant(constants,"<my-site>")+ "}"));
-        assertFalse(file.contains("\\PersonalEntry{" + ExtractConstants.getConstant(constants,"<my-sites>")+ "}"));
+    public void testAllOptionallyElementsNotPresent() {
+        assertFalse(file.contains("\\PersonalEntry{" + ExtractConstants.getConstant(constants,"<state>")+ "}"));
+        assertFalse(file.contains("\\NewPart{" + ExtractConstants.getConstant(constants,"<education>")+ "}"));
+        assertFalse(file.contains("\\NewPart{" + ExtractConstants.getConstant(constants,"<work-experience>")+ "}"));
+        assertFalse(file.contains("\\NewPart{" + ExtractConstants.getConstant(constants,"<certificates>")+ "}"));
+        assertFalse(file.contains("\\NewPart{" + ExtractConstants.getConstant(constants,"<language-skills>")+ "}"));
+        assertFalse(file.contains("\\NewPart{" + ExtractConstants.getConstant(constants,"<computer-skills>")+ "}"));
+        assertFalse(file.contains("\\NewPart{" + ExtractConstants.getConstant(constants,"<driving-licence>")+ "}"));
+        assertFalse(file.contains("\\NewPart{" + ExtractConstants.getConstant(constants,"<characteristics>")+ "}"));
+        assertFalse(file.contains("\\NewPart{" + ExtractConstants.getConstant(constants,"<hobbies>")+ "}"));
     }
 }

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package cz.muni.fi.pb138.cv.test;
+package cz.muni.fi.pb138.cv.xslt;
 
 import cz.muni.fi.pb138.cv.service.Config;
 import cz.muni.fi.pb138.cv.service.CvServiceImpl;
@@ -19,18 +19,18 @@ import org.junit.Test;
  *
  * @author Jozef Živčic
  */
-public class SkXMLToTeXOnePhoneSocialMailTest {
+public class EnXMLToTeXOnePhoneSocialMailTest {
     
     private static final String DB = "C:\\pb138-database";
     private static final String MIKTEX = "C:\\Program Files (x86)\\MiKTeX 2.9\\miktex\\bin";
-    private static final String LANGUAGE = "sk";
+    private static final String LANGUAGE = "en";
     private static final String INPUT_XML = "one_element_phone_mail_social";
     private static final String OUTPUT_FILE_NAME = "resultCV.tex";
     private static final String OUTPUT_TEX = Config.DBUTIL + "\\" + OUTPUT_FILE_NAME;
     private String file;
     private String constants;
     
-    public SkXMLToTeXOnePhoneSocialMailTest() throws IOException {
+    public EnXMLToTeXOnePhoneSocialMailTest() throws IOException {
         CvServiceImpl cvService;
         cvService = new CvServiceImpl(DB,MIKTEX);
         cvService.transformToTexFile(INPUT_XML, LANGUAGE);

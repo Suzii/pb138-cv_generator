@@ -15,7 +15,8 @@
     </properties>
     
     <dependencies>
-        <dependency>
+        <!-- slf4j-log4j -->
+         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
             <version>1.7.6</version>
@@ -30,6 +31,8 @@
             <artifactId>jcl-over-slf4j</artifactId>
             <version>1.7.6</version>
         </dependency>
+        
+        <!-- Unit testing -->
         <dependency>
             <groupId>xmlunit</groupId>
             <artifactId>xmlunit</artifactId>
@@ -60,20 +63,22 @@
             <artifactId>jsonassert</artifactId>
             <version>1.2.3</version>
         </dependency>
+        
+        <!-- Javax -->
         <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-web-api</artifactId>
             <version>7.0</version>
             <scope>provided</scope>
         </dependency>
-
+        
+        <!-- Spring -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
             <version>4.1.1.RELEASE</version>
             <type>jar</type>
         </dependency>
-      
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>jstl</artifactId>
@@ -85,26 +90,12 @@
             <artifactId>standard</artifactId>
             <version>1.1.2</version>
         </dependency>
-        
-        <!--<dependency>
-            <groupId>com.googlecode.json-simple</groupId>
-            <artifactId>json-simple</artifactId>
-            <version>1.1.1</version>
-        </dependency>-->
-        <!-- dependecny for transformation , used for xml to tex transformation -->
-      <!--  <dependency>
-            <groupId>net.sf.saxon</groupId>
-            <artifactId>Saxon-HE</artifactId>
-            <version>9.4</version>
-        </dependency> -->
-
         <dependency>
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>
             <version>20140107</version>
         </dependency>
     </dependencies>
-
     <build>
         <plugins>
             <plugin>
