@@ -21,16 +21,18 @@ import org.junit.Test;
  */
 public class EnXMLToTeXMinElementsTest {
     
-    private static final String DB = "C:\\pb138-database";
-    private static final String MIKTEX = "C:\\Program Files (x86)\\MiKTeX 2.9\\miktex\\bin";
+    private static final String DB = Config.TEST_DB;
+    private static final String MIKTEX = new Config().getLatexFolder();
     private static final String LANGUAGE = "en";
     private static final String INPUT_XML = "minElements";
     private static final String OUTPUT_FILE_NAME = "resultCV.tex";
-    private static final String OUTPUT_TEX = Config.DBUTIL + "\\" + OUTPUT_FILE_NAME;
+    private static final String OUTPUT_TEX = DB + "\\Utils\\" + OUTPUT_FILE_NAME;
     private String file;
     private String constants;
     
     public EnXMLToTeXMinElementsTest() throws IOException {
+        
+        
         CvServiceImpl cvService;
         cvService = new CvServiceImpl(DB,MIKTEX);
         cvService.transformToTexFile(INPUT_XML, LANGUAGE);
@@ -47,7 +49,7 @@ public class EnXMLToTeXMinElementsTest {
     
     @After
     public void tearDown() {
-        File f = new File(Config.DBUTIL + "\\" + OUTPUT_FILE_NAME);
+        File f = new File(OUTPUT_TEX);
         f.delete();
     }
    
@@ -65,7 +67,7 @@ public class EnXMLToTeXMinElementsTest {
     
     @Test
     public void testAllOptionallyElementsNotPresent() {
-        assertFalse(file.contains("\\PersonalEntry{" + ExtractConstants.getConstant(constants,"<state>")+ "}"));
+//        assertFalse(file.contains("\\PersonalEntry{" + ExtractConstants.getConstant(constants,"<state>")+ "}"));
         assertFalse(file.contains("\\NewPart{" + ExtractConstants.getConstant(constants,"<education>")+ "}"));
         assertFalse(file.contains("\\NewPart{" + ExtractConstants.getConstant(constants,"<work-experience>")+ "}"));
         assertFalse(file.contains("\\NewPart{" + ExtractConstants.getConstant(constants,"<certificates>")+ "}"));

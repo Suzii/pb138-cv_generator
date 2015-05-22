@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--In this document, all elements are mandatory unless it is said otherwise and description determines form of each element-->
+<curriculum-vitae 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="cv.xsd">
+    <personal-details> <!--Non-empty element-->
+        <given-names>Anca Maria</given-names> <!--Non-empty, contains only upper- and lower case letters-->
+        <surname>z Ranca</surname> <!--Non-empty, contains only upper- and lower case letters-->
+        <date-of-birth> <!-- has to containg day, month year -->
+            <day>01</day> <!-- non-empty -->
+            <month>01</month> <!-- non-empty -->
+            <year>1990</year> <!-- non-empty -->
+        </date-of-birth> <!-- Non-empty, predefined format -->
+        <address>
+            <street>Rancova</street><!--Non-empty element-->
+            <number>42</number> <!-- This element can be empty-->
+            <city>Ranc za Humnom</city><!--Non-empty element-->
+            <postal-code>123456</postal-code><!--Non-empty element-->
+            <state>Michigan</state> <!--This element can be empty-->
+            <country>USA</country><!--Non-empty element-->
+        </address>
+        <phones><!--This element do not have to contain any child elements phone-->
+            <phone>0905123123</phone><!--This element can be empty, but contains only numbers or + sign-->
+            <phone>0905123456</phone> <!-- Unique phone number, MaxOccurs of this element - unbounded -->
+        </phones>
+        <emails><!--This element do not have to contain any child elements email-->
+            <email>anca@zranca.com</email> <!-- This element can be empty, contains unique email address-->
+            <email>anicka.z.ranca@gmail.com</email> <!-- MaxOccurs of element email is unbounded, but email has to be unique-->
+        </emails>
+        <social><!--This element do not have to contain any child elements site-->
+            <site>Linkedin.com/anicka</site><!--This element can be empty-->
+            <site>facebook.com/anicka</site><!-- MaxOccurs of element site is unbounded, but each site must be unique-->
+            <site>www.anicka-z-ranca.com</site>
+        </social>
+    </personal-details>
+
+    <education><!--This element do not have to contain any child elements edu-->
+        <edu from="2004" to="2008"><!--"from" cannot be empty, but "to" can and it means up to now and from <= to-->
+            <name-of-education>Primary school</name-of-education> <!-- A non-empty element-->
+            <name-of-school>Primary school NY</name-of-school><!-- A non-empty element-->
+            <note>What did I learn there.</note><!-- This element can be empty-->
+        </edu>
+        <edu from="2008" to="">
+            <name-of-education>High school</name-of-education>
+            <name-of-school>Primary school New York City</name-of-school>
+            <note>What did I learn there.</note>
+        </edu>
+    </education>
+    
+    <employment><!--This element do not have to contain any child elements emp-->
+        <emp from="2014" to="2015"><!--"from" cannot be empty, but "to" can and it means up to now and from <= to-->
+            <company>Looser, Inc.</company><!-- A non-empty element -->
+            <position>cleaner</position><!-- A non-empty element -->
+            <note>I was cleaning floors all the time...</note><!-- This element can be empty -->
+        </emp>
+        <emp from="2015" to="">
+            <company>Starbucks, Inc.</company>
+            <position>waitress</position>
+            <note>I am making coffee and I like it!</note>
+        </emp>
+    </employment>
+    
+    <language-skills><!--This element do not have to contain any child elements lang-->
+        <lang name="en"> <!--Attribute name cannot be empty-->
+            <level>A1</level> <!-- A non-empty element value is one of enumeration: A1, A2, B1, B2, C1, C2 -->
+            <note></note><!--This element can be empty-->
+        </lang>
+    </language-skills>
+    
+    <certificates><!--This element do not have to contain any child elements cert-->
+        <cert year="2000"> <!--Attribute year cannot be empty-->
+            <name>Baking with mum</name><!-- A non-empty element -->
+            <note>I made my first cake!</note><!--This element can be empty-->
+        </cert>
+    </certificates>
+    
+    <computer-skills><!--This element do not have to contain any child elements skill-->
+        <skill>
+            <name>Windows</name><!-- A non-empty element -->
+            <note>I can use it...</note> <!--This element can be empty-->
+        </skill>
+        <skill>
+            <name>HTML</name>
+            <note>I can open my browser window...</note>
+        </skill>
+    </computer-skills>
+    
+    <driving-licence> <!--This element do not have to contain any child elements class-->
+        <class>
+            <name>B</name><!--This element cannot be empty-->
+            <note>I drove my uncle's truck...</note> <!--This element can be empty-->
+        </class>
+    </driving-licence>
+
+    <characteristic><!--This element contains text, can be empty-->
+        I am a tall person with warm heart...
+    </characteristic>
+            
+    <hobbies><!--This element contains text, can be empty-->
+        I ride ponnies and bike.. I hate football...
+    </hobbies>
+</curriculum-vitae>

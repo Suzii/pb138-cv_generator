@@ -1,0 +1,64 @@
+<!--In this document, all elements are mandatory unless it is said otherwise and description determines form of each element-->
+<curriculum-vitae>
+    <personal-details> <!--Non-empty element-->
+        <given-names>Anca Maria</given-names> <!--Non-empty, contains only upper- and lower case letters-->
+        <surname>z Ranca</surname> <!--Non-empty, contains only upper- and lower case letters-->
+        <address>
+            <street>Rancova</street><!--Non-empty element-->
+            <number>42</number> <!-- This element can be empty-->
+            <city>Ranc za Humnom</city><!--Non-empty element-->
+            <postal-code>123456</postal-code><!--Non-empty element-->
+            <state>Michigan</state> <!--This element can be empty-->
+            <country>USA</country><!--Non-empty element-->
+        </address>
+        <phones><!--This element do not have to contain any child elements phone-->
+            <phone>0905123123</phone><!--This element can be empty, but contains only numbers or + sign-->
+        </phones>
+        <emails><!--This element do not have to contain any child elements email-->
+            <email>anca@zranca.com</email> <!-- This element can be empty, contains unique email address-->
+            <email>anicka.z.ranca@gmail.com</email> <!-- MaxOccurs of element email is unbounded, but email has to be unique-->
+        </emails>
+        <social/>
+    </personal-details>
+
+    <education><!--This element do not have to contain any child elements edu-->
+        <edu from="2004" to="2008"><!--"from" cannot be empty, but "to" can and it means up to now and from <= to-->
+            <name-of-education>Primary school</name-of-education> <!-- A non-empty element-->
+            <name-of-school>Primary school NY</name-of-school><!-- A non-empty element-->
+            <note>What did I learn there.</note><!-- This element can be empty-->
+        </edu>
+        <edu from="2008" to="">
+            <name-of-education>High school</name-of-education>
+            <name-of-school>Primary school New York City</name-of-school>
+            <note>What did I learn there.</note>
+        </edu>
+    </education>
+    
+    <employment/><!--This element do not have to contain any child elements emp-->
+    
+    <language-skills><!--This element do not have to contain any child elements lang-->
+        <lang name="en"> <!--Attribute name cannot be empty-->
+            <level>Intermediate</level> <!-- A non-empty element value is one of enumeration -->
+            <note></note><!--This element can be empty-->
+        </lang>
+    </language-skills>
+    
+    <certificates><!--This element do not have to contain any child elements cert-->
+        <cert year="2000"> <!--Attribute year cannot be empty-->
+            <name>Baking with mum</name><!-- A non-empty element -->
+            <note>I made my first cake!</note><!--This element can be empty-->
+        </cert>
+    </certificates>
+    
+    <computer-skills/>
+    
+    <driving-licence/> <!--This element do not have to contain any child elements class-->
+
+    <characteristic><!--This element contains text, can be empty-->
+        I am a tall person with warm heart...
+    </characteristic>
+            
+    <hobbies><!--This element contains text, can be empty-->
+        I ride ponnies and bike.. I hate football...
+    </hobbies>
+</curriculum-vitae>

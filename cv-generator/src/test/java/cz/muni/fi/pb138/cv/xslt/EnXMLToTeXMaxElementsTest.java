@@ -18,12 +18,13 @@ import org.junit.Test;
  */
 public class EnXMLToTeXMaxElementsTest {
     
-    private static final String DB = "C:\\pb138-database";
-    private static final String MIKTEX = "C:\\Program Files (x86)\\MiKTeX 2.9\\miktex\\bin";
+    private static final String DB = Config.TEST_DB;
+    private static final String MIKTEX = new Config().getLatexFolder();
     private static final String LANGUAGE = "en";
     private static final String INPUT_XML = "anicka";
     private static final String OUTPUT_FILE_NAME = "resultCV.tex";
-    private static final String OUTPUT_TEX = Config.DBUTIL + "\\" + OUTPUT_FILE_NAME;
+    private static final String OUTPUT_TEX = DB + "\\Utils\\" + OUTPUT_FILE_NAME;
+    
     private String file;
     private String constants;
     

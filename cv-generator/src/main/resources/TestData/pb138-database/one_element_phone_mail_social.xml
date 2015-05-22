@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<curriculum-vitae>
+<personal-details>
+<given-names>Peter</given-names>
+<surname>Pekný</surname>
+<date-of-birth>
+<day>10</day>
+<month>05</month>
+<year>2005</year>
+</date-of-birth>
+<address>
+<street>Pekna</street>
+<number>59</number>
+<city>Mestečko pri Bratislave</city>
+<postal-code>1878</postal-code>
+<state/>
+<country>Slovakia</country>
+</address>
+<phones>
+<phone>+421949159753</phone>
+</phones>
+<emails>
+<email>peter@gmail.com</email>
+</emails>
+<social>
+<site>www.peter.sk</site>
+</social>
+</personal-details>
+<education>
+<edu from="2004" to="2005">
+<name-of-education>Nursery school</name-of-education>
+<name-of-school>ZŠ s MŠ Mestečko</name-of-school>
+<note/>
+</edu>
+</education>
+<employment/>
+<language-skills/>
+<computer-skills/>
+<certificates/>
+<driving-licence/>
+<characteristic/>
+<hobbies/>
+</curriculum-vitae>

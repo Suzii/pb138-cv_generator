@@ -1,0 +1,54 @@
+{"curriculum-vitae": {
+    "computer-skills": [],
+    "education": [
+        {
+            "note": "What did I learn there.",
+            "name-of-education": "Primary school",
+            "from": 2004,
+            "to": 2008,
+            "name-of-school": "Primary school NY"
+        },
+        {
+            "note": "What did I learn there.",
+            "name-of-education": "High school",
+            "from": 2008,
+            "to": "",
+            "name-of-school": "Primary school New York City"
+        }
+    ],
+    "language-skills": [{
+        "note": "",
+        "level": "Intermediate",
+        "name": "en"
+    }],
+    "certificates": [{
+        "note": "I made my first cake!",
+        "year": 2000,
+        "name": "Baking with mum"
+    }],
+    "hobbies": "I ride ponnies and bike.. I hate football...",
+    "personal-details": {
+        "given-names": "Anca Maria",
+        "emails": [
+            {"value": "anca@zranca.com"},
+            {"value": "anicka.z.ranca@gmail.com"}
+        ],
+        "address": {
+            "number": 42,
+            "country": "USA",
+            "postal-code": 123456,
+            "city": "Ranc za Humnom",
+            "street": "Rancova",
+            "state": "Michigan"
+        },
+        "social": [],
+        "surname": "z Ranca",
+        "phones": [
+            {"value": "0905123123"},
+            {"value": "0905123456"}
+        ]
+    },
+    "driving-licence": [],
+    "employment": [],
+    "characteristic": "I am a tall person with warm heart..."
+}}
