@@ -13,6 +13,8 @@
             <xsd:selector xpath="./personal-details/social/site" />
             <xsd:field xpath="." />
         </xsd:unique>
+        
+        <xs:anyAttribute/>
     </xsd:element>    
     
     <xsd:complexType name="cvType">
