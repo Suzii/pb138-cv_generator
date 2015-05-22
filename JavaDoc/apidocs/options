@@ -1,0 +1,24 @@
+-classpath
+'C:/Users/Zuzana/.m2/repository/commons-logging/commons-logging/1.2/commons-logging-1.2.jar;C:/Users/Zuzana/.m2/repository/org/springframework/spring-beans/4.1.1.RELEASE/spring-beans-4.1.1.RELEASE.jar;C:/Users/Zuzana/.m2/repository/org/springframework/spring-expression/4.1.1.RELEASE/spring-expression-4.1.1.RELEASE.jar;C:/Users/Zuzana/.m2/repository/javax/javaee-web-api/7.0/javaee-web-api-7.0.jar;C:/Users/Zuzana/.m2/repository/ch/qos/logback/logback-core/1.1.2/logback-core-1.1.2.jar;C:/Users/Zuzana/.m2/repository/javax/servlet/jstl/1.1.2/jstl-1.1.2.jar;C:/Users/Zuzana/.m2/repository/org/springframework/spring-aop/4.1.1.RELEASE/spring-aop-4.1.1.RELEASE.jar;C:/Users/Zuzana/.m2/repository/aopalliance/aopalliance/1.0/aopalliance-1.0.jar;C:/Users/Zuzana/.m2/repository/org/springframework/spring-context/4.1.1.RELEASE/spring-context-4.1.1.RELEASE.jar;C:/Users/Zuzana/.m2/repository/org/json/json/20140107/json-20140107.jar;C:/Users/Zuzana/.m2/repository/taglibs/standard/1.1.2/standard-1.1.2.jar;C:/Users/Zuzana/.m2/repository/org/slf4j/jcl-over-slf4j/1.7.6/jcl-over-slf4j-1.7.6.jar;C:/Users/Zuzana/.m2/repository/org/skyscreamer/jsonassert/1.2.3/jsonassert-1.2.3.jar;C:/Users/Zuzana/.m2/repository/xmlunit/xmlunit/1.6/xmlunit-1.6.jar;C:/Users/Zuzana/.m2/repository/org/slf4j/slf4j-api/1.7.6/slf4j-api-1.7.6.jar;C:/Users/Zuzana/.m2/repository/ch/qos/logback/logback-classic/1.1.2/logback-classic-1.1.2.jar;C:/Users/Zuzana/.m2/repository/org/springframework/spring-core/4.1.5.RELEASE/spring-core-4.1.5.RELEASE.jar'
+-encoding
+'UTF-8'
+-protected
+-sourcepath
+'C:/Users/Zuzana/Disk Google/prg/pb138/pb138-cv_generator/cv-generator/src/main/java'
+-author
+-bottom
+'Copyright &#169; 2015. All rights reserved.'
+-charset
+'UTF-8'
+-d
+'C:/Users/Zuzana/Disk Google/prg/pb138/pb138-cv_generator/cv-generator/target/site/apidocs'
+-docencoding
+'UTF-8'
+-doctitle
+'cv-generator 1.0-SNAPSHOT API'
+-linkoffline
+'http://docs.oracle.com/javase/7/docs/api' 'C:/Users/Zuzana/Disk Google/prg/pb138/pb138-cv_generator/cv-generator/target/javadoc-bundle-options'
+-use
+-version
+-windowtitle
+'cv-generator 1.0-SNAPSHOT API'
