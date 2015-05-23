@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+<xs:schema version="1.0"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           elementFormDefault="qualified">
+    
+    <xs:element name="texts" type="texts-type" >
+        <xs:unique name="unique-language">
+            <xs:selector xpath="./language" />
+            <xs:field xpath="@id" />
+        </xs:unique>
+    </xs:element>
+    <xs:complexType name="texts-type">
+        <xs:sequence>
+            <xs:element name="language" type="language-type" minOccurs="1" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:complexType name="language-type">
+        <xs:all>
+            <xs:element name="curriculum-vitae" type="pattern-type" />
+            <xs:element name="personal-details" type="uppercase-type" />
+            <xs:element name="education" type="uppercase-type" />
+            <xs:element name="work-experience" type="uppercase-type" />
+            <xs:element name="certificates" type="uppercase-type" />
+            <xs:element name="language-skills" type="uppercase-type" />
+            <xs:element name="computer-skills" type="uppercase-type" />
+            <xs:element name="driving-licence" type="uppercase-type" />
+            <xs:element name="characteristics" type="uppercase-type" />
+            <xs:element name="hobbies" type="uppercase-type" />
+            <xs:element name="name" type="pattern-type" />
+            <xs:element name="surname" type="pattern-type" />
+            <xs:element name="date-of-birth" type="pattern-type" />
+            <xs:element name="address" type="pattern-type" />
+            <xs:element name="country" type="pattern-type" />
+            <xs:element name="state" type="pattern-type" />
+            <xs:element name="phone" type="pattern-type" />
+            <xs:element name="phones" type="pattern-type" />
+            <xs:element name="email" type="pattern-type" />
+            <xs:element name="emails" type="pattern-type" />
+            <xs:element name="my-site" type="pattern-type" />
+            <xs:element name="my-sites" type="pattern-type" />
+            <xs:element name="present" type="pattern-type" />
+            <xs:element name="postal-code" type="pattern-type" />
+        </xs:all>
+        <xs:attribute name="id" />
+    </xs:complexType>
+    
+    <xs:simpleType name="pattern-type">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1" />
+        </xs:restriction>
+    </xs:simpleType>
+    
+    <xs:simpleType name="uppercase-type">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[\p{Lu}\s]+" />
+        </xs:restriction>
+    </xs:simpleType>
+</xs:schema>
