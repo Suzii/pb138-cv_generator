@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>CV Generator</title><meta name="generator" content="DocBook XSL Stylesheets V1.78.1"/></head><body><div class="article"><div class="titlepage"><div><div><h2 class="title"><a id="idp55475264"/>CV Generator</h2></div><div><div class="author"><h3 class="author"><span class="firstname">Patrik</span> <span class="surname">Cyprian</span></h3><div class="affiliation"><span class="orgname">fi.muni.cz<br/></span></div></div></div><div><p class="pubdate">23.5.2015</p></div></div><hr/></div><div class="toc"><p><strong>Table of Contents</strong></p><dl class="toc"><dt><span class="section"><a href="#idp55500128">Záverečná správa</a></span></dt><dt><span class="section"><a href="#idp55505136">UserService</a></span></dt><dt><span class="section"><a href="#idp55480272">CvService</a></span></dt></dl></div><div class="section"><div class="titlepage"><div><div><h2 class="title"><a id="idp55500128"/>Záverečná správa</h2></div></div></div><p>Mojou úlohou na projekte bolo vytvoriť servisnú vrstvu aplikácie, ktorá pracuje s databázou
+		užívateľov a ich životopismi.</p></div><div class="section"><div class="titlepage"><div><div><h2 class="title"><a id="idp55505136"/>UserService</h2></div></div></div><p>Vytvoril som XML súbor, ktorý slúži ako databáza užívateľov, kde sa ukladá ich login a hash hesla. Následne pri každom pokuse o prihlásenie je kontrolovaná existencia loginu a kontrola správnosti hesla. Hash hesla je vykonávaný pomocou stiahnutej triedy PasswordHash (www: http://crackstation.net/hashing-security.htm).
+		Získavanie hodnôt z XML súboru je vyriešené pomocou XPath výrazov.
+        </p></div><div class="section"><div class="titlepage"><div><div><h2 class="title"><a id="idp55480272"/>CvService</h2></div></div></div><p>
+		Ďalšou mojou úlohou bolo implementovať triedu CvService, ktorá slúži na prácu so životopismi
+		užívateľov. Stará sa o načítanie životopisov pre webové rozhranie a taktiež uloženie životopisov.
+		Prebieha tu transformácia z XML do Json objektu a naopak, lebo webové rozhranie pracuje s Json objektami.
+		Životopisy su pred uložením do xml súboru validované pomocou XML Schemy. Ukladáme iba valídne životopisy.
+		Každý užívateľ ma uložený životopis pod názvom "login".xml.
+		Cvservice sa stará aj o vygenerovanie PDF formy životopisu. Najskôr je pomocou XSLT tranformácie vytvorený TeX
+		súbor z XML súboru životopisu a potom je vytvorený proces s cestou k pdflatex.exe a TeX súboru. Proces následne
+		vygeneruje PDF životopis, ktorý si užívateľ štahuje cez wevové rozhranie.
+        </p></div></div></body></html>
