@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+"http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd">
+<article>
+    <articleinfo>
+        <title>CV Generator</title>
+
+        <author>
+            <firstname>Zuzana</firstname>
+
+            <surname>Dankovčíková</surname>
+
+            <affiliation>
+                <orgname>fi.muni.cz</orgname>
+            </affiliation>
+        </author>
+
+        <pubdate>23.5.2015</pubdate>
+    </articleinfo>
+
+    <section>
+        <title>Záverečná správa</title>
+        <para>Mojou úlohou na projekte bolo vytvoriť k aplikácii webové rozhranie 
+            a naprogramovať backendovú časť - servlety.</para>
+    </section>
+    
+    <section>
+        <title>Webové rozhranie</title>
+        <para>
+            Frontend sa skladá zo štyrok web stránok (login, signup, eidt,
+            profile). Pri ich vytváraní som sa snažila dbať na čo najväčšiu 
+            užívateľskú prívetivosť a moderný dizajn. Ako CSS šablónu som použila 
+            opensource CSS knižnicu Bootstrap. Všetky webvé stránky sú responzívne 
+            a ich zobrazenie je optimalizované pre rôzne veľkosti obrazovky.
+        </para>
+        
+        <para>
+            Na stránke edit.jsp, ktorá obsahuje formulár s údajmi z životopisu, 
+            som využila JavaScriptový framework AngularJS. Veľkou výhodou tohoto 
+            riešenia je, že web je dynamický, užívateľ môže ľubovoľne pridávať 
+            a odoberať jednotlivé časti formulára (0..n položiek pre email, 
+            employment atď.). Ďalšou výhodou je, že veľká časť validácie je 
+            robená už na strane klienta v prehliadači. Užívateľ je informovaný 
+            o zle vyplnených poliach v reálnom čase a zároveň je minimalizovaná 
+            nadbytočná komunikácia so servrom. Po uložení dát z je posielaný 
+            HTTP POST request iniciovaný JavaScriptom, pričom obsahom požiadavku 
+            je JSON objekt obsahujúci dáta z formulára. 
+        </para>
+    </section>
+
+    <section>
+        <title>Servlety</title>
+
+        <para>
+            Backendová časť je písaná pomocou Java Servlets API. Jedná sa hlavne 
+            o volania servisnej vrstvy - rozhrania UserService.java a CvService.java, 
+            ktorých implementácie sa starajú o samotný user management 
+            a ukladanie životopisov. Prihlasovanie užívateľov je riešené pomocou 
+            "login" atribútu aktuálnej session. Servlety ďalej zabezpečia, 
+            že požiadavka na vygenerovanie životopisu spôsobí atutomatické 
+            stiahnutie PDF dokumentu užívateľovým prehliadačom.
+        </para>
+    </section>
+
+    <section>
+        <title>Vedenie tímu</title>
+
+        <para>
+            Ako líder tímu som sa snažila o čo najlepšiu komunikáciu medzi 
+            všetkými členmi. Mojou úlohou bolo rozdeliť prácu na projekte 
+            a jasne špecifikovať požiadavky na funkcionalitu jednotlivých častí. 
+            To zahŕňalo, po diskusii s ostatnými, definovať rozhrania, 
+            aby každý od začiatku presne vedel na čom má pracovať, 
+            resp. na aké veci sa môže spoliehať.
+
+        </para>
+        <para>
+            Vytvorili sa Branche na Githube a v začiatočnej fáze vývoja tak mohli 
+            všetci pracovať samostatne. V druhej časti vývoja bolo treba integrovať 
+            jednotlivé riešenia do funkčného celku. Na zadávanie dodatočných 
+            požiadaviek a oznamovanie nájdených chýb sme používali issue tracking. 
+            Mojou povinnosťou bolo ďalej dohliadať na dodržiavanie kontrolných bodov 
+            a taktiež dbať na splnenie všetkých finálnych požiadaviek. 
+        </para>
+    </section>
+</article>
