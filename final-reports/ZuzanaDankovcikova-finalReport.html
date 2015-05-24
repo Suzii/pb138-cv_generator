@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>CV Generator</title><meta name="generator" content="DocBook XSL Stylesheets V1.78.1"/></head><body><div class="article"><div class="titlepage"><div><div><h2 class="title"><a id="idp63275168"/>CV Generator</h2></div><div><div class="author"><h3 class="author"><span class="firstname">Zuzana</span> <span class="surname">Dankovčíková</span></h3><div class="affiliation"><span class="orgname">fi.muni.cz<br/></span></div></div></div><div><p class="pubdate">23.5.2015</p></div></div><hr/></div><div class="toc"><p><strong>Table of Contents</strong></p><dl class="toc"><dt><span class="section"><a href="#idp63272352">Záverečná správa</a></span></dt><dt><span class="section"><a href="#idp63268880">Webové rozhranie</a></span></dt><dt><span class="section"><a href="#idp63285776">Servlety</a></span></dt><dt><span class="section"><a href="#idp63298656">Vedenie tímu</a></span></dt></dl></div><div class="section"><div class="titlepage"><div><div><h2 class="title"><a id="idp63272352"/>Záverečná správa</h2></div></div></div><p>Mojou úlohou na projekte bolo vytvoriť k aplikácii webové rozhranie 
+            a naprogramovať backendovú časť - servlety.</p></div><div class="section"><div class="titlepage"><div><div><h2 class="title"><a id="idp63268880"/>Webové rozhranie</h2></div></div></div><p>
+            Frontend sa skladá zo štyrok web stránok (login, signup, eidt,
+            profile). Pri ich vytváraní som sa snažila dbať na čo najväčšiu 
+            užívateľskú prívetivosť a moderný dizajn. Ako CSS šablónu som použila 
+            opensource CSS knižnicu Bootstrap. Všetky webvé stránky sú responzívne 
+            a ich zobrazenie je optimalizované pre rôzne veľkosti obrazovky.
+        </p><p>
+            Na stránke edit.jsp, ktorá obsahuje formulár s údajmi z životopisu, 
+            som využila JavaScriptový framework AngularJS. Veľkou výhodou tohoto 
+            riešenia je, že web je dynamický, užívateľ môže ľubovoľne pridávať 
+            a odoberať jednotlivé časti formulára (0..n položiek pre email, 
+            employment atď.). Ďalšou výhodou je, že veľká časť validácie je 
+            robená už na strane klienta v prehliadači. Užívateľ je informovaný 
+            o zle vyplnených poliach v reálnom čase a zároveň je minimalizovaná 
+            nadbytočná komunikácia so servrom. Po uložení dát z je posielaný 
+            HTTP POST request iniciovaný JavaScriptom, pričom obsahom požiadavku 
+            je JSON objekt obsahujúci dáta z formulára. 
+        </p></div><div class="section"><div class="titlepage"><div><div><h2 class="title"><a id="idp63285776"/>Servlety</h2></div></div></div><p>
+            Backendová časť je písaná pomocou Java Servlets API. Jedná sa hlavne 
+            o volania servisnej vrstvy - rozhrania UserService.java a CvService.java, 
+            ktorých implementácie sa starajú o samotný user management 
+            a ukladanie životopisov. Prihlasovanie užívateľov je riešené pomocou 
+            "login" atribútu aktuálnej session. Servlety ďalej zabezpečia, 
+            že požiadavka na vygenerovanie životopisu spôsobí atutomatické 
+            stiahnutie PDF dokumentu užívateľovým prehliadačom.
+        </p></div><div class="section"><div class="titlepage"><div><div><h2 class="title"><a id="idp63298656"/>Vedenie tímu</h2></div></div></div><p>
+            Ako líder tímu som sa snažila o čo najlepšiu komunikáciu medzi 
+            všetkými členmi. Mojou úlohou bolo rozdeliť prácu na projekte 
+            a jasne špecifikovať požiadavky na funkcionalitu jednotlivých častí. 
+            To zahŕňalo, po diskusii s ostatnými, definovať rozhrania, 
+            aby každý od začiatku presne vedel na čom má pracovať, 
+            resp. na aké veci sa môže spoliehať.
+
+        </p><p>
+            Vytvorili sa Branche na Githube a v začiatočnej fáze vývoja tak mohli 
+            všetci pracovať samostatne. V druhej časti vývoja bolo treba integrovať 
+            jednotlivé riešenia do funkčného celku. Na zadávanie dodatočných 
+            požiadaviek a oznamovanie nájdených chýb sme používali issue tracking. 
+            Mojou povinnosťou bolo ďalej dohliadať na dodržiavanie kontrolných bodov 
+            a taktiež dbať na splnenie všetkých finálnych požiadaviek. 
+        </p></div></div></body></html>
