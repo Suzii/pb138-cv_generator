@@ -272,10 +272,10 @@
                                 <i class="glyphicon glyphicon-remove"></i>
                             </a>
                         </div>
-                        <p class="help-block" data-ng-show="eduForm['edu-name-{{$index}}'].$invalid && (!eduForm['edu - name-{{$index}}'].$pristine || showError)">School is required.</p>
-                        <p class="help-block" data-ng-show="eduForm['edu-type-{{$index}}'].$invalid && (!eduForm['edu - type-{{$index}}'].$pristine || showError)">Type of school is required.</p>
-                        <p class="help-block" data-ng-show="eduForm['edu-from-{{$index}}'].$invalid && (!eduForm['edu - from-{{$index}}'].$pristine || showError)">'From' year value invalid.</p>
-                        <p class="help-block" data-ng-show="eduForm['edu-to-{{$index}}'].$invalid && (!eduForm['edu - to-{{$index}}'].$pristine || showError)">'To' year value invalid.</p>
+                        <p class="help-block" data-ng-show="eduForm['edu-name-{{$index}}'].$invalid && (!eduForm['edu-name-{{$index}}'].$pristine || showError)">School is required.</p>
+                        <p class="help-block" data-ng-show="eduForm['edu-type-{{$index}}'].$invalid && (!eduForm['edu-type-{{$index}}'].$pristine || showError)">Type of school is required.</p>
+                        <p class="help-block" data-ng-show="eduForm['edu-from-{{$index}}'].$invalid && (!eduForm['edu-from-{{$index}}'].$pristine || showError)">'From' year value invalid.</p>
+                        <p class="help-block" data-ng-show="eduForm['edu-to-{{$index}}'].$invalid && (!eduForm['edu-to-{{$index}}'].$pristine || showError)">'To' year value invalid.</p>
                         <!--/ng-form-->
                     </div>
                     <button class="btn btn-primary btn-sm col-sm-1 col-sm-offset-10" data-ng-click="$event.preventDefault();
@@ -318,10 +318,10 @@
                                 <i class="glyphicon glyphicon-remove"></i>
                             </a>
                         </div>
-                        <p class="help-block" data-ng-show="empForm['emp-position-{{$index}}'].$invalid && (!empForm['emp - position-{{$index}}'].$pristine || showError)">Position is required.</p>
-                        <p class="help-block" data-ng-show="empForm['emp-company-{{$index}}'].$invalid && (!empForm['emp - company-{{$index}}'].$pristine || showError)">Company is required.</p>
-                        <p class="help-block" data-ng-show="empForm['emp-from-{{$index}}'].$invalid && (!empForm['emp - from-{{$index}}'].$pristine || showError)">'From' year value invalid.</p>
-                        <p class="help-block" data-ng-show="empForm['emp-to-{{$index}}'].$invalid && (!empForm['emp - to-{{$index}}'].$pristine || showError)">'To' year value invalid.</p>
+                        <p class="help-block" data-ng-show="empForm['emp-position-{{$index}}'].$invalid && (!empForm['emp-position-{{$index}}'].$pristine || showError)">Position is required.</p>
+                        <p class="help-block" data-ng-show="empForm['emp-company-{{$index}}'].$invalid && (!empForm['emp-company-{{$index}}'].$pristine || showError)">Company is required.</p>
+                        <p class="help-block" data-ng-show="empForm['emp-from-{{$index}}'].$invalid && (!empForm['emp-from-{{$index}}'].$pristine || showError)">'From' year value invalid.</p>
+                        <p class="help-block" data-ng-show="empForm['emp-to-{{$index}}'].$invalid && (!empForm['emp-to-{{$index}}'].$pristine || showError)">'To' year value invalid.</p>
                         <!--/ng-form-->
                     </div>         
                     <button class="btn btn-primary btn-sm col-sm-1 col-sm-offset-10" data-ng-click="$event.preventDefault();
@@ -361,8 +361,8 @@
                                 <i class="glyphicon glyphicon-remove"></i>
                             </a>
                         </div>
-                        <p class="help-block" data-ng-show="langForm['lang-name-{{$index}}'].$invalid && (!langForm['lang - name-{{$index}}'].$pristine || showError)">Language is required.</p>
-                        <p class="help-block" data-ng-show="langForm['lang-level-{{$index}}'].$invalid && (!langForm['lang - level-{{$index}}'].$pristine || showError)">Level is required.</p>
+                        <p class="help-block" data-ng-show="langForm['lang-name-{{$index}}'].$invalid && (!langForm['lang-name-{{$index}}'].$pristine || showError)">Language is required.</p>
+                        <p class="help-block" data-ng-show="langForm['lang-level-{{$index}}'].$invalid && (!langForm['lang-level-{{$index}}'].$pristine || showError)">Level is required.</p>
                         <!-- /ng-form-->
                     </div>
                     <button class="btn btn-primary btn-sm col-sm-1 col-sm-offset-10" data-ng-click="$event.preventDefault();
@@ -391,7 +391,7 @@
                                 <i class="glyphicon glyphicon-remove"></i>
                             </a>
                         </div>
-                        <p class="help-block" data-ng-show="compForm['pc-name-{{$index}}'].$invalid && (!compForm['pc - name-{{$index}}'].$pristine || showError)">Skill is required.</p>
+                        <p class="help-block" data-ng-show="compForm['pc-name-{{$index}}'].$invalid && (!compForm['pc-name-{{$index}}'].$pristine || showError)">Skill is required.</p>
                         <!--/ng-form-->
                     </div>
                     <button class="btn btn-primary btn-sm col-sm-1 col-sm-offset-10" data-ng-click="$event.preventDefault();
@@ -420,7 +420,7 @@
                                     <i class="glyphicon glyphicon-remove"></i>
                                 </a>
                             </div>
-                            <p class="help-block" data-ng-show="driveForm['drive-name-{{$index}}'].$invalid && (!driveForm['drive - name-{{$index}}'].$pristine || showError)">Type is required.</p>
+                            <p class="help-block" data-ng-show="driveForm['drive-name-{{$index}}'].$invalid && (!driveForm['drive-name-{{$index}}'].$pristine || showError)">Type is required.</p>
                         <!--/ng-form-->
                     </div>
                     <button class="btn btn-primary btn-sm col-sm-1 col-sm-offset-10" data-ng-click="$event.preventDefault();
@@ -452,8 +452,8 @@
                                     <i class="glyphicon glyphicon-remove"></i>
                                 </a>
                             </div>
-                            <p class="help-block" data-ng-show="certForm['cert-name-{{$index}}'].$invalid && (!certForm['cert - name-{{$index}}'].$pristine || showError)">Name is required.</p>
-                            <p class="help-block" data-ng-show="certForm['cert-year-{{$index}}'].$invalid && (!certForm['cert - year-{{$index}}'].$pristine || showError)">Year is invalid.</p>
+                            <p class="help-block" data-ng-show="certForm['cert-name-{{$index}}'].$invalid && (!certForm['cert-name-{{$index}}'].$pristine || showError)">Name is required.</p>
+                            <p class="help-block" data-ng-show="certForm['cert-year-{{$index}}'].$invalid && (!certForm['cert-year-{{$index}}'].$pristine || showError)">Year is invalid.</p>
                         <!--/ng-form-->
                     </div>
                     <button class="btn btn-primary btn-sm col-sm-1 col-sm-offset-10" data-ng-click="$event.preventDefault();
