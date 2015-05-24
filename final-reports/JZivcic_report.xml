@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+"http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd">
+<article>
+    <articleinfo>
+        <title>CV Generator</title>
+
+        <author>
+            <firstname>Jozef</firstname>
+
+            <surname>Živčic</surname>
+
+            <affiliation>
+                <orgname>fi.muni.cz</orgname>
+            </affiliation>
+        </author>
+
+        <pubdate>23.5.2015</pubdate>
+    </articleinfo>
+
+    <section>
+        <title>Záverečná správa</title>
+        <para>Mojou úlohou bolo spraviť XSLT transformáciu životopisu zo vstupného XML súboru do výstupného LaTeX súboru a túto transformáciu následne jednotkovo otestovať.</para>
+    </section>
+    
+	<section>
+        <title>LaTeXový súbor</title>
+        <para>
+            Prvým krokom v mojej práci bolo vybratie vhodnej LaTeXovej šablóny, podľa ktorej by sme mohli generovať životopis. Vybral som šablónu na dostupnú na stránke https://www.overleaf.com/latex/templates/your-new-cv/xqzhcmqkqrtw#.VV7360_tlBd. Následne som ju upravil, aby vyhovovala našim potrebám.
+        </para>
+    </section>
+
+    <section>
+        <title>XSLT trasformácia</title>
+        <para>
+            XSLT transformácia sa skladá z dvoch súborov. Jeden obsahuje textové konštanty a druhý samotnú XSLT 	    šablónu. XSLT transformácia sa volá s parametrom, ktorý určuje typ vstupného jazyka. Ak by sa zavolala transformácia bez vstupného parametra, tak je implicitný jazyk angličtina.
+        </para>
+    </section>
+
+    <section>
+        <title>Internacionalizácia</title>
+
+        <para>
+               Všetky všeobecné časti životopisu (nezadané používateľom) sú internacionalizované.  V súčasnosti sú dostupné dva jazyky. Je to angličtina a slovenčina. Textové konštanty pre tieto jazyky sú uložené v separátnom súbore, ktorého XML schéma je dostupná na stránkach projektu na GitHube. Toto riešenie je výhodné vzhľadom na potenciálne ďalšie jazykové rozšírenie, kedy stačí pridať len nový jazyk do súboru s reťazcami. Súboru so šablónou sa tieto zmeny nedotknú, keďže sa na všetky reťazcové konštanty odkazuje pomocou funkcie document(' ').
+        </para>
+    </section>
+ 
+</article>

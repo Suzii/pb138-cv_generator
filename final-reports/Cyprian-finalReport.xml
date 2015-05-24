@@ -26,10 +26,7 @@
     
     <section>
         <title>UserService</title>
-        <para>
-		Vytvoril som XML súbor, ktorý slúži ako databáza užívateľov, kde sa ukladá ich login a hash hesla. Následne 
-		pri každom pokuse o prihlásenie je kontrolovaná existencia loginu a kontrola správnosti hesla. 
-		Hash hesla je vykonávaný pomocou stiahnutej triedy PasswordHash (www: http://crackstation.net/hashing-security.htm).
+        <para>Vytvoril som XML súbor, ktorý slúži ako databáza užívateľov, kde sa ukladá ich login a hash hesla. Následne pri každom pokuse o prihlásenie je kontrolovaná existencia loginu a kontrola správnosti hesla. Hash hesla je vykonávaný pomocou stiahnutej triedy PasswordHash (www: http://crackstation.net/hashing-security.htm).
 		Získavanie hodnôt z XML súboru je vyriešené pomocou XPath výrazov.
         </para>
     </section>
