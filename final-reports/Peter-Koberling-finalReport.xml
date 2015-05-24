@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+"http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd">
+<article>
+    <articleinfo>
+        <title>CV Generator</title>
+
+        <author>
+            <firstname>Peter</firstname>
+
+            <surname>Köberling</surname>
+
+            <affiliation>
+                <orgname>fi.muni.cz</orgname>
+            </affiliation>
+        </author>
+
+        <pubdate>24.5.2015</pubdate>
+    </articleinfo>
+
+    <section>
+        <title>Záverečná správa</title>
+        <para>Mojou úlohou na projekte bolo vytvoriť transformaciu z XML do Jsonu, z Jsonu do XML a XML Schému.</para>
+    </section>
+    
+    <section>
+        <title>Json -> XML</title>
+        <para>
+            Transformacia Json do Xml sa poživa na transformaciu json dát vygenerovaných javascriptovou komponentou do xml súboru.
+        </para>
+    </section>
+
+    <section>
+        <title>XML -> Json</title>
+        <para>
+            Transformacia Xml do Json sa používa pri úprave životopisu. Xml je načítané z disku, transformované do Jsonu a odoslané javascriptovej komponente AngularJS, ktorá data predvyplní uživatelovi, rovnako ako keď ich vypĺňal prvý raz.
+        </para>
+    </section>
+
+    <section>
+        <title>XML Schema</title>
+        <para>
+            Xml Schéma nám zabezpečuje validné xml data, konzistenciu dat. Xml schéma kontroluje elementy, atribúty, hodnoty v xml.
+        </para>
+    </section>
+</article>
