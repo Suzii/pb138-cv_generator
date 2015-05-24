@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+"http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd">
+<article>
+    <articleinfo>
+        <title>CV Generator</title>
+
+        <author>
+            <firstname>Patrik</firstname>
+
+            <surname>Cyprian</surname>
+
+            <affiliation>
+                <orgname>fi.muni.cz</orgname>
+            </affiliation>
+        </author>
+
+        <pubdate>23.5.2015</pubdate>
+    </articleinfo>
+
+    <section>
+        <title>Záverečná správa</title>
+        <para>Mojou úlohou na projekte bolo vytvoriť servisnú vrstvu aplikácie, ktorá pracuje s databázou
+		užívateľov a ich životopismi.</para>
+    </section>
+    
+    <section>
+        <title>UserService</title>
+        <para>
+		Vytvoril som XML súbor, ktorý slúži ako databáza užívateľov, kde sa ukladá ich login a hash hesla. Následne 
+		pri každom pokuse o prihlásenie je kontrolovaná existencia loginu a kontrola správnosti hesla. 
+		Hash hesla je vykonávaný pomocou stiahnutej triedy PasswordHash (www: http://crackstation.net/hashing-security.htm).
+		Získavanie hodnôt z XML súboru je vyriešené pomocou XPath výrazov.
+        </para>
+    </section>
+
+    <section>
+        <title>CvService</title>
+        <para>
+		Ďalšou mojou úlohou bolo implementovať triedu CvService, ktorá slúži na prácu so životopismi
+		užívateľov. Stará sa o načítanie životopisov pre webové rozhranie a taktiež uloženie životopisov.
+		Prebieha tu transformácia z XML do Json objektu a naopak, lebo webové rozhranie pracuje s Json objektami.
+		Životopisy su pred uložením do xml súboru validované pomocou XML Schemy. Ukladáme iba valídne životopisy.
+		Každý užívateľ ma uložený životopis pod názvom "login".xml.
+		Cvservice sa stará aj o vygenerovanie PDF formy životopisu. Najskôr je pomocou XSLT tranformácie vytvorený TeX
+		súbor z XML súboru životopisu a potom je vytvorený proces s cestou k pdflatex.exe a TeX súboru. Proces následne
+		vygeneruje PDF životopis, ktorý si užívateľ štahuje cez wevové rozhranie.
+        </para>
+    </section>
+
+
+</article>
